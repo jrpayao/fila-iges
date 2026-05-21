@@ -1,0 +1,20 @@
+[theme]
+# Cores alinhadas ao logo IGES-DF
+primaryColor = "#1A6FA8"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F8FAFC"
+textColor = "#1A1F2E"
+font = "sans serif"
+baseRadius = "medium"
+
+[server]
+headless = true
+enableXsrfProtection = false
+enableCORS = false
+runOnSave = false
+
+[browser]
+gatherUsageStats = false
+
+[client]
+toolbarMode = "minimal"

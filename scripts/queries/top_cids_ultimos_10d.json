@@ -1,0 +1,35 @@
+{
+  "size": 0,
+  "query": {
+    "bool": {
+      "must": [
+        { "term": { "codigo_uf_regulador": "53" } },
+        {
+          "range": {
+            "data_solicitacao": {
+              "gte": "now-30d/d",
+              "lte": "now/d"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "aggs": {
+    "top_cids": {
+      "terms": {
+        "field": "codigo_cid_solicitado",
+        "size": 10,
+        "order": { "_count": "desc" }
+      },
+      "aggs": {
+        "descricao": {
+          "top_hits": {
+            "size": 1,
+            "_source": ["descricao_cid_solicitado"]
+          }
+        }
+      }
+    }
+  }
+}

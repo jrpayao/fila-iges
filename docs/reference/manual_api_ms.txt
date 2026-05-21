@@ -1,0 +1,1157 @@
+
+
+===== PAGE 1 =====
+
+Informacao_Acesso_API_SISREG (v2.1).docx  1  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Acesso e Consultas via 
+API REST 
+ 
+ 
+ 
+ 
+                     
+
+
+===== PAGE 2 =====
+
+Informacao_Acesso_API_SISREG (v2.1).docx  2  
+ 
+Histórico de revisões 
+Data Versão Descrição Autor 
+04/09/2019 1.0 Criação do Documento Asper 
+14/10/2020 1.1 Atualização do Documento  CGRA 
+19/10/2020 1.2 Atualização do Documento Asper 
+10/06/2023 2.0 Atualização do Documento  CGRA 
+14/06/2023 2.1 Adição do Dicionario  CGRA  
+ 
+ 
+ 
+  
+
+===== PAGE 3 =====
+
+Informacao_Acesso_API_SISREG (v2.1).docx  3  
+ 
+ 
+Sumário 1. Introdução ................................................................................................................................ 4 
+2. Utilização da API ..................................................................................................................... 4 
+3. URL para consulta à API.......................................................................................................... 4 
+3.1. Marcação Ambulatorial: ........................................................................................................ 4 
+3.2. Solicitação Ambulatorial: ...................................................................................................... 4 
+3.3. Solicitação Hospitalar: .......................................................................................................... 4 
+3.4. Observação: ......................................................................................................................... 4 
+4. Descrição da consulta .............................................................................................................. 5 
+4.1. Novas Solicitações – API marcação-ambulatorial ................................................................. 5 
+4.2. Fila Solicitações – API solicitação-ambulatorial .................................................................... 6 
+4.3. Solicitações Agendadas API-marcação-ambulatorial ........................................................... 7 
+4.4. Solicitações Atendidas – API marcação-ambulatorial ........................................................... 9 
+4.5. Solicitações Canceladas Devolvidas CRAM – API marcação-ambulatorial ........................ 10 
+4.6. Solicitações internações – API solicitação-hospitalar ......................................................... 11 
+5. Dados negociais (dicionario) .................................................................................................. 13 
+5.1. Solicitações Hospitalares ................................................................................................... 13 
+5.2. Solicitações Ambulatoriais .................................................................................................. 18 
+5.3. Marcações/Agendamentos Ambulatoriais e Marcações/Agendamentos Ambulatoriais 
+Cancelados ................................................................................................................................... 22 
+5.4. Observação: ....................................................................................................................... 29 
+6. Tabelas .................................................................................................................................. 29 
+6.1. Codigo - Perfil .................................................................................................................... 29 
+6.2. Status – hospitalar. ............................................................................................................. 29 
+6.3. Status – ambulatorial .......................................................................................................... 30 
+ 
+ 
+ 
+ 
+  
+
+===== PAGE 4 =====
+
+Informacao_Acesso_API_SISREG (v2.1).docx  4  
+1. Introdução 
+ 
+Este documento tem como objetivo apresentar a implementação da API de busca do 
+Sistema de Regulação - SISREG, que utiliza consultas SQL para recuperar informações do 
+Elasticsearch. A API é exclusivamente de leitura (GET) e tem como finalidade fornecer 
+dados organizados, marcados e cancelados solicitados por pacientes ambulatoriais e 
+hospitais. O foco principal é fornecer fontes de dados para consumo por meio da API. 
+ 
+ 
+2. Utilização da API 
+ 
+Uma API, ou Interface de Programação de Aplicativos, é um conjunto de rotinas e 
+padrões de programação que permite o acesso a um aplicativo de software ou plataforma 
+baseada na web. Por meio das APIs, os aplicativos podem se comunicar entre si sem a 
+necessidade de intervenção direta dos usuários. Elas funcionam através da comunicação 
+de códigos, definindo comportamentos específicos de objetos em uma interface. 
+ 
+ 
+ 
+3. URL para consulta à API 
+ 
+Para realizar consultas aos dados indexados no Elasticsearch por meio da API, utilize 
+as seguintes URLs: 
+ 
+3.1. Marcação Ambulatorial:  
+ 
+https://sisreg-es.saude.gov.br/marcacao-ambulatorial-{uf}-{municipio}  
+ 
+3.2. Solicitação Ambulatorial:  
+ 
+https://sisreg-es.saude.gov.br/solicitacao-ambulatorial-{uf}-{municipio} 
+ 
+3.3. Solicitação Hospitalar:  
+ 
+https://sisreg-es.saude.gov.br/solicitacao-hospitalar-{uf}-{municipio} 
+ 
+3.4. Observação:  
+ 
+Substitua {uf} pelo código da unidade federativa desejada e {municipio} pelo código do 
+município correspondente. Caso a credencial criada seja de nível federal, desconsidere a 
+utilização de *-(uf}-{municipio} no endpoint, acrecentando –nacional . 
+Essas URLs permitem a realização de consultas específicas, retornando as 
+informações relevantes correspondentes. 
+ 
+ 
+ 
+
+===== PAGE 5 =====
+
+Informacao_Acesso_API_SISREG (v2.1).docx  5  
+4. Descrição da consulta 
+As cargas são executadas a partir de dados disponibilizados pelo Elasticsearch. 
+Os exemplos a seguir representam a execução e extração, conforme indicado 
+pelo nome da consulta. Ressaltamos que isso é apenas um exemplo. 
+4.1. Novas Solicitações – API marcação-ambulatorial 
+ 
+a) Consulta 
+ 
+ 
+GET sisreg-marcacao-ambulatorial-es/_search 
+{ 
+ 
+"query": { 
+"bool": { 
+"must": [ 
+{ 
+"terms": { 
+"codigo_central_reguladora": [ 
+"32C164", 
+"32C206", 
+"32C211", 
+"32C220" 
+] 
+} 
+} 
+, 
+{ 
+"range": { 
+"data_solicitacao": { 
+"gte": "2013-09-10", 
+"lte": "2013-09-17" 
+} 
+} 
+} 
+] 
+} 
+}, 
+"size": 100, 
+
+===== PAGE 6 =====
+
+Informacao_Acesso_API_SISREG (v2.1).docx  6  
+  
+b) Parâmetro de entrada: data_solicitacao (data de solicitação para o intervalo). 
+ 
+4.2. Fila Solicitações – API solicitação-ambulatorial  
+ 
+a) Consulta 
+ 
+ 
+"_source": [ 
+"codigo_central_reguladora", 
+"codigo_central_solicitante", 
+"data_solicitacao", 
+"codigo_unidade_solicitante", 
+"nome_unidade_solicitante", 
+"nome_medico_solicitante", 
+"cpf_profissional_solicitante", 
+"sigla_situacao", 
+"codigo_interno_procedimento", 
+"descricao_interna_procedimento", 
+"codigo_classificacao_risco", 
+"cns_usuario", 
+"no_usuario", 
+"no_mae_usuario", 
+"dt_nascimento_usuario", 
+"municipio_paciente_residencia", 
+"sexo_usuario", 
+"telefone", 
+"codigo_grupo_procedimento", 
+"nome_grupo_procedimento", 
+"codigo_tipo_regulacao" 
+] 
+} 
+GET sisreg-solicitacao-ambulatorial-es/_search 
+{ 
+ 
+"query": { 
+"bool": { 
+"must": [ 
+{ 
+"terms": { 
+"codigo_central_reguladora": [ 
+"32C164", 
+"32C206", 
+"32C211", 
+"32C220" 
+] 
+} 
+} 
+
+===== PAGE 7 =====
+
+Informacao_Acesso_API_SISREG (v2.1).docx  7  
+ 
+b) Parâmetro de entrada: não se aplica. 
+ 
+4.3. Solicitações Agendadas API-marcação-ambulatorial  
+ 
+a) Consulta 
+ 
+ 
+, 
+{ 
+"terms": { 
+"status_solicitacao.keyword": [ 
+"SOLICITAÇÃO / PENDENTE / FILA DE ESPERA", 
+"SOLICITAÇÃO / PENDENTE / REGULADOR", 
+"SOLICITAÇÃO / REENVIADA / REGULADOR" 
+] 
+} 
+} 
+, 
+{ 
+"terms": { 
+"codigo_tipo_regulacao": [ 
+"R", 
+"F" 
+] 
+} 
+} 
+] 
+} 
+}, 
+"size": 100, 
+"_source": [ 
+"codigo_central_reguladora", 
+"codigo_interno_procedimento", 
+"codigo_solicitacao", 
+"codigo_classificacao_risco", 
+"codigo_tipo_regulacao", 
+"status_solicitacao" 
+] 
+} 
+GET sisreg-marcacao-ambulatorial-es/_search 
+{ 
+ 
+"query": { 
+"bool": { 
+"must": [ 
+{ 
+"range": { 
+
+===== PAGE 8 =====
+
+Informacao_Acesso_API_SISREG (v2.1).docx  8  
+ 
+"data_aprovacao": { 
+"gte": "2018-04-01", 
+"lte": "2018-04-03" 
+} 
+} 
+}, 
+{ 
+"terms": { 
+"codigo_central_reguladora": [ 
+"32C164", 
+"32C206", 
+"32C211", 
+"32C220" 
+] 
+} 
+} 
+, 
+{ 
+"terms": { 
+"status_solicitacao.keyword": [ 
+"SOLICITAÇÃO / AGENDADA / FILA DE ESPERA", 
+"SOLICITAÇÃO / AGENDADA / SOLICITANTE", 
+"SOLICITAÇÃO / AUTORIZADA / REGULADOR", 
+"AGENDAMENTO / PENDENTE CONFIRMAÇÃO / EXECUTANTE", 
+"SOLICITAÇÃO / AGENDADA / COORDENADOR" 
+] 
+} 
+} 
+] 
+} 
+}, 
+"size": 100, 
+"_source": [ 
+"codigo_solicitacao", 
+"data_marcacao", 
+"codigo_unidade_executante", 
+"nome_unidade_executante", 
+"nome_profissional_executante", 
+"cpf_profissional_executante", 
+"codigo_interno_procedimento", 
+"data_aprovacao", 
+"codigo_central_reguladora", 
+"status_solicitacao" 
+] 
+, "sort": [ 
+{ 
+"data_aprovacao": { 
+"order": "asc" 
+
+===== PAGE 9 =====
+
+Informacao_Acesso_API_SISREG (v2.1).docx  9  
+ 
+ 
+b) Parâmetro de entrada: data_aprovacao (data de autorização para o intervalo). 
+ 
+4.4. Solicitações Atendidas – API marcação-ambulatorial  
+ 
+a) Consulta 
+ 
+ 
+} 
+} 
+] 
+} 
+GET sisreg-marcacao-ambulatorial-es/_search 
+{ 
+ 
+"query": { 
+"bool": { 
+"must": [ 
+{ 
+"range": { 
+"data_confirmacao": { 
+"gte": "2018-04-01", 
+"lte": "2018-04-03" 
+} 
+} 
+}, 
+{ 
+"terms": { 
+"codigo_central_reguladora": [ 
+"32C164", 
+"32C206", 
+"32C211", 
+"32C220" 
+] 
+} 
+} 
+, 
+{ 
+"terms": { 
+"status_solicitacao.keyword": [ 
+"AGENDAMENTO / CONFIRMADO / EXECUTANTE" 
+] 
+} 
+} 
+] 
+} 
+}, 
+"size": 100, 
+
+===== PAGE 10 =====
+
+Informacao_Acesso_API_SISREG (v2.1).docx  10  
+ 
+b) Parâmetro de entrada: data_confirmacao (data de confirmação para o intervalo). 
+ 
+4.5. Solicitações Canceladas Devolvidas CRAM – API marcação-ambulatorial  
+ 
+a) Consulta 
+ 
+ 
+"_source": [ 
+"codigo_solicitacao", 
+"data_marcacao", 
+"codigo_unidade_executante", 
+"nome_unidade_executante", 
+"nome_profissional_executante", 
+"cpf_profissional_executante", 
+"codigo_interno_procedimento", 
+"data_confirmacao", 
+"codigo_central_reguladora", 
+"status_solicitacao" 
+] 
+, "sort": [ 
+{ 
+"data_confirmacao": { 
+"order": "asc" 
+} 
+} 
+] 
+} 
+GET sisreg-marcacao-ambulatorial-es/_search 
+{ 
+ 
+"query": { 
+"bool": { 
+"must": [ 
+{ 
+"terms": { 
+"codigo_central_reguladora": [ 
+"32C164", 
+"32C206", 
+"32C211", 
+"32C220" 
+] 
+} 
+} 
+, 
+{ 
+"terms": { 
+
+===== PAGE 11 =====
+
+Informacao_Acesso_API_SISREG (v2.1).docx  11  
+ 
+b) Parâmetro de entrada: não se aplica. 
+ 
+4.6. Solicitações internações – API solicitação-hospitalar   
+ 
+a) Solicitações de internação  
+"status_solicitacao.keyword": [ 
+"SOLICITAÇÃO / CANCELADA / SOLICITANTE", 
+"SOLICITAÇÃO / CANCELADA / REGULADOR", 
+"SOLICITAÇÃO / CANCELADA / COORDENADOR", 
+"AGENDAMENTO / CANCELADO / REGULADOR", 
+"AGENDAMENTO / CANCELADO / SOLICITANTE", 
+"AGENDAMENTO / CANCELADO / COORDENADOR", 
+"SOLICITAÇÃO / NEGADA / REGULADOR", 
+"SOLICITAÇÃO / DEVOLVIDA / REGULADOR" 
+] 
+} 
+} 
+] 
+} 
+}, 
+"size": 100, 
+"_source": [ 
+"codigo_solicitacao", 
+"status_solicitacao", 
+"codigo_central_reguladora" 
+] 
+, "sort": [ 
+{"status_solicitacao.keyword": {"order": "asc"}} 
+] 
+} 
+
+===== PAGE 12 =====
+
+Informacao_Acesso_API_SISREG (v2.1).docx  12  
+ 
+  
+GET sisreg-marcacao-ambulatorial-es/_search 
+{ 
+"query": { 
+"bool": { 
+"must": [ 
+{ 
+"terms": { "codigo_central_reguladora": [ 
+"32C164", 
+"32C206", 
+"32C211", "32C220" 
+] 
+} 
+} 
+, 
+{ 
+"range": { "data_solicitacao": { 
+"gte": "2013-09-10", 
+"lte": "2013-09-17" 
+} 
+} 
+} 
+] 
+} 
+}, 
+"size": 100,  
+"_source": [ "codigo_central_reguladora", 
+"codigo_central_solicitante", 
+"data_solicitacao", 
+"codigo_unidade_solicitante", 
+"nome_unidade_solicitante", 
+"nome_medico_solicitante", 
+"cpf_profissional_solicitante", 
+"sigla_situacao", 
+"codigo_interno_procedimento", 
+"descricao_interna_procedimento", 
+"codigo_classificacao_risco", "cns_usuario", 
+"no_usuario", "no_mae_usuario", 
+"dt_nascimento_usuario", 
+"municipio_paciente_residencia", 
+"sexo_usuario", 
+"codigo_grupo_procedimento", 
+"nome_grupo_procedimento", 
+"codigo_tipo_regulacao" 
+] 
+} 
+
+===== PAGE 13 =====
+
+Informacao_Acesso_API_SISREG (v2.1).docx                  13  
+5. Dados negociais (dicionario)  
+ 
+O Dicionário de Dados é uma ferramenta essencial para compreender e interpretar as informações da API do Sistema de Regulação 
+- SISREG. Ele serve como um guia completo para entender a estrutura e o significado dos dados disponíveis. É uma referência 
+fundamental para desenvolvedores, analistas e usuários que desejam interagir com a API do SISREG. O dicionário apresenta uma lista 
+de termos técnicos e conceitos, juntamente com suas definições e atributos associados. Ele ajuda a garantir a consistência e a qualidade 
+dos dados manipulados pela API e promove a colaboração entre os profissionais envolvidos. O Dicionário de Dados é uma fonte confiável 
+de informações e uma referência útil para explorar e utilizar plenamente as capacidades da API do SISREG. 
+ 
+5.1. Solicitações Hospitalares 
+ 
+Seq Campo Descrição Tipo Tam Uso 
+1 @timestamp Timestamp exato da inserção do 
+documento no Elasticsearch Data 27 'YYYY-MM-DDThh24:MI:SS.USZ' 
+2 @version Versão do documento inserido no 
+Elasticsearch Texto 1   
+3 bairro_paciente_residencia Bairro residencial do paciente Texto   Campo texto 
+4 bairro_unidade_executante Bairro da unidade executante Texto   Campo texto 
+5 carater Caráter da solicitação Texto   'URGENTE' 
+'ELETIVA' 
+6 carga_epoch Momento exato da carga em formato 
+Linux epoch       
+7 cep_paciente_residencia CEP residencial do paciente Texto 8 "00000000" 
+8 cep_unidade_executante CEP da unidade executante Texto 8 "00000000" 
+9 cns_usuario CNS do usuário Texto 15 "000000000000000" 
+10 codigo_central_reguladora Código da central reguladora Texto 6 “000000” IBGE ou podendo ocorrer “00C000” 
+11 codigo_central_solicitante Código da central solicitante Texto 6 “000000” IBGE ou podendo ocorrer “00C000” 
+12 codigo_cid CID Texto 4 “X00” OU “X000” 
+
+===== PAGE 14 =====
+
+Informacao_Acesso_API_SISREG (v2.1).docx                  14  
+13 codigo_classificacao_risco Código da classificação de risco Numero  1 
+1 = Prioridade 0 - Emergência, necessidade de 
+atendimento imediato   
+2 = Prioridade 1 - Urgência, atendimento o mais 
+rápido possível 
+3 = Prioridade 2 - Prioridade não urgente 
+4 = Prioridade 3 - atendimento eletivo 
+14 codigo_natureza_lesao Código da natureza da lesão Numero 1 
+1='Leve' 
+2='Grave' 
+3='Gravíssima' 
+15 codigo_procedimento Código procedimento Texto 10  “0000000000” 
+16 codigo_solicitacao Código da solicitação Numero 10 Id da Solicitação no SISREG 
+17 codigo_unidade_desejada Código da unidade desejada Texto 7 “0000000” CNES ou null 
+18 codigo_unidade_executante Código da unidade executante Texto 7 “0000000” CNES ou null 
+19 codigo_unidade_referencia Código da unidade referência Texto 7 “0000000” CNES ou null 
+20 codigo_unidade_solicitante Código da unidade solicitante Texto 7 “0000000” CNES 
+21 complemento_paciente_residencia Complemento residencial do paciente Texto   Campo texto 
+22 complemento_unidade_executante complemento da unidade executante Texto   Campo texto 
+23 cpf_medico_solicitante CPF do médico solicitante Texto 11 “00000000000” ou null    
+24 cpf_profissional_executante CPF do profissional executante Texto 11 “00000000000” ou null    
+25 cpf_usuario CPF do usuário Texto 11 “00000000000” ou null    
+26 data_alta Data da alta Data 10 “YYYY-MM-DD” ou null 
+27 data_atualizacao Data da atualização Data 27 YYYY-MM-DDThh24:MI:SS.USZ' 
+28 data_atualizacao_marcacao Data da atualização marcação Data 27 'YYYY-MM-DDThh24:MI:SS.USZ' 
+29 data_atualizacao_solicitacao Data da atualização da solicitação Data 27 'YYYY-MM-DDThh24:MI:SS.USZ' 
+30 data_desejada Data da desejada Data 27 'YYYY-MM-DDThh24:MI:SS.USZ' 
+31 data_internacao Data da internação Data 27 'YYYY-MM-DDThh24:MI:SS.USZ' 
+
+===== PAGE 15 =====
+
+Informacao_Acesso_API_SISREG (v2.1).docx                  15  
+32 data_previsao_alta Data da previsão de alta Data 27 'YYYY-MM-DDThh24:MI:SS.USZ' 
+33 data_reserva Data da reserva Data 27 'YYYY-MM-DDThh24:MI:SS.USZ' 
+34 data_solicitacao Data da solicitação Data 27 'YYYY-MM-DDThh24:MI:SS.USZ' 
+35 descricao_cid Descrição de CID Texto   Campo texto 
+36 descricao_natureza_lesao Descrição de natureza da lesão Texto   
+'Leve' 
+'Grave' 
+'Gravíssima' 
+37 descricao_procedimento Descrição de procedimento Texto   Campo texto 
+38 dt_nascimento_usuario Data de nascimento de usuário Data 10 “YYYY-MM-DD” 
+39 endereco_paciente_residencia Endereço residencial do paciente Texto   Campo texto 
+40 exames exames       
+41 hora_alta Hora da alta Hora 7 h24:MI:SS ou null 
+42 hora_autorizacao Hora da autorização Hora 7 h24:MI:SS ou null 
+43 hora_solicitacao Hora da solicitação Hora 7 h24:MI:SS ou null 
+44 identificador_indice 
+Concatenação do identificador do 
+estado da central solicitante com a 
+central executante  
+      
+45 justificativa Justificativa Texto   Campo texto 
+46 justificativa_impedimento Justificativa do impedimento Texto   Campo texto 
+47 logradouro_unidade_executante Logradouro da unidade executante Texto   Campo texto 
+48 municipio_paciente_residencia Município residencial do paciente Texto   Campo texto 
+49 municipio_unidade_executante Município da unidade executante Texto   Campo texto 
+50 no_mae_usuario Nome de mãe do usuário Texto   Campo texto 
+51 no_usuario Nome de usuário Texto   Campo texto 
+52 nome_central_reguladora Nome central reguladora Texto   Campo texto 
+53 nome_central_solicitante Nome central solicitante Texto   Campo texto 
+54 nome_clinica Nome clínica Texto   Campo texto 
+55 nome_clinica_complementar Nome clínica complementar Texto   Campo texto ou null 
+56 nome_leito Nome leito Texto   Campo texto 
+
+===== PAGE 16 =====
+
+Informacao_Acesso_API_SISREG (v2.1).docx                  16  
+57 nome_leito_complementar Nome leito complementar Texto   Campo texto ou null 
+58 nome_medico_solicitante Nome médico solicitante Texto   Campo texto 
+59 nome_municipio_nascimento Nome município nascimento Texto   Campo texto 
+60 nome_operador_autorizacao Nome operador autorização Texto   Campo texto ou null 
+61 nome_operador_solicitante Nome operador solicitante Texto   Campo texto 
+62 nome_responsavel Nome responsável Texto   Campo texto ou null 
+63 nome_unidade_desejada Nome da unidade desejada Texto   Campo texto ou null 
+64 nome_unidade_executante Nome da unidade executante Texto   Campo texto ou null 
+65 nome_unidade_referencia Nome da unidade referência Texto   Campo texto ou null 
+66 nome_unidade_solicitante Nome da unidade solicitante Texto   Campo texto 
+67 numero_paciente_residencia Número residencial do paciente Texto   Campo texto 
+68 numero_unidade_executante Número da unidade executante Texto   Campo texto ou null 
+69 operador_alta Operador alta Texto   Campo texto ou null 
+70 operador_internacao Operador internação Texto   Campo texto ou null 
+71 sexo_usuario Sexo do usuário Texto 9 MASCULINO 
+FEMININO 
+72 sintomas Sintomas Texto   Campo texto 
+73 status Status Texto   
+Pendente 
+Reenviada 
+Devolvida 
+Negada 
+Aprovada 
+Cancelada 
+Troca 
+74 telefone Telefone Texto   Campo texto (não formatado) ou null 
+75 telefone_responsavel Telefone responsável Texto   Campo texto (não formatado) ou null 
+76 telefone_unidade_executante Telefone da unidade executante Texto   Campo texto (não formatado) ou null 
+
+===== PAGE 17 =====
+
+Informacao_Acesso_API_SISREG (v2.1).docx                  17  
+77 tipo_logradouro_paciente_residencia Tipo logradouro residencial do paciente Texto   Campo texto 
+78 type Campo para uso interno de controle de 
+cargas no Logstash       
+79 uf_municipio_nascimento UF do município de nascimento Texto 2 UF 
+80 uf_paciente_residencia UF residencial do paciente Texto 2 UF 
+ 
+  
+
+===== PAGE 18 =====
+
+Informacao_Acesso_API_SISREG (v2.1).docx                  18  
+5.2. Solicitações Ambulatoriais 
+ 
+ 
+Seq Campo Descrição Tipo Tam Uso 
+1 @timestamp Timestamp exato da inserção do 
+documento no Elasticsearch Data 27 'YYYY-MM-DDThh24:MI:SS.USZ' 
+2 @version Versão do documento inserido no 
+Elasticsearch Texto 1   
+3 bairro_paciente_residencia Bairro residencial do paciente Texto   Campo texto 
+4 carga_epoch Momento exato da carga em formato 
+Linux epoch Data 27 'YYYY-MM-DDThh24:MI:SS.USZ' 
+5 cep_paciente_residencia CEP residencial do paciente Texto 8 “00000000” 
+6 cns_usuario CNS do usuário Texto 15 “000000000000000” 
+7 codigo_central_reguladora Código da central reguladora Texto 6 “000000” IBGE ou podendo ocorrer “00C000” 
+8 codigo_central_solicitante Código CNES da central solicitante Texto 6 “000000” IBGE ou podendo ocorrer “00C000” 
+9 codigo_cid_solicitado CID solicitado Texto 4 “X00” OU “X000” 
+10 codigo_classificacao_risco Código da classificação de risco Numero 1 
+1 = Prioridade 0 - Emergência, necessidade de 
+atendimento imediato   
+2 = Prioridade 1 - Urgência, atendimento o mais rápido 
+possível 
+3 = Prioridade 2 - Prioridade não urgente 
+4 = Prioridade 3 - atendimento eletivo 
+11 codigo_cnes_central_solicitante Código da central solicitante Texto 7 “0000000” CNES 
+12 codigo_grupo_procedimento Código grupo procedimento Texto 7 “0000000” codigo do grupo do procedimento no SISREG 
+13 codigo_perfil_cancelamento Código perfil cancelamento Numero 2 
+1 = "SOLICITANTE" 
+2 = "REGULADOR/AUTORIZADOR" 
+3 = "VIDEOFONISTA" 
+6 = "ADMINISTRADOR MUNICIPAL" 
+17= "COORDENADOR DE UNIDADE" 
+null 
+14 codigo_solicitacao Código da solicitação Numero 10 Id da Solicitação no SISREG 
+15 codigo_tipo_fila Código tipo da fila Numero 1 1= REGULADO 
+2= NÃO REGULADO 
+
+===== PAGE 19 =====
+
+Informacao_Acesso_API_SISREG (v2.1).docx                  19  
+16 codigo_tipo_regulacao Código tipo regulação Texto 1 R= REGULADO 
+F= FILA DE ESPERA 
+17 codigo_tipo_vaga_solicitada Código tipo da vaga solicitada Numero 1 1= VAGA DE PRIMEIRA VEZ 
+2= VAGA DE RETORNO 
+18 codigo_unidade_desejada Código da unidade desejada Texto 7 “0000000”ou “”  CNES 
+19 codigo_unidade_solicitante Código da unidade solicitante Texto 7 “0000000” CNES 
+20 complemento_paciente_residencia Complemento residencial do paciente Texto   Campo texto 
+21 cpf_profissional_solicitante CPF do profissional solicitante Texto 11 “00000000000” ou null 
+22 cpf_usuario CPF do usuário Texto 11 “00000000000” ou null 
+23 data_cancelamento Data de cancelamento Data 27 'YYYY-MM-DDThh24:MI:SS.USZ' 
+24 data_desejada Data da desejada Data 27 'YYYY-MM-DDThh24:MI:SS.USZ' 
+25 data_solicitacao Data da solicitação Data 27 'YYYY-MM-DDThh24:MI:SS.USZ' 
+26 descricao_cid_solicitado Descrição de CID solicitado Texto   Campo texto 
+27 dt_atualizacao Data de atualização Data 27 'YYYY-MM-DDThh24:MI:SS.USZ' 
+28 dt_nascimento_usuario Data de nascimento de usuário Data 27 'YYYY-MM-DDThh24:MI:SS.USZ' 
+29 endereco_paciente_residencia Endereço residencial do paciente Texto   Campo texto 
+30 identificador_indice 
+Concatenação do identificador do 
+estado da central solicitante com a 
+central executante 
+      
+31 Laudo 
+Laudo: tipo do perfil Texto   1 = "SOLICITANTE" 
+2 = "REGULADOR/AUTORIZADOR" 
+Laudo: Código CNES do operador Texto 7 “0000000” CNES 
+Laudo: data da observação Data 27 'YYYY-MM-DDThh24:MI:SS.USZ' 
+Laudo: Nome CNES do operador Texto   Campo texto 
+Laudo: observação Texto   Campo texto 
+Laudo: operador Texto   Campo texto 
+Laudo: situação Texto   
+'PENDENTE' 
+'DEVOLVIDO' 
+'REENVIADO' 
+'SOLICITACAO' 
+'NEGADO' 
+
+===== PAGE 20 =====
+
+Informacao_Acesso_API_SISREG (v2.1).docx                  20  
+'CANCELADO' 
+Laudo: tipo descrição Texto   'Observacão' 
+'Justificativa' 
+32 municipio_paciente_residencia município residencial do paciente Texto   Campo texto 
+33 no_mae_usuario Nome de mãe do usuário Texto   Campo texto 
+34 no_usuario Nome de usuário Texto   Campo texto 
+35 nome_central_reguladora Nome central reguladora Texto   Campo texto 
+36 nome_central_solicitante Nome central solicitante Texto   Campo texto 
+37 nome_cnes_central_solicitante Nome CNES da central solicitante Texto   Campo texto 
+38 nome_grupo_procedimento Nome grupo procedimento Texto   Campo texto 
+39 nome_medico_solicitante Nome médico solicitante Texto   Campo texto 
+40 nome_municipio_nascimento Nome município de nascimento Texto   Campo texto 
+41 nome_operador_cancelamento Nome Operador cancelamento Texto   Campo texto 
+42 nome_operador_solicitante Nome operador solicitante Texto   Campo texto 
+43 nome_operador_videofonista Nome Operador videofonista Texto   Campo texto ou null 
+44 nome_perfil_cancelamento Nome perfil cancelamento Texto   Campo texto 
+45 nome_unidade_desejada Nome da unidade desejada Texto   Campo texto 
+46 nome_unidade_solicitante Nome da unidade solicitante Texto   Campo texto 
+47 numero_crm CRM Texto   Campo texto ou null 
+48 numero_paciente_residencia Número residencial do paciente Texto   Campo texto 
+49 sexo_usuario Sexo do usuário Texto 9 MASCULINO 
+FEMININO 
+50 sigla_situacao Sigla da situação Texto 1 
+P=PENDENTE 
+R=REENVIADA 
+D=DEVOLVIDA 
+N=NEGADA 
+A=APROVADA 
+C=CANCELADA 
+51 st_visualizado_regulador Status de visualizado regulador Numero 1 0=  
+1=  
+52 status_solicitacao Status da solicitação Texto   "SOLICITAÇÃO / PENDENTE / REGULADOR" 
+
+===== PAGE 21 =====
+
+Informacao_Acesso_API_SISREG (v2.1).docx                  21  
+"SOLICITAÇÃO / DEVOLVIDA / REGULADOR" 
+"SOLICITAÇÃO / NEGADA / REGULADOR" 
+"SOLICITAÇÃO / PENDENTE / FILA DE ESPERA" 
+"SOLICITAÇÃO / REENVIADA / REGULADOR" 
+"AGENDAMENTO / PENDENTE CONFIRMAÇÃO / 
+EXECUTANTE" 
+"AGENDAMENTO / CONFIRMADO / EXECUTANTE" 
+"SOLICITAÇÃO / CANCELADA / SOLICITANTE" 
+"SOLICITAÇÃO / CANCELADA / REGULADOR" 
+"SOLICITAÇÃO / CANCELADA / COORDENADOR" 
+"AGENDAMENTO / CANCELADO / REGULADOR" 
+"AGENDAMENTO / CANCELADO / SOLICITANTE" 
+"AGENDAMENTO / CANCELADO / COORDENADOR" 
+"SOLICITAÇÃO / AGENDADA / SOLICITANTE" 
+"SOLICITAÇÃO / AGENDADA / COORDENADOR" 
+"SOLICITAÇÃO / AUTORIZADA / REGULADOR" 
+"SOLICITAÇÃO INEXISTENTE" 
+"NÃO DEFINIDO" 
+"SOLICITAÇÃO / AGENDADA / FILA DE ESPERA" 
+"AGENDAMENTO / FALTA / EXECUTANTE" 
+53 telefone Telefone Texto   Campo texto (não formatado) 
+54 tipo_logradouro_paciente_residencia Tipo Logradouro residencial do 
+paciente Texto   Conforme cadastro no CADWEB 
+55 type Campo para uso interno de controle de 
+cargas no Logstash       
+56 uf_municipio_nascimento UF do município de nascimento Texto 2 UF 
+57 uf_paciente_residencia UF residencial do paciente Texto 2 UF 
+  
+
+===== PAGE 22 =====
+
+Informacao_Acesso_API_SISREG (v2.1).docx                  22  
+5.3. Marcações/Agendamentos Ambulatoriais e Marcações/Agendamentos Ambulatoriais Cancelados 
+ 
+ 
+Seq Campo Descrição Tipo Tam Uso 
+1 bairro_paciente_residencia Bairro residencial do paciente Texto   Campo texto 
+2 bairro_unidade_executante Bairro da unidade executante Texto   Campo texto 
+3 cep_paciente_residencia CEP residencial do paciente Texto 8 “00000000” 
+4 cep_unidade_executante CEP da unidade executante Texto 8 “00000000” 
+5 chave_confirmacao Chave de confirmação Texto 5 “00000” 
+6 cns_usuario CNS do usuário Texto 15 “000000000000000” 
+7 codigo_central_reguladora Código da central reguladora Texto 6 “000000” podendo ocorrer “00C000” 
+8 codigo_central_solicitante Código da central solicitante Texto 6 “000000” podendo ocorrer “00C000” 
+9 codigo_cid_agendado CID agendado Texto 4 “X00” ou “X000” 
+10 codigo_cid_solicitado CID solicitado Texto 4 “X00” ou “X000” 
+11 codigo_classificacao_risco Código da classificação de 
+risco Numero 1 
+1 = Prioridade 0 - Emergência, necessidade de 
+atendimento imediato   
+2 = Prioridade 1 - Urgência, atendimento o mais 
+rápido possível 
+3 = Prioridade 2 - Prioridade não urgente 
+4 = Prioridade 3 - atendimento eletivo 
+12 codigo_cnes_central_executante Código CNES da central 
+executante Texto 7 “0000000” CNES 
+13 codigo_cnes_central_solicitante Código CNES da central 
+solicitante   Texto 7 “0000000” CNES 
+14 codigo_grupo_procedimento Código grupo procedimento Texto 7 “0000000” codigo do grupo do procedimento no 
+SISREG 
+15 codigo_interno_procedimento Código interno procedimento Texto 7 “0000000” codigo interno do procedimento no 
+SISREG 
+16 codigo_marcacao Código marcação       
+17 codigo_perfil_cancelamento Código perfil de cancelamento Numero 2 1 = "SOLICITANTE" 
+2 = "REGULADOR/AUTORIZADOR" 
+
+===== PAGE 23 =====
+
+Informacao_Acesso_API_SISREG (v2.1).docx                  23  
+3 = "VIDEOFONISTA" 
+6 = "ADMINISTRADOR MUNICIPAL" 
+17= "COORDENADOR DE UNIDADE" 
+null 
+18 codigo_perfil_operador_autorizador Código perfil do operador 
+autorizador Numero 2 
+1 = "SOLICITANTE" 
+2 = "REGULADOR/AUTORIZADOR" 
+3 = "VIDEOFONISTA" 
+17= "COORDENADOR DE UNIDADE" 
+19 codigo_sigtap_procedimento Código SIGTAP do 
+procedimento Texto 10  “0000000000” 
+20 codigo_solicitacao Código da solicitação Numero  10 Id da Solicitação no SISREG 
+21 codigo_tipo_fila Código tipo de fila Numero  1 1= REGULADO 
+2= NÃO REGULADO 
+22 codigo_tipo_regulacao Código tipo de regulação Texto 1 R= REGULADO 
+F= FILA DE ESPERA 
+23 codigo_tipo_vaga_consumida Código tipo de vaga 
+consumida Numero 1 
+0= 
+1= 
+2= 
+24 codigo_tipo_vaga_solicitada Código tipo de vaga solicitada Numero 1 1= VAGA DE PRIMEIRA VEZ 
+2= VAGA DE RETORNO 
+25 codigo_unidade_desejada Código da unidade desejada Texto 7 “0000000”ou “”  CNES 
+26 codigo_unidade_executante Código da unidade executante Texto 7 “0000000” CNES 
+27 codigo_unidade_solicitante Código da unidade solicitante Texto 7 “0000000” CNES 
+28 complemento_paciente_residencia Complemento residencial do 
+paciente Texto   Campo texto 
+29 complemento_unidade_executante Complemento da unidade 
+executante Texto   Campo texto 
+30 cpf_profissional_executante CPF do profissional executante Texto 11 “00000000000” 
+31 cpf_profissional_solicitante CPF do profissional solicitante Texto 11 “00000000000” ou null 
+32 cpf_usuario CPF do usuário Texto 11 “00000000000” ou null 
+
+===== PAGE 24 =====
+
+Informacao_Acesso_API_SISREG (v2.1).docx                  24  
+33 data_aprovacao Data da aprovação Data 27 'YYYY-MM-DDThh24:MI:SS.USZ' 
+34 data_confirmacao Data da confirmação Data 27 'YYYY-MM-DDThh24:MI:SS.USZ' 
+35 data_desejada Data da desejada Data 27 'YYYY-MM-DDThh24:MI:SS.USZ' 
+36 data_marcacao Data da marcação Data 27 'YYYY-MM-DDThh24:MI:SS.USZ' 
+37 data_solicitacao data da solicitação Data 27 'YYYY-MM-DDThh24:MI:SS.USZ' 
+38 descricao_cid_agendado Descrição de CID agendado Texto   Campo texto 
+39 descricao_cid_solicitado Descrição de CID solicitado Texto   Campo texto 
+40 descricao_interna_procedimento Descrição de interna 
+procedimento Texto   Campo texto 
+41 descricao_sigtap_procedimento Descrição de SIGTAP 
+procedimento Texto   Campo texto 
+42 dt_atualizacao Data de atualização Data 27 'YYYY-MM-DDThh24:MI:SS.USZ' 
+43 dt_nascimento_usuario Data de nascimento de 
+usuário Data 27 'YYYY-MM-DDThh24:MI:SS.USZ' 
+44 endereco_paciente_residencia Endereço residencial do 
+paciente, Texto   Campo texto 
+45 laudo 
+Laudo: tipo do perfil Texto   1 = "SOLICITANTE" 
+2 = "REGULADOR/AUTORIZADOR" 
+Laudo: Código CNES do 
+operador Texto 7 “0000000” CNES 
+Laudo: data da observação Data 27 'YYYY-MM-DDThh24:MI:SS.USZ' 
+Laudo: Nome CNES do 
+operador Texto   Campo texto 
+Laudo: observação Texto   Campo texto 
+Laudo: operador Texto   Campo texto 
+Laudo: situação Texto   
+'PENDENTE' 
+'DEVOLVIDO' 
+'REENVIADO' 
+'SOLICITACAO' 
+'NEGADO' 
+
+===== PAGE 25 =====
+
+Informacao_Acesso_API_SISREG (v2.1).docx                  25  
+'CANCELADO' 
+Laudo: tipo descrição Texto   'Observacão' 
+'Justificativa' 
+46 logradouro_unidade_executante Logradouro da unidade 
+executante Texto   Campo texto 
+47 marcacao_executada Marcação executada Numero  1 0= NÃO foi executado 
+1= SIM foi executado 
+48 municipio_paciente_residencia município residencial de 
+paciente Texto   Campo texto 
+49 municipio_unidade_executante Município da unidade 
+executante Texto   Campo texto 
+50 no_mae_usuario Nome de mãe do usuário Texto   Campo texto 
+51 no_usuario Nome de usuário Texto   Campo texto 
+52 nome_central_reguladora Nome central reguladora Texto   Campo texto 
+53 nome_central_solicitante Nome central solicitante Texto   Campo texto 
+54 nome_cnes_central_executante Nome CNES da central 
+executante Texto   Campo texto 
+55 nome_cnes_central_solicitante Nome CNES da central 
+solicitante Texto   Campo texto 
+56 nome_grupo_procedimento Nome grupo procedimento Texto   Campo texto 
+57 nome_medico_solicitante Nome médico solicitante Texto   Campo texto 
+58 nome_municipio_nascimento Nome município de 
+nascimento Texto   Campo texto 
+59 nome_operador_autorizador Nome Operador autorizador Texto   Campo texto 
+60 nome_operador_cancelamento Nome Operador cancelamento Texto   Campo texto 
+61 nome_operador_solicitante Nome operador solicitante Texto   Campo texto 
+62 nome_operador_videofonista Nome Operador videofonista Texto   Campo texto 
+63 nome_perfil_cancelamento Nome perfil de cancelamento Texto   Campo texto 
+64 nome_perfil_operador_autorizador Nome perfil do operador 
+autorizador Texto   Campo texto 
+
+===== PAGE 26 =====
+
+Informacao_Acesso_API_SISREG (v2.1).docx                  26  
+65 nome_profissional_executante Nome profissional executante Texto   Campo texto 
+66 nome_unidade_desejada Nome da unidade desejada Texto   Campo texto 
+67 nome_unidade_executante Nome da unidade executante Texto   Campo texto 
+68 nome_unidade_solicitante Nome da unidade solicitante Texto   Campo texto 
+69 numero_crm CRM Texto   Campo texto ou null 
+70 numero_paciente_residencia Número residencial do 
+paciente Texto   Campo texto ou null 
+71 numero_unidade_executante Número da unidade 
+executante Texto   Campo texto ou null 
+72 sexo_usuario Sexo do usuário Texto 9 MASCULINO 
+FEMININO 
+73 sigla_situacao Sigla da situação Texto 1 
+P=PENDENTE 
+R=REENVIADA 
+D=DEVOLVIDA 
+N=NEGADA 
+A=APROVADA 
+C=CANCELADA 
+74 st_falta_registrada Status de falta registrada Numero  1 0= NÃO faltou 
+1= SIM faltou 
+75 st_paciente_avisado Status de paciente avisado Numero  1 0= NÃO foi avidado 
+1= SIM foi avidado 
+76 st_visualizado_regulador Status de visualizado 
+regulador Numero 1 0=  
+1=  
+77 status_solicitacao Status da solicitação Texto   
+"SOLICITAÇÃO / PENDENTE / REGULADOR" 
+"SOLICITAÇÃO / DEVOLVIDA / REGULADOR" 
+"SOLICITAÇÃO / NEGADA / REGULADOR" 
+"SOLICITAÇÃO / PENDENTE / FILA DE ESPERA" 
+"SOLICITAÇÃO / REENVIADA / REGULADOR" 
+"AGENDAMENTO / PENDENTE CONFIRMAÇÃO / EXECUTANTE" 
+"AGENDAMENTO / CONFIRMADO / EXECUTANTE" 
+
+===== PAGE 27 =====
+
+Informacao_Acesso_API_SISREG (v2.1).docx                  27  
+"SOLICITAÇÃO / CANCELADA / SOLICITANTE" 
+"SOLICITAÇÃO / CANCELADA / REGULADOR" 
+"SOLICITAÇÃO / CANCELADA / COORDENADOR" 
+"AGENDAMENTO / CANCELADO / REGULADOR" 
+"AGENDAMENTO / CANCELADO / SOLICITANTE" 
+"AGENDAMENTO / CANCELADO / COORDENADOR" 
+"SOLICITAÇÃO / AGENDADA / SOLICITANTE" 
+"SOLICITAÇÃO / AGENDADA / COORDENADOR" 
+"SOLICITAÇÃO / AUTORIZADA / REGULADOR" 
+"SOLICITAÇÃO INEXISTENTE" 
+"NÃO DEFINIDO" 
+"SOLICITAÇÃO / AGENDADA / FILA DE ESPERA" 
+"AGENDAMENTO / FALTA / EXECUTANTE" 
+78 telefone Telefone Texto   Campo texto (não formatado) 
+79 telefone_unidade_executante Telefone da unidade 
+executante Texto   Campo texto (não formatado) 
+80 tipo_logradouro_paciente_residencia Tipo Logradouro residencial do 
+paciente Texto   Conforme cadastro no CADWEB 
+81 uf_municipio_nascimento UF do município de 
+nascimento Texto 2 UF 
+82 uf_paciente_residencia UF residencial do paciente Texto 2 UF 
+83 @timestamp 
+Timestamp exato da inserção 
+do documento no 
+Elasticsearch 
+Data 27 'YYYY-MM-DDThh24:MI:SS.USZ' 
+84 @version Versão do documento inserido 
+no Elasticsearch Texto 1   
+85 carga_epoch Momento exato da carga em 
+formato Linux epoch Data 27 'YYYY-MM-DDThh24:MI:SS.USZ' 
+86 identificador_indice Concatenação do identificador 
+do estado da central       
+
+===== PAGE 28 =====
+
+Informacao_Acesso_API_SISREG (v2.1).docx                  28  
+solicitante com a central 
+executante 
+87 type Campo para uso interno de 
+controle de cargas no Logstash       
+
+===== PAGE 29 =====
+
+Informacao_Acesso_API_SISREG (v2.1).docx      
+    
+        29  
+5.4. Observação: 
+ 
+É importante notar que o Elasticsearch é adequado para pesquisas baseadas em 
+terminologia, aproximação e relevância. Existem vários tipos de consultas, e os métodos 
+para resultados diferentes também são diferentes. Portanto, é muito importante verificar a 
+consulta com as equipes CGRA - Coordenação-Geral de Regulação Assistencial e  ZELLO 
+- com antecedência. 
+A equipe de TI local deve entrar em contato com a Central de Regulação para 
+coletar informações sobre o processo de regulação e as características locais para uso 
+pelo sistema. 
+ 
+6. Tabelas  
+6.1. Codigo - Perfil 
+ 
+SIGLA PERFIL 
+1  SOLICITANTE 
+2  REGULADOR/AUTORIZADOR 
+3  VIDEOFONISTA 
+4  EXECUTANTE 
+5  EXECUTANTE/SOLICITANTE 
+6  ADMINISTRADOR MUNICIPAL 
+9  ADMINISTRADOR ESTADUAL 
+10  ADMINISTRADOR FEDERAL 
+13  EXECUTANTE INT 
+14  AUDITOR 
+17  COORDENADOR DE UNIDADE 
+ 
+ 
+ 
+6.2. Status – hospitalar.  
+ 
+SIGLA STATUS 
+P PENDENTE 
+R REENVIADA 
+D DEVOLVIDA 
+N NEGADA 
+A APROVADA 
+C CANCELADA 
+T TROCA 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+===== PAGE 30 =====
+
+Informacao_Acesso_API_SISREG (v2.1).docx      
+    
+        30  
+ 
+6.3. Status – ambulatorial 
+ 
+DESCRIÇÃO DO STATUS STATUS SIGLA DO 
+STATUS 
+SOLICITAÇÕES PENDENTES NA REGULAÇÃO SOLICITAÇÃO / PENDENTE / REGULADOR SOL/PEN/REG 
+SOLICITAÇÕES DEVOLVIDAS PELA REGULAÇÃO SOLICITAÇÃO / DEVOLVIDA / REGULADOR SOL/DEV/REG 
+SOLICITAÇÕES NEGADAS PELA REGULAÇÃO SOLICITAÇÃO / NEGADA / REGULADOR SOL/NEG/REG 
+SOLICITAÇÕES PENDENTES NA FILA DE ESPERA SOLICITAÇÃO / PENDENTE / FILA DE 
+ESPERA SOL/PEN/FILA 
+SOLICITAÇÕES REENVIADAS PARA 
+REGULADOR SOLICITAÇÃO / REENVIADA / REGULADOR SOL/REE/REG 
+AGENDAMENTOS PENDENTES DE 
+CONFIRMAÇÃO 
+AGENDAMENTO / PENDENTE 
+CONFIRMAÇÃO / EXECUTANTE AGE/PEN/EXEC 
+AGENDAMENTO CONFIRMADO AGENDAMENTO / CONFIRMADO / 
+EXECUTANTE AGE/CONF/EXEC 
+SOLICITAÇÕES CANCELADAS PELO 
+SOLICITANTE 
+SOLICITAÇÃO / CANCELADA / 
+SOLICITANTE SOL/CAN/SOL 
+SOLICITAÇÕES CANCELADAS PELA REGULAÇÃO SOLICITAÇÃO / CANCELADA / 
+REGULADOR SOL/CAN/REG 
+SOLICITAÇÕES CANCELADAS PELA 
+COORDENAÇÃO 
+SOLICITAÇÃO / CANCELADA / 
+COORDENADOR SOL/CAN/COOR 
+AGENDAMENTOS CANCELADOS PELA 
+REGULAÇÃO 
+AGENDAMENTO / CANCELADO / 
+REGULADOR AGE/CAN/REG 
+AGENDAMENTOS CANCELADOS PELO 
+SOLICITANTE 
+AGENDAMENTO / CANCELADO / 
+SOLICITANTE AGE/CAN/SOL 
+AGENDAMENTOS CANCELADOS PELO 
+COORDENADOR 
+AGENDAMENTO / CANCELADO / 
+COORDENADOR AGE/CAN/COOR 
+SOLICITAÇÃO AGENDADA PELO SOLICITANTE SOLICITAÇÃO / AGENDADA / SOLICITANTE SOL/AGE/SOL 
+SOLICITAÇÕES AGENDADAS PELA 
+COORDENAÇÃO 
+SOLICITAÇÃO / AGENDADA / 
+COORDENADOR SOL/AGE/COOR 
+SOLICITAÇÕES AUTORIZADAS/AGENDADAS 
+PELA REGULAÇÃO 
+SOLICITAÇÃO / AUTORIZADA / 
+REGULADOR SOL/AUT/REG 
+SOLICITAÇÃO INEXISTENTE SOLICITAÇÃO INEXISTENTE INEXISTENTE 
+NÃO DEFINIDO NÃO DEFINIDO NÃO DEFINIDO 
+SOLICITAÇÕES AGENDADAS PELA FILA DE 
+ESPERA 
+SOLICITAÇÃO / AGENDADA / FILA DE 
+ESPERA SOL/AGE/FILA 
+AGENDAMENTO COM FALTA AGENDAMENTO / FALTA / EXECUTANTE AGE/FALTA/EXEC 
+ 
+ 

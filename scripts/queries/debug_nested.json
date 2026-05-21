@@ -1,0 +1,24 @@
+{
+  "size": 0,
+  "query": {
+    "bool": {
+      "must": [
+        {"term": {"codigo_uf_regulador": "53"}},
+        {"range": {"data_solicitacao": {"gte": "now-30d/d", "lte": "now/d"}}}
+      ]
+    }
+  },
+  "aggs": {
+    "procedimentos_nested": {
+      "nested": {"path": "procedimentos"},
+      "aggs": {
+        "top_sigtap": {
+          "terms": {"field": "procedimentos.codigo_sigtap", "size": 2},
+          "aggs": {
+            "enriquecimento": {"top_hits": {"size": 1, "_source": true}}
+          }
+        }
+      }
+    }
+  }
+}

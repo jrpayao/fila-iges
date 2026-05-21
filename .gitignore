@@ -1,0 +1,48 @@
+# Segredos — NUNCA commitar
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+secrets/
+
+# Audit local (pode conter PII em POC)
+audit.db
+audit.db-journal
+audit.jsonl
+audit/*.jsonl
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Outputs locais
+*.log
+logs/
+tmp/
+
+# Backups locais e arquivos pessoais
+fila-eletiva.zip
+*.code-workspace
+.claude/

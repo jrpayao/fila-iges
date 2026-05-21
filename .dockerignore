@@ -1,0 +1,54 @@
+# Segredos — NUNCA buildar com isso na imagem
+.env
+.env.local
+.env.example
+.env.*
+
+# Audit local pode conter PII em POC
+audit.jsonl
+audit.db
+audit.db-journal
+audit/*.jsonl
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Editor
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Documentacao (nao precisa na imagem runtime)
+docs/
+specs/
+memory/
+*.md
+DEPLOY.md
+README.md
+
+# Dev tooling
+scripts/
+tests/
+pyproject.toml
+
+# Logs / outputs
+*.log
+logs/
+tmp/
+
+# Plataforma-especifico
+**/Thumbs.db
