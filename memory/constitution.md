@@ -1,137 +1,140 @@
 # Constituição — Projeto fila-eletiva
 
-**Versão**: 1.1-POC — 2026-05-20  
-**Modo ativo**: **POC** — válido até **2026-07-19**  
-**Após 2026-07-19**: constituição volta automaticamente ao Modo Produção (princípios sem overrides).
+**Versão**: 2.0 — 2026-05-21
+**Modo ativo**: **POC** — válido até **2026-07-19**
+**Após 2026-07-19**: constituição mantém todos os princípios; somente o provedor LLM volta ao default (Claude).
 
-Princípios não-negociáveis. Qualquer PR que viole um destes itens deve ser rejeitado ou exigir emenda formal a este documento.
-
----
-
-## Modo POC — overrides explícitos
-
-Esta versão da constituição está em **Modo POC** com relaxações limitadas em **P2**, **P3** e **P8**, vigentes **somente até 2026-07-19**. Cada override está descrito dentro do princípio correspondente.
-
-| Categoria | Princípios |
-|---|---|
-| **Inviolável em qualquer modo** | P1, P4, P5, P6, P7, P9 |
-| **Relaxado no POC com regras de mitigação** | P2, P3, P8 |
-
-**Release gates obrigatórios antes do primeiro request POC com PII real**:
-
-1. **DPA OpenAI assinado** com cláusula de **opt-out de treinamento** sobre o projeto/organização.
-2. **Aprovação formal** do uso de PII no POC pelo jurídico do IGES-DF e pela CGRA.
-3. **Audit log** funcional (P4) — POC sem audit é proibido, mesmo em dev.
-4. **`.env.local` fora do repo**, chave nunca em código-fonte ou git history.
-
-**Migração para Modo Produção em 2026-07-19** exige:
-- (a) retorno de **P8** ao default (Claude).
-- (b) retorno de **P2** ao default (anonymizer ativo, zero PII no LLM).
-- (c) retorno de **P3** ao default (allowlist exclusiva, sem `free_text_search`).
-- (d) aprovação formal por CGRA + jurídico IGES.
+Princípios não-negociáveis. Qualquer PR que viole um destes itens deve ser rejeitado ou exigir emenda formal a este documento. Esta versão substitui a v1.1-POC; a base é a [Spec do Agente Analítico](../docs/reference/spec-agente-analitico-fila-eletiva.md).
 
 ---
 
-## P1. Somente-leitura sobre SISREG
+## P1. Todo número nasce de uma query
 
-A API SISREG é, por design oficial, GET-only (manual v2.1, seção 1). Esta plataforma **nunca** emite verbos diferentes de `GET` ao endpoint `sisreg-es.saude.gov.br`. Qualquer construção de cliente HTTP deve **falhar fechado** ao receber instrução de POST/PUT/DELETE.
+Nenhum valor numérico é inventado, estimado de cabeça ou "lembrado". Se não há query rastreável que o sustente, o agente **não afirma**. Toda resposta com número carrega `source_index` e a query/Plan que o gerou em audit.
 
-**Por quê**: dado de regulação assistencial é dado primário de gestão — escrita acidental é incidente grave com pacientes reais.
+**Por quê**: alucinação numérica em gestão pública é incidente. Um número errado vira decisão errada.
 
-**Modo POC**: sem override. Princípio se mantém integral.
+## P2. Toda resposta declara contexto
 
----
+Janela temporal, filtros aplicados e método/fonte sempre explícitos na resposta narrativa. O Envelope (P4) carrega esses dados e o synthesizer é obrigado a citá-los.
 
-## P2. PII no LLM
+**Mínimo**: `window.label`, `filters` aplicados, `source_index`.
 
-### Modo Produção (default, vigente a partir de 2026-07-20)
-Campos PII (`cns_usuario`, `cpf_usuario`, `no_usuario`, `no_mae_usuario`, `telefone`, `endereco_paciente_residencia`, `cep_paciente_residencia`, `numero_paciente_residencia`, `complemento_paciente_residencia`, `bairro_paciente_residencia`, `cpf_medico_solicitante`, `cpf_profissional_executante`, `cpf_profissional_solicitante`, `dt_nascimento_usuario`) são **proibidos** em qualquer prompt, contexto, log ou retorno serializado que vá para o modelo.
+## P3. Previsão é projeção transparente
 
-A camada de **anonymizer** roda obrigatoriamente entre o resultado do ES e o LLM-narrator. Testes garantem que nenhum dos campos acima aparece em prompts gravados em audit.
+Com índices descritivos read-only, "previsão" = `estoque_fila ÷ vazão_média` ou similar, **rotulada como estimativa**, com `method_note` explícita ("mantido o ritmo atual e sem repriorização"). Nunca número cravado, nunca modelo escondido. Forecast estatístico (sazonalidade, tendência) está **fora de escopo** desta fase.
 
-### Override POC (vigente até 2026-07-19)
+## P4. Uma fonte única de número — o Envelope
 
-PII pode atravessar a fronteira do LLM **SE TODAS** as condições abaixo forem verdadeiras:
+Prosa, gráfico e export leem o **mesmo Envelope** (`app/agent/envelope.py`). O gráfico nunca recalcula. O export nunca reformata números. Se o Envelope diz `1.841 (2.85%)`, esses três artefatos mostram exatamente isso.
 
-1. **Ambiente restrito**: aplicação em rede interna IGES; única saída externa permitida é o endpoint OpenAI (`api.openai.com`). Sem proxy reverso pro mundo.
-2. **DPA OpenAI** com opt-out de treinamento ativo (release gate acima).
-3. **Categorização de PII em duas listas** (ver `specs/.../data-model.md` §3):
-   - `POC_VISIBLE_PII`: `no_usuario`, `cns_usuario`, `no_mae_usuario`, `telefone`, `dt_nascimento_usuario`, `sexo_usuario` — **permitidos** ao LLM em POC, exclusivamente para cenários individuais como "últimos N pacientes atendidos".
-   - `ALWAYS_MASKED_PII`: `cpf_usuario`, `cpf_medico_solicitante`, `cpf_profissional_*`, `endereco_paciente_residencia`, `cep_paciente_residencia`, `numero_paciente_residencia`, `complemento_paciente_residencia`, `bairro_paciente_residencia`, `tipo_logradouro_paciente_residencia`, `nome_medico_solicitante`, `nome_responsavel`, `telefone_responsavel`, `numero_crm` — **continuam mascarados mesmo em POC**.
-4. **Justificativa textual** do operador acompanha cada request que ativa o caminho com PII (ex.: "investigando falta de comparecimento na fila de oftalmologia"). Sem justificativa, request é rejeitado.
-5. **Resposta marcada** com banner *"CONTÉM PII — uso interno IGES, distribuição proibida"* no header da narrativa.
-6. **Audit reforçado**: requests com `pii_exposure=true` ficam num índice separado com retenção mínima de 365 dias.
+## P5. Estoque ≠ Fluxo
 
-**Por quê**: o POC precisa demonstrar valor para coordenadores que pensam em casos concretos. Mas LGPD não evapora porque é POC — o override formaliza o trade-off em vez de varrê-lo para baixo do tapete.
+Snapshot (`solicitacao-ambulatorial`, fila viva) **nunca** é somado a evento de período (`marcacao-ambulatorial`, conversão/falta). A semântica é sempre declarada no Envelope (`source_index` + `metric.kind`). Métricas têm tipo `snapshot` ou `flow`.
 
----
+**Antiprático**: somar "fila atual = 395k" com "agendamentos no mês = 64k" como se fossem do mesmo universo.
 
-## P3. DSL via template, não texto livre
+## P6. Privacidade (LGPD) é absoluta
 
-### Modo Produção (default)
-O LLM **não escreve DSL como string**. O LLM escolhe um *template* da allowlist (`contracts/elasticsearch.md`) e preenche seus parâmetros via *tool calling estruturado* validado por Pydantic. Qualquer tentativa de injetar DSL livre é rejeitada na camada `safety.py`.
+Respostas de gestão são **sempre agregadas**. Nunca expor:
+- `cpf_usuario`, `cns_usuario`, `no_usuario`, `no_mae_usuario`, `telefone`
+- `endereco_paciente_residencia`, `bairro_*`, `cep_*`, `numero_*`, `complemento_*`, `tipo_logradouro_*`
+- `cpf_medico_*`, `cpf_profissional_*`, `nome_medico_*`, `nome_profissional_*`, `numero_crm`
+- `nome_responsavel`, `telefone_responsavel`, `nome_operador_*`
 
-### Override POC (vigente até 2026-07-19)
+Agregação com piso mínimo de contagem (≥ 5 documentos por bucket) para evitar reidentificação por baixa cardinalidade. PII Scanner mecânico + PII Auditor LLM continuam ativos no pipeline pós-síntese.
 
-Além dos templates allowlist, fica permitido **um único** template adicional `free_text_search` (ver T-FREE em `contracts/elasticsearch.md`), com DSL gerada pelo LLM mas validada por **safety guard com allowlist negativa**:
+## P7. Sem recomendação clínica individual
 
-- ✅ Permitido: verbo `GET` em `_search`; índices da DF (`sisreg-*-53-*`); `query`, `aggs`, `_source`, `sort`, `size`.
-- ❌ Bloqueado: qualquer verbo diferente de GET; endpoints `_delete_by_query`, `_update_by_query`, `_reindex`, `_sql`, `_scripts`, `_ingest`; cláusulas com `script`, `script_score`, `runtime_mappings`; `size > 50`; índices fora do DF; PII em filtros bool (uso `cpf_usuario:"..."` é bloqueado mesmo no POC).
-- 🔒 Cada execução desse template gera audit com flag `template=free_text_search` + DSL completo + pergunta original.
+O agente opera no nível **operacional/gestão de fila**. Nunca em conduta clínica de paciente. Pergunta sobre o que prescrever / tratar é recusada como fora de escopo.
 
-**Por quê**: exploração inicial precisa flexibilidade. A safety guard limita o blast radius sem matar a flexibilidade.
+## P8. Export carimba proveniência
 
----
+Todo arquivo exportado (CSV/XLSX/PDF) carrega cabeçalho de proveniência: `source_index`, `window`, `filters`, `metric`, `method_note`, `generated_at` e aviso **"Modo POC — uso interno IGES, distribuição proibida"** em destaque.
 
-## P4. Auditoria fim-a-fim é obrigatória
+## P9. Vocabulário fechado de operações
 
-Toda interação registra: `request_id`, `timestamp`, `usuário autenticado`, `pergunta original`, `template escolhido + parâmetros`, `DSL final`, `índice consultado`, `hit count`, `tempo de execução`, `versão do prompt`, `provedor LLM + modelo + versão`, `pii_exposure` (bool). Logs estruturados (JSON), retenção mínima 90 dias em produção / 365 dias para requests com PII no POC.
+O agente só emite Plans sobre as métricas/primitivas deste catálogo:
+- **Métricas** (17): `app/agent/metrics.py` — `estoque_fila`, `entrada_solicitacoes`, `agendamentos`, `atendimentos`, `faltas`, `cancelamentos`, `taxa_falta`, `taxa_conversao`, `taxa_cancelamento`, `tempo_espera_total`, `tempo_regulacao`, `tempo_marcacao`, `tempo_execucao`, `efeito_aviso`, `previsao_atendimento`, `mix_tipo_vaga`, `cancel_por_perfil`.
+- **Primitivas** (6): `count`, `breakdown`, `timeseries`, `stats`, `lead_time`, `compare`.
+- **Dimensões** fechadas: `prioridade`, `cid`, `grupo_procedimento`, `unidade_solicitante`, `unidade_executante`, `tipo_regulacao`, `tipo_vaga`, `perfil_cancelamento`, `municipio`, `bairro`, `tempo`.
+- **Filtros** fechados: idem dimensões.
 
-**Modo POC**: sem override — pelo contrário, retenção **aumenta** para 365 dias em requests com PII.
+**Nunca** executa DSL/SQL livre fornecido pelo usuário. **Nunca** inventa nome de métrica.
 
----
+## P10. Clarificação só quando necessária
 
-## P5. Toda resposta narrativa cita sua origem
+Não é entrevista. Pergunta de volta **apenas** em:
+1. Entidade não resolve (CID/unidade sem match)
+2. Ambiguidade real (2+ candidatos, ex.: "HRT vs HRAN")
+3. Parâmetro obrigatório ausente **sem default seguro**
 
-A narrativa do LLM **deve** declarar explicitamente: `(a)` qual índice foi consultado, `(b)` qual janela temporal, `(c)` quantos documentos compõem a agregação, `(d)` filtros aplicados, `(e)` em POC: se houve `pii_exposure=true`. Sem essa âncora, a resposta é desinformação travestida de relatório.
+UX = chips (2–4 opções + "outro/não sei"). Máx. 3 perguntas. Usuário pode pular → agente usa defaults declarados. **Nunca perguntar o que o índice já responde.**
 
----
+**Defaults seguros**: janela = últimos 30 dias · prioridade = todas · status = grupo coerente com a métrica.
 
-## P6. Spec-first
+## P11. Off-topic redefinido
 
-Mudança comportamental começa em `specs/`. Não se altera código sem alterar a spec correspondente — e PRs trazem o diff dos dois lados. Templates DSL novos exigem entrada em `contracts/elasticsearch.md` antes de existir no código.
+**Off-topic = não tem relação com a fila de regulação SISREG-DF**. Análise, diagnóstico e recomendação de gestão **sobre a fila** são **on-topic**. Perguntas como *"como diminuir a fila?"*, *"por que tanta gente falta?"*, *"qual a previsão para CID X no HRT?"* — todas **válidas**.
 
----
+Permanecem off-topic: cardápio, clima, conduta clínica individual, perguntas sem nenhum vínculo com a fila/SISREG.
 
-## P7. Cenários de ES verificados contra o dicionário
+## P12. Cross-index só na aplicação
 
-Todo template DSL referencia explicitamente os campos do **dicionário oficial** (manual seção 5, espelhado em `data-model.md`). Divergências entre dicionário e mapping real do ES são registradas em `research.md` e tratadas como bug do ambiente, não como exceção do código.
-
----
-
-## P8. Provedor de LLM
-
-### Modo Produção (default, vigente a partir de 2026-07-20)
-`claude-opus-4-7` para NL→tool-call (planning); `claude-haiku-4-5-20251001` para narrativa. Versão fica fixa em config — nunca "latest". Upgrade de modelo é PR auditável que toca `plan.md`.
-
-### Override POC (vigente até 2026-07-19)
-Provedor primário é **OpenAI**:
-- `gpt-4o` (ou modelo equivalente vigente em maio/2026) para planner/tool-calling.
-- `gpt-4o-mini` (ou equivalente) para narrator.
-- Chave **exclusivamente** via env var `OPENAI_API_KEY` carregada de `.env.local` (não versionado).
-- Telemetria de custo separada da prod.
-- Migração para Claude (P8 default) é **item obrigatório** em `tasks.md` antes da release v1.
+O Elasticsearch não faz join nativo. Correlação entre `solicitacao-ambulatorial` e `marcacao-ambulatorial` (ex.: solicitação → marcação → falta) é reconciliada **na camada de aplicação** por `codigo_solicitacao`. Nunca via script-Painless ou agregação cross-index custom.
 
 ---
 
-## P9. Sem dependência de credencial federal
+## Princípios estruturais herdados (v1, ainda válidos)
 
-Toda configuração assume credencial **subnacional DF**. Suporte a `-nacional` só entra com spec adicional aprovada pela CGRA, e nunca como default.
+### P13. ES é estritamente somente-leitura (verbo `GET`)
+Manual SISREG v2.1 §1. Cliente HTTP **falha fechado** em qualquer verbo diferente de GET. POST a `_search` é exceção pois é convenção REST do ES (passa body, não muta).
 
-**Modo POC**: sem override.
+### P14. DF only — `DF_INDEX_SUFFIX = "df-brasilia"`
+Constante fixa. Todo índice consultado termina nesse sufixo. Filtro defensivo `codigo_uf_regulador = "53"` (ambulatorial) ou `.keyword` (hospitalar) sempre presente.
+
+### P15. Auditoria fim-a-fim obrigatória
+Cada Plan emitido + cada primitiva executada + cada Envelope produzido + cada síntese narrada deixa entrada em `audit.jsonl` com `request_id` correlacionando tudo. Retenção: 90 dias default, 365 dias para requests que tocaram PII (P6 com pii_exposure).
+
+### P16. Spec-first
+Mudança comportamental começa em `specs/`. PR traz diff dos dois lados.
+
+---
+
+## Override POC vigente até 2026-07-19
+
+| Princípio | Default | Override POC |
+|---|---|---|
+| **P9** allowlist | catálogo fechado de métricas+primitivas | + uma primitiva `free_search` que aceita Plan custom com `metric=null`, validada por safety guard mecânico. Auditada. |
+| **Provedor LLM** | Claude (`claude-opus-4-7` planner, `claude-haiku-4-5` synthesizer) | OpenAI (`gpt-4o` planner, `gpt-4o-mini` synthesizer). Chave via `OPENAI_API_KEY`. Migração para Claude é item bloqueante da release v1. |
+
+Após `2026-07-19`:
+- `free_search` é removido do registry
+- Provedor padrão volta a ser Claude
+- `pii_exposure` flag não é mais aceito (P6 estritamente sem PII)
+
+---
+
+## Cumprimento
+
+| Princípio | Onde no código | Como testar |
+|---|---|---|
+| P1 | `Envelope.metric` + `audit.event("primitive.executed", ...)` | grep audit por response sem `source_index` |
+| P2 | `Synthesizer` cita `window.label` + `filters` no 1º parágrafo | `tests/test_synthesizer.py` |
+| P3 | `metrics.previsao_atendimento.method_note` sempre preenchido | unit test |
+| P4 | `Envelope` é o único input de `chart`, `export`, `synthesizer` | property test: prosa.numbers == envelope.data.values |
+| P5 | `metric.kind ∈ {snapshot, flow}`; orquestrador recusa Plan que soma snapshot+flow | unit test |
+| P6 | `anonymize/redactor.scrub()` + `scanner` + `pii_auditor` | `tests/test_pii_*.py`, snapshot test |
+| P7 | system prompt synthesizer + critic | manual review |
+| P8 | `skills/export.py` adiciona header obrigatório | unit test do PDF/CSV |
+| P9 | `agent/safety.py` valida Plan contra `metrics.NAMES + primitives.NAMES` | unit test |
+| P10 | `Resolver` retorna `Clarification` quando ambiguidade | tests com fixtures de unidade ambígua |
+| P11 | system prompt do Orchestrator + tests com "como diminuir a fila?" | smoke test |
+| P12 | `primitives.py` cross-reference faz `codigo_solicitacao` no app | unit test |
 
 ---
 
 **Histórico de versão**:
-- v1.0 — 2026-05-20 — versão inicial (Claude default, PII proibido).
-- v1.1-POC — 2026-05-20 — overrides POC em P2/P3/P8 com expiração em 2026-07-19.
+- v1.0 — 2026-05-20 — versão inicial (templates fixos, Claude default).
+- v1.1-POC — 2026-05-20 — overrides POC em P2/P3/P8.
+- **v2.0 — 2026-05-21** — virada arquitetural: catálogo semântico + primitivas + Envelope, conforme [spec do agente analítico](../docs/reference/spec-agente-analitico-fila-eletiva.md). Mantém overrides POC até 2026-07-19.

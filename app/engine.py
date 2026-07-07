@@ -1,414 +1,134 @@
-"""Engine — orquestra o pipeline multi-agente.
+"""Engine — adapter fino sobre app.agent.orchestrator (v2).
 
-Fluxo:
-  [Router] -> [Planner <-> Validator] (retry max 2) -> safety -> ES -> anonymize
-           -> [Narrator <-> Critic] (retry max 2) -> resposta
+Mantem a interface `ask(pergunta) -> dict{narrativa, dados, proveniencia}` esperada
+por app/api.py e ui/streamlit_app.py. A logica real vive em app/agent/.
 
-Cada etapa registra evento em audit.jsonl.
+Backward compat:
+- `pii_exposure` e `justificativa` aceitos mas IGNORADOS — na v2 a constituicao P6 e
+  absoluta, agregacao sempre. Mantemos os params no kwargs apenas pra nao quebrar
+  chamadores.
+- Erros do orquestrador viram `EngineError`.
+- Clarification e refusal sao serializados em `narrativa` (texto) enquanto a UI nao
+  tiver suporte a chips (Fase 4). proveniencia carrega plan/envelope completos.
 """
 
-from datetime import date
+from __future__ import annotations
+
 from typing import Any
 
-from pydantic import ValidationError
-
-from app import audit
-from app.anonymize import scanner
-from app.anonymize.redactor import scrub
-from app.config import settings
-from app.es import registry, safety
-from app.es.client import SisregESClient
-from app.es.templates import free_text_search
-from app.llm import critic, narrator, pii_auditor, planner, router, validator
-from app.llm.router import Intent
+from app.agent.envelope import Envelope
+from app.agent.orchestrator import AgentResponse
+from app.agent.orchestrator import ask as _agent_ask
+from app.agent.plan import ClarificationRequest
+from app.agent.skills.chart import to_plotly_dict
 
 
 class EngineError(RuntimeError):
-    pass
+    """Erro do pipeline. Mantida pra compat com api.py."""
 
 
-META_RESPONSE = (
-    "Sou o assistente do fila-eletiva (IGES-DF/ZELLO). Respondo perguntas sobre a fila "
-    "de regulacao do SISREG-DF (ambulatorial e hospitalar) — coisas como: top CIDs em "
-    "uma janela, distribuicao por status, agendamentos confirmados, cancelamentos por "
-    "unidade. Faca a pergunta em portugues, com periodo se relevante (ex.: 'ultimos 30 "
-    "dias')."
-)
-
-OUT_OF_SCOPE_RESPONSE = (
-    "Sua pergunta nao parece relacionada a fila de regulacao do SISREG-DF. Posso te "
-    "ajudar com: top CIDs em uma janela, distribuicao de status, agendamentos, "
-    "cancelamentos, top unidades solicitantes. Reformule por favor."
-)
-
-
-def _plan_with_retry(pergunta: str, request_id: str) -> dict[str, Any]:
-    """Roda planner+validator em loop ate approve ou max_attempts."""
-    feedback: str | None = None
-    last_validation = None
-    for attempt in range(1, settings.max_planner_attempts + 1):
-        plan_result = planner.plan(pergunta, feedback=feedback)
-        audit.event(
-            "planner.completed",
-            request_id=request_id,
-            attempt=attempt,
-            template=plan_result.template_name,
-            params=plan_result.params,
-            planner_version=planner.version(),
-            had_feedback=feedback is not None,
-        )
-        if not plan_result.matched:
-            return {
-                "status": "no_template_match",
-                "rationale": plan_result.rationale,
-                "attempt": attempt,
-            }
-
-        template = registry.get(plan_result.template_name)
-        try:
-            params = template.Params(**plan_result.params)
-            body = template.render(params)
-            indice = template.index(params)
-        except (ValidationError, ValueError) as exc:
-            audit.event(
-                "planner.params_invalid",
-                request_id=request_id,
-                attempt=attempt,
-                template=plan_result.template_name,
-                error=str(exc),
-            )
-            feedback = (
-                f"Os parametros que voce passou para o template '{plan_result.template_name}' "
-                f"foram rejeitados pela validacao: {exc}. "
-                "Reanalise se este e mesmo o template certo — talvez precise usar "
-                "free_text_search em vez deste."
-            )
-            continue
-        audit.event(
-            "es.query.rendered",
-            request_id=request_id,
-            attempt=attempt,
-            template=plan_result.template_name,
-            indice=indice,
-            body=body,
-        )
-
-        validation = validator.validate(
-            pergunta=pergunta,
-            template_name=plan_result.template_name,
-            params=params.model_dump(),
-            indice_resolvido=indice,
-            body=body,
-        )
-        revised_dsl = validation.revised_dsl()
-        audit.event(
-            "validator.completed",
-            request_id=request_id,
-            attempt=attempt,
-            decision=validation.decision.value,
-            reasoning=validation.reasoning,
-            concerns=validation.concerns,
-            revised=revised_dsl is not None,
-            validator_version=validator.version(),
-        )
-        last_validation = validation
-
-        if validation.decision.value == "approve":
-            return {
-                "status": "approved",
-                "template": template,
-                "template_name": plan_result.template_name,
-                "params": params,
-                "body": body,
-                "indice": indice,
-                "validation": validation,
-                "attempt": attempt,
-            }
-
-        if validation.decision.value == "revise":
-            if plan_result.template_name != free_text_search.NAME:
-                # Templates especializados nao aceitam revisao automatica
-                return {
-                    "status": "rejected_no_revise",
-                    "validation": validation,
-                    "attempt": attempt,
-                }
-            if not revised_dsl:
-                return {
-                    "status": "revise_without_dsl",
-                    "validation": validation,
-                    "attempt": attempt,
-                }
-            safety.validate(revised_dsl)
-            return {
-                "status": "approved",
-                "template": template,
-                "template_name": plan_result.template_name,
-                "params": params,
-                "body": revised_dsl,
-                "indice": indice,
-                "validation": validation,
-                "attempt": attempt,
-            }
-
-        # decision == reject -> proxima iteracao com feedback
-        feedback = validation.reasoning
-
-    # Esgotou attempts
-    return {
-        "status": "rejected_max_attempts",
-        "validation": last_validation,
-        "attempt": settings.max_planner_attempts,
-    }
-
-
-def _narrate_with_retry(
+def ask(
     pergunta: str,
-    dados: dict[str, Any],
-    proveniencia: dict[str, Any],
-    pii_exposure: bool,
-    request_id: str,
-) -> tuple[str, list[dict[str, Any]]]:
-    """Roda narrator+critic em loop ate approve ou max_attempts.
+    *,
+    pii_exposure: bool = False,  # noqa: ARG001 — backward compat, ignorado na v2
+    justificativa: str = "",  # noqa: ARG001 — backward compat, ignorado na v2
+) -> dict[str, Any]:
+    """Pergunta livre -> resposta no shape esperado pela UI v1."""
+    resp = _agent_ask(pergunta)
 
-    Retorna (narrativa_final, lista_de_critiques_em_ordem).
-    """
-    issues_feedback: list[str] | None = None
-    critiques: list[dict[str, Any]] = []
-    narrativa = ""
-    for attempt in range(1, settings.max_narrator_attempts + 1):
-        narrativa = narrator.narrate(
-            pergunta,
-            dados,
-            proveniencia,
-            pii_exposure=pii_exposure,
-            feedback_issues=issues_feedback,
-        )
-        audit.event(
-            "narrator.completed",
-            request_id=request_id,
-            attempt=attempt,
-            narrator_version=narrator.version(),
-            had_feedback=issues_feedback is not None,
-        )
-        critique = critic.review(pergunta, narrativa, proveniencia)
-        audit.event(
-            "critic.completed",
-            request_id=request_id,
-            attempt=attempt,
-            decision=critique.decision.value,
-            issues=critique.issues,
-            reasoning=critique.reasoning,
-            critic_version=critic.version(),
-        )
-        critiques.append(
-            {
-                "attempt": attempt,
-                "decision": critique.decision.value,
-                "issues": critique.issues,
-                "reasoning": critique.reasoning,
-            }
-        )
-        if critique.decision.value == "approve":
-            break
-        issues_feedback = critique.issues
-    return narrativa, critiques
+    if resp.error:
+        raise EngineError(resp.error)
 
+    proveniencia = _build_proveniencia(resp)
 
-def ask(pergunta: str, *, pii_exposure: bool = False, justificativa: str = "") -> dict[str, Any]:
-    """Loop completo multi-agente: NL -> ... -> resposta narrada e revisada."""
-    request_id = audit.event("request.received", pergunta=pergunta, pii_exposure=pii_exposure)
-
-    # PII override (constituicao P2 POC)
-    if pii_exposure:
-        if settings.app_mode != "poc":
-            raise EngineError("pii_exposure=True so e permitido em app_mode='poc'.")
-        if date.today() > settings.poc_expires_at:
-            raise EngineError(
-                f"Modo POC expirou em {settings.poc_expires_at}. "
-                "Migre para producao (ver constituicao P2/P8)."
-            )
-        if not justificativa or len(justificativa.strip()) < 20:
-            raise EngineError("pii_exposure=True exige justificativa textual com >=20 chars.")
-
-    # ===== AGENT 1: ROUTER =====
-    routing = router.classify(pergunta)
-    audit.event(
-        "router.completed",
-        request_id=request_id,
-        intent=routing.intent.value,
-        needs_pii=routing.needs_pii,
-        reasoning=routing.reasoning,
-        router_version=router.version(),
-    )
-
-    if routing.intent == Intent.META:
-        audit.event("request.completed", request_id=request_id, short_circuit="meta")
+    if resp.refusal_reason:
         return {
-            "narrativa": META_RESPONSE,
+            "narrativa": resp.refusal_reason,
             "dados": None,
-            "proveniencia": {"request_id": request_id, "intent": "meta"},
+            "proveniencia": proveniencia,
+            "chart": None,
         }
-    if routing.intent == Intent.OUT_OF_SCOPE:
-        audit.event("request.completed", request_id=request_id, short_circuit="out_of_scope")
+
+    if resp.clarifications:
         return {
-            "narrativa": OUT_OF_SCOPE_RESPONSE,
+            "narrativa": _format_clarifications(resp.clarifications),
             "dados": None,
-            "proveniencia": {"request_id": request_id, "intent": "out_of_scope"},
+            "proveniencia": proveniencia,
+            "chart": None,
         }
 
-    if routing.needs_pii and not pii_exposure:
-        audit.event("request.completed", request_id=request_id, short_circuit="needs_pii_no_consent")
-        return {
-            "narrativa": (
-                "Sua pergunta parece exigir dados individuais identificaveis. "
-                "Para esse caminho, o operador precisa rodar com pii_exposure=True "
-                "e justificativa textual (ver constituicao P2 — POC override)."
-            ),
-            "dados": None,
-            "proveniencia": {
-                "request_id": request_id,
-                "intent": "data_query",
-                "needs_pii": True,
-                "block_reason": "pii_not_consented",
-            },
-        }
+    chart = None
+    if resp.envelope is not None:
+        try:
+            chart = to_plotly_dict(resp.envelope)
+        except Exception:
+            chart = None  # falha de chart nunca quebra a resposta
 
-    # ===== AGENTS 2+3: PLANNER + VALIDATOR (com retry) =====
-    plan_outcome = _plan_with_retry(pergunta, request_id)
-
-    if plan_outcome["status"] == "no_template_match":
-        audit.event("request.completed", request_id=request_id, short_circuit="no_template")
-        return {
-            "narrativa": (
-                f"Nao consigo responder isso ainda. Detalhe do planner: {plan_outcome['rationale']}"
-            ),
-            "dados": None,
-            "proveniencia": {"request_id": request_id, "template_matched": False},
-        }
-    if plan_outcome["status"] != "approved":
-        validation = plan_outcome.get("validation")
-        reasoning = validation.reasoning if validation else "sem motivo registrado"
-        audit.event(
-            "request.completed",
-            request_id=request_id,
-            short_circuit=plan_outcome["status"],
-        )
-        return {
-            "narrativa": (
-                f"O validador rejeitou a query apos {plan_outcome['attempt']} tentativa(s).\n\n"
-                f"Motivo final: {reasoning}\n\n"
-                "Sugestao: reformule a pergunta com mais especificidade."
-            ),
-            "dados": None,
-            "proveniencia": {
-                "request_id": request_id,
-                "validacao_final": {
-                    "decision": validation.decision.value if validation else "unknown",
-                    "reasoning": reasoning,
-                    "concerns": validation.concerns if validation else [],
-                    "attempts": plan_outcome["attempt"],
-                },
-            },
-        }
-
-    template = plan_outcome["template"]
-    params = plan_outcome["params"]
-    body = plan_outcome["body"]
-    indice = plan_outcome["indice"]
-    validation = plan_outcome["validation"]
-
-    # ===== MECÂNICO: ES execute + anonymize =====
-    with SisregESClient() as es:
-        es_response = es.search(indice, body)
-    audit.event(
-        "es.query.executed",
-        request_id=request_id,
-        took_ms=es_response.get("took"),
-        total=es_response.get("hits", {}).get("total"),
-    )
-
-    consolidated = template.consolidate(es_response, params)
-    consolidated_clean = scrub(consolidated, mode=settings.app_mode, pii_exposure=pii_exposure)
-
-    # ===== Proveniência =====
-    proveniencia: dict[str, Any] = {
-        "request_id": request_id,
-        "intent": routing.intent.value,
-        "template": plan_outcome["template_name"],
-        "indice": indice,
-        "params": params.model_dump(),
-        "modo": settings.app_mode,
-        "modo_expira_em": str(settings.poc_expires_at) if settings.app_mode == "poc" else None,
-        "router_version": router.version(),
-        "planner_version": planner.version(),
-        "validator_version": validator.version(),
-        "narrator_version": narrator.version(),
-        "critic_version": critic.version(),
-        "pii_exposure": pii_exposure,
-        "planner_attempts": plan_outcome["attempt"],
-        "validacao": {
-            "decision": validation.decision.value,
-            "reasoning": validation.reasoning,
-            "concerns": validation.concerns,
-        },
-    }
-
-    # ===== AGENTS 4+5: NARRATOR + CRITIC (com retry) =====
-    narrativa, critiques = _narrate_with_retry(
-        pergunta=pergunta,
-        dados=consolidated_clean,
-        proveniencia=proveniencia,
-        pii_exposure=pii_exposure,
-        request_id=request_id,
-    )
-    proveniencia["critic_attempts"] = len(critiques)
-    proveniencia["critiques"] = critiques
-    proveniencia["pii_auditor_version"] = pii_auditor.version()
-
-    # ===== CAMADA EXTRA: PII Scanner mecanico + PII Auditor LLM =====
-    pii_scan = scanner.scan(narrativa)
-    audit.event(
-        "pii.scanner.completed",
-        request_id=request_id,
-        findings=pii_scan,
-        any_match=bool(pii_scan),
-    )
-    proveniencia["pii_scanner"] = {"findings": pii_scan, "any_match": bool(pii_scan)}
-
-    # Auditor LLM so roda quando expectativa e "sem PII" — defesa em profundidade.
-    if settings.app_mode == "poc" and not pii_exposure:
-        pii_audit = pii_auditor.audit(narrativa, proveniencia)
-        audit.event(
-            "pii.auditor.completed",
-            request_id=request_id,
-            decision=pii_audit.decision.value,
-            leaks=pii_audit.leaks,
-            reasoning=pii_audit.reasoning,
-        )
-        proveniencia["pii_auditor"] = {
-            "decision": pii_audit.decision.value,
-            "leaks": pii_audit.leaks,
-            "reasoning": pii_audit.reasoning,
-        }
-        if pii_audit.decision.value == "leak_detected":
-            audit.event(
-                "request.blocked_pii_leak",
-                request_id=request_id,
-                leaks=pii_audit.leaks,
-            )
-            return {
-                "narrativa": (
-                    "Resposta bloqueada pela auditoria final de PII. "
-                    "Detalhes em audit (request_id no campo proveniencia)."
-                ),
-                "dados": None,
-                "proveniencia": proveniencia,
-            }
-
-    audit.event("request.completed", request_id=request_id)
     return {
-        "narrativa": narrativa,
-        "dados": consolidated_clean,
+        "narrativa": resp.narrativa or "(sem narrativa)",
+        "dados": _envelope_to_dados(resp.envelope) if resp.envelope else None,
         "proveniencia": proveniencia,
+        "chart": chart,
     }
+
+
+# ===== helpers =====
+
+
+def _build_proveniencia(resp: AgentResponse) -> dict[str, Any]:
+    prov: dict[str, Any] = {
+        "request_id": resp.request_id,
+        "pergunta": resp.pergunta,
+        "engine_version": "v2-agent",
+    }
+    if resp.plan is not None:
+        prov["plan"] = resp.plan.model_dump(mode="json", exclude_none=True)
+    if resp.envelope is not None:
+        env = resp.envelope
+        prov.update(
+            {
+                "metric": env.metric,
+                "shape": env.shape.value,
+                "metric_kind": env.metric_kind.value,
+                "source_index": env.source_index,
+                "window": env.window.model_dump(mode="json"),
+                "units": env.units,
+                "total_documents": env.total_documents,
+                "doc_count_error": env.doc_count_error,
+                "filters": env.filters,
+            }
+        )
+        if env.method_note:
+            prov["method_note"] = env.method_note
+    if resp.clarifications:
+        prov["clarifications"] = [c.model_dump() for c in resp.clarifications]
+    if resp.refusal_reason:
+        prov["refusal_reason"] = resp.refusal_reason
+    return prov
+
+
+def _envelope_to_dados(envelope: Envelope) -> dict[str, Any]:
+    """Achata Envelope.data + metadados num formato amigavel pro painel debug da UI."""
+    return {
+        "shape": envelope.shape.value,
+        "units": envelope.units,
+        "data": envelope.data,
+        "total_documents": envelope.total_documents,
+        "doc_count_error": envelope.doc_count_error,
+        "method_note": envelope.method_note,
+    }
+
+
+def _format_clarifications(clarifications: list[ClarificationRequest]) -> str:
+    """Serializa clarifications como markdown temporario (Fase 4 troca por chips)."""
+    lines = ["**Preciso de mais detalhes para responder:**", ""]
+    for c in clarifications:
+        verb = "Termo ambíguo" if c.reason == "ambiguous" else "Não consegui resolver"
+        lines.append(f"- {verb}: `{c.field}` = _\"{c.raw}\"_")
+        if c.suggestions:
+            lines.append("  Sugestões:")
+            for s in c.suggestions[:5]:
+                lines.append(f"    - {s}")
+        lines.append("")
+    lines.append("Reformule a pergunta indicando uma das opções acima.")
+    return "\n".join(lines)

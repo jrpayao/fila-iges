@@ -76,6 +76,7 @@ class ChatResponse(BaseModel):
     narrativa: str
     dados: Any | None
     proveniencia: dict[str, Any]
+    chart: dict[str, Any] | None = None
 
 
 @app.get("/")

@@ -1,0 +1,38 @@
+{
+  "_metadata": {
+    "fonte": "WHO ICD-10 5a edicao (2019) + atualizacoes emergenciais 2020-2023",
+    "traducoes_pt-BR": "DATASUS — boletins oficiais de novas categorias pos-2007",
+    "uso": "Mergeado em app/agent/data/cid10.json pelo scripts/build_cid10_json.py. Nao sobrescreve codigos da base DATASUS 2007.",
+    "version": "1.0",
+    "updated_at": "2026-05-21",
+    "notas": [
+      "U07.0: Lesao pulmonar associada ao uso de cigarro eletronico (vape/EVALI), adicionado em 2020.",
+      "U07.1: COVID-19 com virus identificado por exame laboratorial — uso de emergencia OMS abril/2020.",
+      "U07.2: COVID-19 sem confirmacao laboratorial (criterio clinico-epidemiologico).",
+      "U08-U12: adicoes 2021-2022 para sequelas, historico, imunizacao e efeitos adversos de vacina.",
+      "A92.5: Zika foi adicionado oficialmente em 2016 (declaracao OMS), faltava na base 2007."
+    ]
+  },
+
+  "U07":  "Uso de emergência de U07",
+  "U070": "Lesão pulmonar associada ao uso de cigarro eletrônico ou produto de vaporização",
+  "U071": "COVID-19, vírus identificado",
+  "U072": "COVID-19, vírus não identificado",
+
+  "U08":  "História pessoal de COVID-19",
+  "U089": "História pessoal de COVID-19, não especificada",
+
+  "U09":  "Condição pós-COVID-19",
+  "U099": "Condição pós-COVID-19, não especificada",
+
+  "U10":  "Síndrome inflamatória multissistêmica associada à COVID-19",
+  "U109": "Síndrome inflamatória multissistêmica associada à COVID-19, não especificada",
+
+  "U11":  "Necessidade de imunização contra COVID-19",
+  "U119": "Necessidade de imunização contra COVID-19, não especificada",
+
+  "U12":  "Vacinas contra COVID-19 causando efeitos adversos no uso terapêutico",
+  "U129": "Vacinas contra COVID-19 causando efeitos adversos no uso terapêutico, sem outra especificação",
+
+  "A925": "Doença pelo vírus Zika"
+}

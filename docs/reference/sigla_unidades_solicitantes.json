@@ -1,0 +1,1642 @@
+[
+  {
+    "codigo": "0011347",
+    "sigla": "ADOLESCENTRO",
+    "nome": "ADOLESCENTRO BRASILIA"
+  },
+  {
+    "codigo": "0426067",
+    "sigla": "AFYA",
+    "nome": "AFYA HOSPITAL DIA"
+  },
+  {
+    "codigo": "4518918",
+    "sigla": "AIO",
+    "nome": "AIO INSTITUTO DE CANCER FILIAL BIOSPHERE"
+  },
+  {
+    "codigo": "4501756",
+    "sigla": "AIO",
+    "nome": "AIO INSTITUTO DE CANCER MATRIZ"
+  },
+  {
+    "codigo": "9024654",
+    "sigla": "ALIANCA",
+    "nome": "ALIANCA CENTRO MEDICO"
+  },
+  {
+    "codigo": "9031340",
+    "sigla": "ASF",
+    "nome": "ASF SOBRADINHO"
+  },
+  {
+    "codigo": "0727377",
+    "sigla": "CADH",
+    "nome": "CADH REGIAO LESTE"
+  },
+  {
+    "codigo": "2340208",
+    "sigla": "CAIS",
+    "nome": "CAIS I"
+  },
+  {
+    "codigo": "7219695",
+    "sigla": "CAPS AD",
+    "nome": "CAPS AD BRASILIA RODOVIARIA"
+  },
+  {
+    "codigo": "7094116",
+    "sigla": "CAPS AD ITA",
+    "nome": "CAPS AD ITAPOA"
+  },
+  {
+    "codigo": "7055919",
+    "sigla": "CAPS AD SMA",
+    "nome": "CAPS AD SANTA MARIA"
+  },
+  {
+    "codigo": "3372375",
+    "sigla": "CAPS GUA",
+    "nome": "CAPS GUARA"
+  },
+  {
+    "codigo": "7698437",
+    "sigla": "CAPS I RDE",
+    "nome": "CAPS I RECANTO DAS EMAS"
+  },
+  {
+    "codigo": "7552270",
+    "sigla": "CAPS I SOB",
+    "nome": "CAPS I SOBRADINHO"
+  },
+  {
+    "codigo": "5167892",
+    "sigla": "CAPS II PAR",
+    "nome": "CAPS II PARANOA"
+  },
+  {
+    "codigo": "6666701",
+    "sigla": "CAPS II PLA",
+    "nome": "CAPS II PLANALTINA"
+  },
+  {
+    "codigo": "6665098",
+    "sigla": "CAPS II SAM",
+    "nome": "CAPS II SAMAMBAIA"
+  },
+  {
+    "codigo": "5447410",
+    "sigla": "CAPS II TAG",
+    "nome": "CAPS II TAGUATINGA"
+  },
+  {
+    "codigo": "7740794",
+    "sigla": "CAPSI AN",
+    "nome": "CAPSI ASA NORTE"
+  },
+  {
+    "codigo": "7213824",
+    "sigla": "CARRETA",
+    "nome": "CARRETA DA SAUDE OFTALMO CLINICA"
+  },
+  {
+    "codigo": "7898215",
+    "sigla": "CASAI",
+    "nome": "CASAI BRASILIA"
+  },
+  {
+    "codigo": "3055450",
+    "sigla": "CBV",
+    "nome": "CBV"
+  },
+  {
+    "codigo": "3077098",
+    "sigla": "CEAL",
+    "nome": "CEAL LP"
+  },
+  {
+    "codigo": "0511501",
+    "sigla": "CEDHIC",
+    "nome": "CEDHIC GUARA"
+  },
+  {
+    "codigo": "0010596",
+    "sigla": "CEDIN",
+    "nome": "CEDIN"
+  },
+  {
+    "codigo": "0010715",
+    "sigla": "CEDOH",
+    "nome": "CEDOH ASA NORTE"
+  },
+  {
+    "codigo": "7653131",
+    "sigla": "CNCDO",
+    "nome": "CENTRAL DE NOTIF CAPIT DIST DE ORGAOS DE RORAIMA CNCDO"
+  },
+  {
+    "codigo": "0011193",
+    "sigla": "CRT",
+    "nome": "CENTRAL DE RADIOLOGIA DE TAGUATINGA"
+  },
+  {
+    "codigo": "7905610",
+    "sigla": "CET-DF",
+    "nome": "CENTRAL ESTADUAL DE TRANSPLANTES DO DISTRITO FEDERAL"
+  },
+  {
+    "codigo": "9710248",
+    "sigla": "CCJB",
+    "nome": "CENTRO CLINICO JARDIM BOTANICO"
+  },
+  {
+    "codigo": "6585760",
+    "sigla": "CAPS AD III CEI",
+    "nome": "CENTRO DE ATENCAO PSICOSSOCIAL AD III CEILANDIA"
+  },
+  {
+    "codigo": "9589724",
+    "sigla": "CAPS I BRA",
+    "nome": "CENTRO DE ATENCAO PSICOSSOCIAL I BRAZLANDIA"
+  },
+  {
+    "codigo": "9676473",
+    "sigla": "CEO CEI",
+    "nome": "CENTRO DE ESPECIALIDADES ODONTOLOGICAS CEILANDIA UNIDADE I"
+  },
+  {
+    "codigo": "9578560",
+    "sigla": "CEO 11",
+    "nome": "CENTRO DE ESPECIALIDADES ODONTOLOGICAS CEO 11"
+  },
+  {
+    "codigo": "0011142",
+    "sigla": "COMPP",
+    "nome": "CENTRO DE ORIENTACAO MEDICO PSICOPEDAGOGICO COMPP"
+  },
+  {
+    "codigo": "7902441",
+    "sigla": "CS MARAVILHA",
+    "nome": "CENTRO DE SAUDE SETOR NORTE MARAVILHA"
+  },
+  {
+    "codigo": "3492222",
+    "sigla": "CEO",
+    "nome": "CENTRO ESPECIALIZADO DE ODONTOLOGIA CEO"
+  },
+  {
+    "codigo": "9715797",
+    "sigla": "CEO GUA",
+    "nome": "CENTRO ESPECIALIZADO DE ODONTOLOGIA DO GUARA"
+  },
+  {
+    "codigo": "7988303",
+    "sigla": "CER II TAG",
+    "nome": "CENTRO ESPECIALIZADO EM REABILITACAO CER II TAGUATINGA"
+  },
+  {
+    "codigo": "0010766",
+    "sigla": "CEO 712/912",
+    "nome": "CEO 712 912 SUL"
+  },
+  {
+    "codigo": "9778136",
+    "sigla": "CEO AN",
+    "nome": "CEO ASA NORTE"
+  },
+  {
+    "codigo": "9772243",
+    "sigla": "CEO PAR",
+    "nome": "CEO PARANOA"
+  },
+  {
+    "codigo": "9690735",
+    "sigla": "CEO PLA",
+    "nome": "CEO PLANALTINA"
+  },
+  {
+    "codigo": "9622845",
+    "sigla": "CEO TAG",
+    "nome": "CEO POLICLINICA DE TAGUATINGA"
+  },
+  {
+    "codigo": "9690719",
+    "sigla": "CEO SOB",
+    "nome": "CEO SOBRADINHO"
+  },
+  {
+    "codigo": "0253804",
+    "sigla": "CEPAV",
+    "nome": "CEPAV GIRASSOL"
+  },
+  {
+    "codigo": "9580816",
+    "sigla": "CESMU",
+    "nome": "CESMU"
+  },
+  {
+    "codigo": "3172236",
+    "sigla": "CEL",
+    "nome": "CLINICA DE ESPECIALIDADES DE LUZIANIA"
+  },
+  {
+    "codigo": "4275608",
+    "sigla": "CLIN JOAO CARLOS",
+    "nome": "CLINICA DE OFTALMOLOGIA JOAO CARLOS"
+  },
+  {
+    "codigo": "7929129",
+    "sigla": "COJE",
+    "nome": "CLINICA DE OLHOS DR JOAO EUGENIO"
+  },
+  {
+    "codigo": "7299516",
+    "sigla": "CR CUIABA",
+    "nome": "COMPLEXO REGULADOR DE CUIABA"
+  },
+  {
+    "codigo": "3044432",
+    "sigla": "CRDF",
+    "nome": "COMPLEXO REGULADOR EM SAUDE DO DISTRITO FEDERAL CRDF"
+  },
+  {
+    "codigo": "0019542",
+    "sigla": "CS ABRAAO",
+    "nome": "CS ABRAAO"
+  },
+  {
+    "codigo": "10731",
+    "sigla": "CSB 09 CRU",
+    "nome": "CSB 09 CRUZEIRO"
+  },
+  {
+    "codigo": "11355",
+    "sigla": "CSB 15 VPL",
+    "nome": "CSB 15 VILA PLANALTO"
+  },
+  {
+    "codigo": "0010979",
+    "sigla": "CSC 01 CEI",
+    "nome": "CSC 01 CEILANDIA"
+  },
+  {
+    "codigo": "11207",
+    "sigla": "CSC 10 CEI",
+    "nome": "CSC 10 CEILANDIA"
+  },
+  {
+    "codigo": "11258",
+    "sigla": "CSS 03 SOB",
+    "nome": "CSS 03 SOBRADINHO"
+  },
+  {
+    "codigo": "10685",
+    "sigla": "CSSA 04 SAM",
+    "nome": "CSSA 04 SAMAMBAIA"
+  },
+  {
+    "codigo": "5479878",
+    "sigla": "DAVITA",
+    "nome": "DAVITA SERVICOS DE NEFROLOGIA DISTRITO FEDERAL LTDA"
+  },
+  {
+    "codigo": "9471456",
+    "sigla": "ELO",
+    "nome": "ELO CONTACT CENTER"
+  },
+  {
+    "codigo": "0011339",
+    "sigla": "HEMODF",
+    "nome": "FUNDACAO HEMOCENTRO"
+  },
+  {
+    "codigo": "2616718",
+    "sigla": "HOB",
+    "nome": "HOB BRASILIA"
+  },
+  {
+    "codigo": "0255416",
+    "sigla": "HODF",
+    "nome": "HODF"
+  },
+  {
+    "codigo": "6876617",
+    "sigla": "HCB",
+    "nome": "HOSPITAL DA CRIANCA DE BRASILIA JOSE ALENCAR HCB"
+  },
+  {
+    "codigo": "7978642",
+    "sigla": "HDLS",
+    "nome": "HOSPITAL DAHER LAGO SUL SA"
+  },
+  {
+    "codigo": "2649527",
+    "sigla": "HAB",
+    "nome": "HOSPITAL DE APOIO DE BRASILIA HAB"
+  },
+  {
+    "codigo": "0010456",
+    "sigla": "HBDF",
+    "nome": "HOSPITAL DE BASE DO DISTRITO FEDERAL"
+  },
+  {
+    "codigo": "7423136",
+    "sigla": "HO GAMA",
+    "nome": "HOSPITAL DE OLHOS DO GAMA"
+  },
+  {
+    "codigo": "0010537",
+    "sigla": "HMIB",
+    "nome": "HOSPITAL MATERNO INFANTIL DR ANTONIO LISBOA"
+  },
+  {
+    "codigo": "5882451",
+    "sigla": "HM JARDIM INGA",
+    "nome": "HOSPITAL MUNICIPAL DO JARDIM INGA"
+  },
+  {
+    "codigo": "0010480",
+    "sigla": "HRC",
+    "nome": "HOSPITAL REGIONAL DE CEILANDIA"
+  },
+  {
+    "codigo": "2534967",
+    "sigla": "HR FORMOSA",
+    "nome": "HOSPITAL REGIONAL DE FORMOSA DR CESAR SAAD FAYAD"
+  },
+  {
+    "codigo": "2814897",
+    "sigla": "HRGu",
+    "nome": "HOSPITAL REGIONAL DO GUARA I"
+  },
+  {
+    "codigo": "2815966",
+    "sigla": "HSL",
+    "nome": "HOSPITAL SANTA LUCIA"
+  },
+  {
+    "codigo": "2649497",
+    "sigla": "HSMT",
+    "nome": "HOSPITAL SANTA MARTA TAGUATINGA"
+  },
+  {
+    "codigo": "6730914",
+    "sigla": "HSM",
+    "nome": "HOSPITAL SAO MATEUS"
+  },
+  {
+    "codigo": "0010618",
+    "sigla": "HSVP",
+    "nome": "HOSPITAL SAO VICENTE DE PAULO HSVP"
+  },
+  {
+    "codigo": "0010510",
+    "sigla": "HUB",
+    "nome": "HOSPITAL UNIVERSITARIO DE BRASILIA"
+  },
+  {
+    "codigo": "0010464",
+    "sigla": "HRAN",
+    "nome": "HRAN"
+  },
+  {
+    "codigo": "0010545",
+    "sigla": "HRBZ",
+    "nome": "HRBZ"
+  },
+  {
+    "codigo": "0010472",
+    "sigla": "HRG",
+    "nome": "HRG"
+  },
+  {
+    "codigo": "2645157",
+    "sigla": "HRL",
+    "nome": "HRL"
+  },
+  {
+    "codigo": "0010529",
+    "sigla": "HRPL",
+    "nome": "HRPL"
+  },
+  {
+    "codigo": "0010502",
+    "sigla": "HRS",
+    "nome": "HRS"
+  },
+  {
+    "codigo": "2672197",
+    "sigla": "HRSAM",
+    "nome": "HRSAM HOSPITAL REGIONAL DE SAMAMBAIA"
+  },
+  {
+    "codigo": "5717515",
+    "sigla": "HRSM",
+    "nome": "HRSM"
+  },
+  {
+    "codigo": "0010499",
+    "sigla": "HRT",
+    "nome": "HRT HOSPITAL REGIONAL DE TAGUATINGA"
+  },
+  {
+    "codigo": "3553566",
+    "sigla": "INFINITA",
+    "nome": "INFINITA MEDICINA DIAGNOSTICA"
+  },
+  {
+    "codigo": "3276678",
+    "sigla": "ICTDF",
+    "nome": "INSTITUTO DE CARDIOLOGIA E TRANSPLANTES DO DISTRITO FEDERAL"
+  },
+  {
+    "codigo": "7957815",
+    "sigla": "IRT",
+    "nome": "IRT"
+  },
+  {
+    "codigo": "9762671",
+    "sigla": "MAT INFANTIL",
+    "nome": "MATERNO INFANTIL"
+  },
+  {
+    "codigo": "2779366",
+    "sigla": "OFTALMED",
+    "nome": "OFTALMED"
+  },
+  {
+    "codigo": "9896791",
+    "sigla": "OFTALMED",
+    "nome": "OFTALMED"
+  },
+  {
+    "codigo": "4457641",
+    "sigla": "ONCOCLINICAS",
+    "nome": "ONCOCLINICAS CETTRO CENTRO DE TRATAMENTO ONCOLOGICO"
+  },
+  {
+    "codigo": "9778144",
+    "sigla": "POL AN",
+    "nome": "POLICLINICA ASA NORTE"
+  },
+  {
+    "codigo": "9516204",
+    "sigla": "POL SSB",
+    "nome": "POLICLINICA DA ATENCAO SECUNDARIA DE SAO SEBASTIAO"
+  },
+  {
+    "codigo": "9516212",
+    "sigla": "POL PAR",
+    "nome": "POLICLINICA DA ATENCAO SECUNDARIA PARANOA"
+  },
+  {
+    "codigo": "9578536",
+    "sigla": "POL BRA",
+    "nome": "POLICLINICA DA REGIAO OESTE UNIDADE BRAZLANDIA"
+  },
+  {
+    "codigo": "9578544",
+    "sigla": "POL CEI",
+    "nome": "POLICLINICA DA REGIAO OESTE UNIDADE CEILANDIA I"
+  },
+  {
+    "codigo": "9578501",
+    "sigla": "POL CEI",
+    "nome": "POLICLINICA DA REGIAO OESTE UNIDADE CEILANDIA II"
+  },
+  {
+    "codigo": "0011088",
+    "sigla": "POL PLA",
+    "nome": "POLICLINICA DE PLANALTINA"
+  },
+  {
+    "codigo": "9505709",
+    "sigla": "POL PLA",
+    "nome": "POLICLINICA DE PLANALTINA"
+  },
+  {
+    "codigo": "9561579",
+    "sigla": "POL SAM",
+    "nome": "POLICLINICA DE SAMAMBAIA"
+  },
+  {
+    "codigo": "9414754",
+    "sigla": "POL SOB",
+    "nome": "POLICLINICA DE SOBRADINHO"
+  },
+  {
+    "codigo": "0010588",
+    "sigla": "POL TAG",
+    "nome": "POLICLINICA DE TAGUATINGA"
+  },
+  {
+    "codigo": "9621709",
+    "sigla": "POL TAG",
+    "nome": "POLICLINICA DE TAGUATINGA UNIDADE II"
+  },
+  {
+    "codigo": "5598575",
+    "sigla": "POL GAM",
+    "nome": "POLICLINICA DO GAMA"
+  },
+  {
+    "codigo": "9620311",
+    "sigla": "POL GUA",
+    "nome": "POLICLINICA GUARA I"
+  },
+  {
+    "codigo": "9578277",
+    "sigla": "POL LSU",
+    "nome": "POLICLINICA LAGO SUL"
+  },
+  {
+    "codigo": "9548858",
+    "sigla": "POL NBA",
+    "nome": "POLICLINICA NUCLEO BANDEIRANTE"
+  },
+  {
+    "codigo": "9548866",
+    "sigla": "POL RF1",
+    "nome": "POLICLINICA RIACHO FUNDO I UNIDADE I"
+  },
+  {
+    "codigo": "9620338",
+    "sigla": "POL RF1",
+    "nome": "POLICLINICA RIACHO FUNDO I UNIDADE II"
+  },
+  {
+    "codigo": "3025020",
+    "sigla": "PSFRAT",
+    "nome": "PRONTO SOCORRO DE FRATURAS"
+  },
+  {
+    "codigo": "2340461",
+    "sigla": "PSF ALTO",
+    "nome": "PSF ALTO DAS CARAIBAS"
+  },
+  {
+    "codigo": "2340488",
+    "sigla": "PSF PARQUE",
+    "nome": "PSF PARQUE ALVORADA"
+  },
+  {
+    "codigo": "0011525",
+    "sigla": "PSR 2 FER",
+    "nome": "PSR 2 CORREGO DO OURO FERCAL"
+  },
+  {
+    "codigo": "0011533",
+    "sigla": "PSR QUEIMA",
+    "nome": "PSR QUEIMA LENCOL"
+  },
+  {
+    "codigo": "6963447",
+    "sigla": "SES-DF",
+    "nome": "SECRETARIA DE SAUDE DO DISTRITO FEDERAL"
+  },
+  {
+    "codigo": "6361781",
+    "sigla": "SMSGN",
+    "nome": "SECRETARIA MUNICIPAL DE SAUDE DE GAUCHA DO NORTE MT"
+  },
+  {
+    "codigo": "6718337",
+    "sigla": "SMSM",
+    "nome": "SECRETARIA MUNICIPAL DE SAUDE DE MARCELANDIA"
+  },
+  {
+    "codigo": "2152940",
+    "sigla": "UAI PAMPULHA",
+    "nome": "UAI PAMPULHA UNIDADE DE ATENDIMENTO INTEGRADO IRMA DULCE"
+  },
+  {
+    "codigo": "7108923",
+    "sigla": "UBS 01 ACL",
+    "nome": "UBS 01 AGUAS CLARAS"
+  },
+  {
+    "codigo": "0011150",
+    "sigla": "UBS 01 AS",
+    "nome": "UBS 01 ASA SUL"
+  },
+  {
+    "codigo": "0010693",
+    "sigla": "UBS 01 AS",
+    "nome": "UBS 01 ASA SUL"
+  },
+  {
+    "codigo": "0011185",
+    "sigla": "UBS 01 CAN",
+    "nome": "UBS 01 CANDANGOLANDIA"
+  },
+  {
+    "codigo": "3027651",
+    "sigla": "UBS 01 SIA",
+    "nome": "UBS 01 CPP SIA"
+  },
+  {
+    "codigo": "0263680",
+    "sigla": "UBS 01 DCCP",
+    "nome": "UBS 01 DCCP"
+  },
+  {
+    "codigo": "2779374",
+    "sigla": "UBS 01 EST",
+    "nome": "UBS 01 ESTRUTURAL"
+  },
+  {
+    "codigo": "0011118",
+    "sigla": "UBS 01 GUA",
+    "nome": "UBS 01 GUARA"
+  },
+  {
+    "codigo": "0010812",
+    "sigla": "UBS 01 LSU",
+    "nome": "UBS 01 LAGO SUL"
+  },
+  {
+    "codigo": "0011126",
+    "sigla": "UBS 01 NBA",
+    "nome": "UBS 01 NUCLEO BANDEIRANTE"
+  },
+  {
+    "codigo": "0011681",
+    "sigla": "UBS 01 PKW",
+    "nome": "UBS 01 PARK WAY"
+  },
+  {
+    "codigo": "0010804",
+    "sigla": "UBS 01 RDE",
+    "nome": "UBS 01 RECANTO DAS EMAS"
+  },
+  {
+    "codigo": "0011169",
+    "sigla": "UBS 01 RF1",
+    "nome": "UBS 01 RIACHO FUNDO I"
+  },
+  {
+    "codigo": "5038669",
+    "sigla": "UBS 01 RF2",
+    "nome": "UBS 01 RIACHO FUNDO II"
+  },
+  {
+    "codigo": "0010642",
+    "sigla": "UBS 01 SAM",
+    "nome": "UBS 01 SAMAMBAIA"
+  },
+  {
+    "codigo": "0010901",
+    "sigla": "UBS 01 TAG",
+    "nome": "UBS 01 TAGUATINGA"
+  },
+  {
+    "codigo": "9056963",
+    "sigla": "UBS 01 VPI",
+    "nome": "UBS 01 VICENTE PIRES"
+  },
+  {
+    "codigo": "3742822",
+    "sigla": "UBS 02 ACL",
+    "nome": "UBS 02 AGUAS CLARAS"
+  },
+  {
+    "codigo": "3513564",
+    "sigla": "UBS 02 EST",
+    "nome": "UBS 02 ESTRUTURAL"
+  },
+  {
+    "codigo": "0011266",
+    "sigla": "UBS 02 GUA",
+    "nome": "UBS 02 GUARA"
+  },
+  {
+    "codigo": "7236778",
+    "sigla": "UBS 02 NBA",
+    "nome": "UBS 02 NUCLEO BANDEIRANTE"
+  },
+  {
+    "codigo": "0011134",
+    "sigla": "UBS 02 RDE",
+    "nome": "UBS 02 RECANTO DAS EMAS"
+  },
+  {
+    "codigo": "3781437",
+    "sigla": "UBS 02 RF1",
+    "nome": "UBS 02 RIACHO FUNDO I"
+  },
+  {
+    "codigo": "3410196",
+    "sigla": "UBS 02 RF2",
+    "nome": "UBS 02 RIACHO FUNDO II"
+  },
+  {
+    "codigo": "0010774",
+    "sigla": "UBS 02 SAM",
+    "nome": "UBS 02 SAMAMBAIA"
+  },
+  {
+    "codigo": "0010928",
+    "sigla": "UBS 02 TAG",
+    "nome": "UBS 02 TAGUATINGA"
+  },
+  {
+    "codigo": "0011274",
+    "sigla": "UBS 03 GUA",
+    "nome": "UBS 03 GUARA"
+  },
+  {
+    "codigo": "4986725",
+    "sigla": "UBS 03 JBO",
+    "nome": "UBS 03 JARDIM BOTANICO"
+  },
+  {
+    "codigo": "7170939",
+    "sigla": "UBS 03 RDE",
+    "nome": "UBS 03 RECANTO DAS EMAS"
+  },
+  {
+    "codigo": "2660199",
+    "sigla": "UBS 03 RF2",
+    "nome": "UBS 03 RIACHO FUNDO II"
+  },
+  {
+    "codigo": "0010677",
+    "sigla": "UBS 03 SAM",
+    "nome": "UBS 03 SAMAMBAIA"
+  },
+  {
+    "codigo": "0010936",
+    "sigla": "UBS 03 TAG",
+    "nome": "UBS 03 TAGUATINGA"
+  },
+  {
+    "codigo": "4986792",
+    "sigla": "UBS 04 ITA",
+    "nome": "UBS 04 ITAPOA"
+  },
+  {
+    "codigo": "0011657",
+    "sigla": "UBS 04 GUA",
+    "nome": "UBS 04 LUCIO COSTA GUARA"
+  },
+  {
+    "codigo": "7417632",
+    "sigla": "UBS 04 RDE",
+    "nome": "UBS 04 RECANTO DAS EMAS"
+  },
+  {
+    "codigo": "2673924",
+    "sigla": "UBS 04 RF2",
+    "nome": "UBS 04 RIACHO FUNDO II CAUB I"
+  },
+  {
+    "codigo": "0010685",
+    "sigla": "UBS 04 SAM",
+    "nome": "UBS 04 SAMAMBAIA"
+  },
+  {
+    "codigo": "0010944",
+    "sigla": "UBS 04 TAG",
+    "nome": "UBS 04 TAGUATINGA"
+  },
+  {
+    "codigo": "9263632",
+    "sigla": "UBS 05 GUA",
+    "nome": "UBS 05 GUARA"
+  },
+  {
+    "codigo": "7059892",
+    "sigla": "UBS 05 RDE",
+    "nome": "UBS 05 RECANTO DAS EMAS"
+  },
+  {
+    "codigo": "7526504",
+    "sigla": "UBS 05 RF2",
+    "nome": "UBS 05 RIACHO FUNDO II"
+  },
+  {
+    "codigo": "6921736",
+    "sigla": "UBS 05 SAM",
+    "nome": "UBS 05 SAMAMBAIA"
+  },
+  {
+    "codigo": "0010626",
+    "sigla": "UBS 05 TAG",
+    "nome": "UBS 05 TAGUATINGA"
+  },
+  {
+    "codigo": "7059965",
+    "sigla": "UBS 06 RDE",
+    "nome": "UBS 06 RECANTO DAS EMAS"
+  },
+  {
+    "codigo": "7053754",
+    "sigla": "UBS 06 SAM",
+    "nome": "UBS 06 SAMAMBAIA"
+  },
+  {
+    "codigo": "0010952",
+    "sigla": "UBS 06 TAG",
+    "nome": "UBS 06 TAGUATINGA"
+  },
+  {
+    "codigo": "2779331",
+    "sigla": "UBS 07 RDE",
+    "nome": "UBS 07 RECANTO DAS EMAS CASA GRANDE"
+  },
+  {
+    "codigo": "7299877",
+    "sigla": "UBS 07 SAM",
+    "nome": "UBS 07 SAMAMBAIA"
+  },
+  {
+    "codigo": "0010960",
+    "sigla": "UBS 07 TAG",
+    "nome": "UBS 07 TAGUATINGA"
+  },
+  {
+    "codigo": "2804247",
+    "sigla": "UBS 08 RDE",
+    "nome": "UBS 08 RECANTO DAS EMAS SAO FRANCISCO"
+  },
+  {
+    "codigo": "7114397",
+    "sigla": "UBS 08 SAM",
+    "nome": "UBS 08 SAMAMBAIA"
+  },
+  {
+    "codigo": "2617269",
+    "sigla": "UBS 08 TAG",
+    "nome": "UBS 08 TAGUATINGA"
+  },
+  {
+    "codigo": "7059957",
+    "sigla": "UBS 09 RDE",
+    "nome": "UBS 09 RECANTO DAS EMAS"
+  },
+  {
+    "codigo": "3742857",
+    "sigla": "UBS 09 SAM",
+    "nome": "UBS 09 SAMAMBAIA"
+  },
+  {
+    "codigo": "0010707",
+    "sigla": "UBS 1 AN",
+    "nome": "UBS 1 ASA NORTE CSB11"
+  },
+  {
+    "codigo": "0011215",
+    "sigla": "UBS 1 BRA",
+    "nome": "UBS 1 BRAZLANDIA"
+  },
+  {
+    "codigo": "0010731",
+    "sigla": "UBS 1 CRU",
+    "nome": "UBS 1 CRUZEIRO"
+  },
+  {
+    "codigo": "2804360",
+    "sigla": "UBS 1 FER",
+    "nome": "UBS 1 ENGENHO VELHO FERCAL"
+  },
+  {
+    "codigo": "7347715",
+    "sigla": "UBS 1 CEI",
+    "nome": "UBS 1 ESF SOL NASCENTE TRECHO II CEILANDIA"
+  },
+  {
+    "codigo": "0010820",
+    "sigla": "UBS 1 GAM",
+    "nome": "UBS 1 GAMA"
+  },
+  {
+    "codigo": "6268269",
+    "sigla": "UBS 1 ITA",
+    "nome": "UBS 1 ITAPOA"
+  },
+  {
+    "codigo": "0736260",
+    "sigla": "UBS 1 JMA",
+    "nome": "UBS 1 JARDINS MANGUEIRAL"
+  },
+  {
+    "codigo": "0011177",
+    "sigla": "UBS 1 LNO",
+    "nome": "UBS 1 LAGO NORTE"
+  },
+  {
+    "codigo": "4431618",
+    "sigla": "UBS 1 LSU",
+    "nome": "UBS 1 LAGO SUL"
+  },
+  {
+    "codigo": "0010634",
+    "sigla": "UBS 1 PAR",
+    "nome": "UBS 1 PARANOA"
+  },
+  {
+    "codigo": "5167817",
+    "sigla": "UBS 1 PLA",
+    "nome": "UBS 1 PLANALTINA"
+  },
+  {
+    "codigo": "0010782",
+    "sigla": "UBS 1 SMA",
+    "nome": "UBS 1 SANTA MARIA"
+  },
+  {
+    "codigo": "0010790",
+    "sigla": "UBS 1 SSB",
+    "nome": "UBS 1 SAO SEBASTIAO"
+  },
+  {
+    "codigo": "0011223",
+    "sigla": "UBS 1 SOB",
+    "nome": "UBS 1 SOBRADINHO"
+  },
+  {
+    "codigo": "0011258",
+    "sigla": "UBS 1 SB2",
+    "nome": "UBS 1 SOBRADINHO II"
+  },
+  {
+    "codigo": "2617358",
+    "sigla": "UBS 1 VAR",
+    "nome": "UBS 1 VARJAO"
+  },
+  {
+    "codigo": "0011207",
+    "sigla": "UBS 10 CEI",
+    "nome": "UBS 10 CEILANDIA"
+  },
+  {
+    "codigo": "3286932",
+    "sigla": "UBS 10 SSB",
+    "nome": "UBS 10 JOAO CANDIDO SAO SEBASTIAO"
+  },
+  {
+    "codigo": "3144623",
+    "sigla": "UBS 10 RDE",
+    "nome": "UBS 10 RECANTO DAS EMAS"
+  },
+  {
+    "codigo": "2673894",
+    "sigla": "UBS 10 SMA",
+    "nome": "UBS 10 SANTA MARIA"
+  },
+  {
+    "codigo": "2804174",
+    "sigla": "UBS 10 PLA",
+    "nome": "UBS 10 TAQUARA PLANALTINA"
+  },
+  {
+    "codigo": "0011061",
+    "sigla": "UBS 11 CEI",
+    "nome": "UBS 11 CEILANDIA"
+  },
+  {
+    "codigo": "3144577",
+    "sigla": "UBS 11 GAM",
+    "nome": "UBS 11 PONTE ALTA NORTE GAMA"
+  },
+  {
+    "codigo": "0011576",
+    "sigla": "UBS 11 PLA",
+    "nome": "UBS 11 RAJADINHA PLANALTINA"
+  },
+  {
+    "codigo": "9543945",
+    "sigla": "UBS 11 RDE",
+    "nome": "UBS 11 RECANTO DAS EMAS"
+  },
+  {
+    "codigo": "3212025",
+    "sigla": "UBS 11 SSB",
+    "nome": "UBS 11 RESIDENCIAL DO BOSQUE 2 SAO SEBASTIAO"
+  },
+  {
+    "codigo": "7771479",
+    "sigla": "UBS 11 SAM",
+    "nome": "UBS 11 SAMAMBAIA"
+  },
+  {
+    "codigo": "8192650",
+    "sigla": "UBS 11 SMA",
+    "nome": "UBS 11 SANTA MARIA"
+  },
+  {
+    "codigo": "2804123",
+    "sigla": "UBS 12 PLA",
+    "nome": "UBS 12 BICA DO DER PLANALTINA"
+  },
+  {
+    "codigo": "2617293",
+    "sigla": "UBS 12 CEI",
+    "nome": "UBS 12 CEILANDIA"
+  },
+  {
+    "codigo": "3144615",
+    "sigla": "UBS 12 GAM",
+    "nome": "UBS 12 PONTE ALTA GAMA"
+  },
+  {
+    "codigo": "9480587",
+    "sigla": "UBS 12 SAM",
+    "nome": "UBS 12 SAMAMBAIA"
+  },
+  {
+    "codigo": "7423489",
+    "sigla": "UBS 12 SSB",
+    "nome": "UBS 12 SAO JOSE SAO SEBASTIAO"
+  },
+  {
+    "codigo": "3144542",
+    "sigla": "UBS 13 CEI",
+    "nome": "UBS 13 BOA ESPERANCA CEILANDIA"
+  },
+  {
+    "codigo": "7360592",
+    "sigla": "UBS 13 GAM",
+    "nome": "UBS 13 GAMA"
+  },
+  {
+    "codigo": "9647597",
+    "sigla": "UBS 13 SAM",
+    "nome": "UBS 13 SAMAMBAIA"
+  },
+  {
+    "codigo": "0011622",
+    "sigla": "UBS 13 PLA",
+    "nome": "UBS 13 SAO JOSE PLANALTINA"
+  },
+  {
+    "codigo": "3212076",
+    "sigla": "UBS 13 SSB",
+    "nome": "UBS 13 VILA NOVA SAO SEBASTIAO"
+  },
+  {
+    "codigo": "3028003",
+    "sigla": "UBS 14 SSB",
+    "nome": "UBS 14 CDP SAO SEBASTIAO"
+  },
+  {
+    "codigo": "3677044",
+    "sigla": "UBS 14 CEI",
+    "nome": "UBS 14 CONDOMINIO PRIVE CEILANDIA"
+  },
+  {
+    "codigo": "0011584",
+    "sigla": "UBS 14 PLA",
+    "nome": "UBS 14 TABATINGA PLANALTINA"
+  },
+  {
+    "codigo": "7347723",
+    "sigla": "UBS 15 CEI",
+    "nome": "UBS 15 CEILANDIA"
+  },
+  {
+    "codigo": "3028011",
+    "sigla": "UBS 15 SSB",
+    "nome": "UBS 15 CIR SAO SEBASTIAO"
+  },
+  {
+    "codigo": "3027635",
+    "sigla": "UBS 15 GAM",
+    "nome": "UBS 15 PFDF GAMA"
+  },
+  {
+    "codigo": "2672227",
+    "sigla": "UBS 15 PLA",
+    "nome": "UBS 15 RIO PRETO PLANALTINA"
+  },
+  {
+    "codigo": "7843135",
+    "sigla": "UBS 16 GAM",
+    "nome": "UBS 16 ATP GAMA"
+  },
+  {
+    "codigo": "9475931",
+    "sigla": "UBS 16 CEI",
+    "nome": "UBS 16 CEILANDIA"
+  },
+  {
+    "codigo": "7566530",
+    "sigla": "UBS 16 SSB",
+    "nome": "UBS 16 PDF I SAO SEBASTIAO"
+  },
+  {
+    "codigo": "0011592",
+    "sigla": "UBS 16 PLA",
+    "nome": "UBS 16 PIPIRIPAU PLANALTINA"
+  },
+  {
+    "codigo": "9509356",
+    "sigla": "UBS 17 CEI",
+    "nome": "UBS 17 CEILANDIA"
+  },
+  {
+    "codigo": "3144666",
+    "sigla": "UBS 17 PLA",
+    "nome": "UBS 17 JARDIM MORUMBI PLANALTINA"
+  },
+  {
+    "codigo": "3027643",
+    "sigla": "UBS 17 SSB",
+    "nome": "UBS 17 PDF II SAO SEBASTIAO"
+  },
+  {
+    "codigo": "9643338",
+    "sigla": "UBS 18 CAIC",
+    "nome": "UBS 18 CAIC BERNARDO SAYAO"
+  },
+  {
+    "codigo": "9566961",
+    "sigla": "UBS 18 PLA",
+    "nome": "UBS 18 PLANALTINA"
+  },
+  {
+    "codigo": "9566988",
+    "sigla": "UBS 19 PLA",
+    "nome": "UBS 19 PLANALTINA"
+  },
+  {
+    "codigo": "3254909",
+    "sigla": "UBS 19 SSB",
+    "nome": "UBS 19 VILA DO BOA SAO SEBASTIAO"
+  },
+  {
+    "codigo": "4986768",
+    "sigla": "UBS 19 VISTA BELA",
+    "nome": "UBS 19 VISTA BELA"
+  },
+  {
+    "codigo": "0010723",
+    "sigla": "UBS 2 AN",
+    "nome": "UBS 2 ASA NORTE"
+  },
+  {
+    "codigo": "6662358",
+    "sigla": "UBS 2 BRA",
+    "nome": "UBS 2 BRAZLANDIA"
+  },
+  {
+    "codigo": "0011517",
+    "sigla": "UBS 2 FER",
+    "nome": "UBS 2 CATINGUEIRO FERCAL"
+  },
+  {
+    "codigo": "0010987",
+    "sigla": "UBS 2 CEI",
+    "nome": "UBS 2 CEILANDIA"
+  },
+  {
+    "codigo": "0010758",
+    "sigla": "UBS 2 CRU",
+    "nome": "UBS 2 CRUZEIRO CSB14"
+  },
+  {
+    "codigo": "0010839",
+    "sigla": "UBS 2 GAM",
+    "nome": "UBS 2 GAMA"
+  },
+  {
+    "codigo": "3286959",
+    "sigla": "UBS 2 ITA",
+    "nome": "UBS 2 ITAPOA"
+  },
+  {
+    "codigo": "0010650",
+    "sigla": "UBS 2 PLA",
+    "nome": "UBS 2 PLANALTINA"
+  },
+  {
+    "codigo": "3286975",
+    "sigla": "UBS 2 PAR",
+    "nome": "UBS 2 QUADRA 18 PARANOA"
+  },
+  {
+    "codigo": "0010669",
+    "sigla": "UBS 2 SMA",
+    "nome": "UBS 2 SANTA MARIA"
+  },
+  {
+    "codigo": "0011231",
+    "sigla": "UBS 2 SOB",
+    "nome": "UBS 2 SOBRADINHO"
+  },
+  {
+    "codigo": "7368895",
+    "sigla": "UBS 2 SB2",
+    "nome": "UBS 2 SOBRADINHO II"
+  },
+  {
+    "codigo": "3254887",
+    "sigla": "UBS 2 SSB",
+    "nome": "UBS 2 T R E SAO SEBASTIAO"
+  },
+  {
+    "codigo": "9768637",
+    "sigla": "UBS 20 PLA",
+    "nome": "UBS 20 PLANALTINA"
+  },
+  {
+    "codigo": "0207225",
+    "sigla": "UBS 20 SSB",
+    "nome": "UBS 20 SAO SEBASTIAO CDP"
+  },
+  {
+    "codigo": "0011355",
+    "sigla": "UBS 3 AN",
+    "nome": "UBS 3 ASA NORTE VILA PLANALTO"
+  },
+  {
+    "codigo": "0010995",
+    "sigla": "UBS 3 CEI",
+    "nome": "UBS 3 CEILANDIA"
+  },
+  {
+    "codigo": "0010847",
+    "sigla": "UBS 3 GAM",
+    "nome": "UBS 3 GAMA"
+  },
+  {
+    "codigo": "9572481",
+    "sigla": "UBS 3 ITA",
+    "nome": "UBS 3 ITAPOA"
+  },
+  {
+    "codigo": "0161616",
+    "sigla": "UBS 3 FER",
+    "nome": "UBS 3 LOBEIRAL FERCAL"
+  },
+  {
+    "codigo": "0011568",
+    "sigla": "UBS 3 SOB",
+    "nome": "UBS 3 NOVA COLINA SOBRADINHO"
+  },
+  {
+    "codigo": "9572511",
+    "sigla": "UBS 3 PPQ",
+    "nome": "UBS 3 PARANOA PARQUE"
+  },
+  {
+    "codigo": "0011096",
+    "sigla": "UBS 3 PLA",
+    "nome": "UBS 3 PLANALTINA"
+  },
+  {
+    "codigo": "3212068",
+    "sigla": "UBS 3 SSB",
+    "nome": "UBS 3 RESIDENCIAL OESTE SAO SEBASTIAO"
+  },
+  {
+    "codigo": "3144550",
+    "sigla": "UBS 3 SMA",
+    "nome": "UBS 3 SANTA MARIA"
+  },
+  {
+    "codigo": "6770681",
+    "sigla": "UBS 3 SB2",
+    "nome": "UBS 3 VALE DOS PINHEIROS SOBRADINHO II"
+  },
+  {
+    "codigo": "3144658",
+    "sigla": "UBS 3 BRA",
+    "nome": "UBS 3 VEREDAS I BRAZLANDIA"
+  },
+  {
+    "codigo": "0011002",
+    "sigla": "UBS 4 CEI",
+    "nome": "UBS 4 CEILANDIA"
+  },
+  {
+    "codigo": "0010855",
+    "sigla": "UBS 4 GAM",
+    "nome": "UBS 4 GAMA"
+  },
+  {
+    "codigo": "0011606",
+    "sigla": "UBS 4 PAR",
+    "nome": "UBS 4 JARDIM II PARANOA"
+  },
+  {
+    "codigo": "3212033",
+    "sigla": "UBS 4 SSB",
+    "nome": "UBS 4 MORRO AZUL SAO SEBASTIAO"
+  },
+  {
+    "codigo": "6216013",
+    "sigla": "UBS 4 PLA",
+    "nome": "UBS 4 PLANALTINA"
+  },
+  {
+    "codigo": "7687079",
+    "sigla": "UBS 4 SOB",
+    "nome": "UBS 4 ROTA DO CAVALO SOBRADINHO"
+  },
+  {
+    "codigo": "7493576",
+    "sigla": "UBS 4 SMA",
+    "nome": "UBS 4 SANTA MARIA"
+  },
+  {
+    "codigo": "6770665",
+    "sigla": "UBS 4 SB2",
+    "nome": "UBS 4 SETOR DE MANSOES SOBRADINHO II"
+  },
+  {
+    "codigo": "3742865",
+    "sigla": "UBS 4 BRA",
+    "nome": "UBS 4 VEREDAS II BRAZLANDIA"
+  },
+  {
+    "codigo": "6770657",
+    "sigla": "UBS 5 SOB",
+    "nome": "UBS 5 BASEVI SOBRADINHO"
+  },
+  {
+    "codigo": "0011614",
+    "sigla": "UBS 5 PAR",
+    "nome": "UBS 5 CAPAO SECO PARANOA"
+  },
+  {
+    "codigo": "0011010",
+    "sigla": "UBS 5 CEI",
+    "nome": "UBS 5 CEILANDIA"
+  },
+  {
+    "codigo": "3144631",
+    "sigla": "UBS 5 BRA",
+    "nome": "UBS 5 CHAPADINHA BRAZLANDIA"
+  },
+  {
+    "codigo": "0010863",
+    "sigla": "UBS 5 GAM",
+    "nome": "UBS 5 GAMA"
+  },
+  {
+    "codigo": "0011363",
+    "sigla": "UBS 5 SSB",
+    "nome": "UBS 5 NOVA BETANIA SAO SEBASTIAO"
+  },
+  {
+    "codigo": "6216021",
+    "sigla": "UBS 5 PLA",
+    "nome": "UBS 5 PLANALTINA"
+  },
+  {
+    "codigo": "3144593",
+    "sigla": "UBS 5 SMA",
+    "nome": "UBS 5 SANTA MARIA"
+  },
+  {
+    "codigo": "7686730",
+    "sigla": "UBS 5 SB2",
+    "nome": "UBS 5 SETOR DE MANSOES SOBRADINHO II"
+  },
+  {
+    "codigo": "0011495",
+    "sigla": "UBS 6 BRA",
+    "nome": "UBS 6 ALMECEGAS BRAZLANDIA"
+  },
+  {
+    "codigo": "5050340",
+    "sigla": "UBS 6 PLA",
+    "nome": "UBS 6 ARAPOANGA PLANALTINA"
+  },
+  {
+    "codigo": "2804107",
+    "sigla": "UBS 6 PAR",
+    "nome": "UBS 6 CARIRU PARANOA"
+  },
+  {
+    "codigo": "0011029",
+    "sigla": "UBS 6 CEI",
+    "nome": "UBS 6 CEILANDIA"
+  },
+  {
+    "codigo": "0010871",
+    "sigla": "UBS 6 GAM",
+    "nome": "UBS 6 GAMA"
+  },
+  {
+    "codigo": "2804387",
+    "sigla": "UBS 6 SOB",
+    "nome": "UBS 6 LAGO OESTE SOBRADINHO"
+  },
+  {
+    "codigo": "3144607",
+    "sigla": "UBS 6 SMA",
+    "nome": "UBS 6 SANTA MARIA"
+  },
+  {
+    "codigo": "3212017",
+    "sigla": "UBS 6 SSB",
+    "nome": "UBS 6 SAO FRANCISCO SAO SEBASTIAO"
+  },
+  {
+    "codigo": "7041594",
+    "sigla": "UBS 6 SB2",
+    "nome": "UBS 6 VALE DAS ACACIAS SOBRADINHO II"
+  },
+  {
+    "codigo": "0957755",
+    "sigla": "UBS 7 SB2",
+    "nome": "UBS 7 BURITIZINHO SOBRADINHO II"
+  },
+  {
+    "codigo": "7075596",
+    "sigla": "UBS 7 PAR",
+    "nome": "UBS 7 CAFE SEM TROCO PARANOA"
+  },
+  {
+    "codigo": "0011037",
+    "sigla": "UBS 7 CEI",
+    "nome": "UBS 7 CEILANDIA"
+  },
+  {
+    "codigo": "0010898",
+    "sigla": "UBS 7 GAM",
+    "nome": "UBS 7 GAMA"
+  },
+  {
+    "codigo": "0011509",
+    "sigla": "UBS 7 BRA",
+    "nome": "UBS 7 INCRA 08 BRAZLANDIA"
+  },
+  {
+    "codigo": "2360233",
+    "sigla": "UBS 7 PLA",
+    "nome": "UBS 7 JARDIM RORIZ PLANALTINA"
+  },
+  {
+    "codigo": "3781402",
+    "sigla": "UBS 7 SSB",
+    "nome": "UBS 7 MORRO DA CRUZ SAO SEBASTIAO"
+  },
+  {
+    "codigo": "3144569",
+    "sigla": "UBS 7 SMA",
+    "nome": "UBS 7 SANTA MARIA"
+  },
+  {
+    "codigo": "7975295",
+    "sigla": "UBS 8 SSB",
+    "nome": "UBS 8 CAVAS DE BAIXO SAO SEBASTIAO"
+  },
+  {
+    "codigo": "0011045",
+    "sigla": "UBS 8 CEI",
+    "nome": "UBS 8 CEILANDIA"
+  },
+  {
+    "codigo": "0011630",
+    "sigla": "UBS 8 PAR",
+    "nome": "UBS 8 PADDF PARANOA"
+  },
+  {
+    "codigo": "7559194",
+    "sigla": "UBS 8 SMA",
+    "nome": "UBS 8 SANTA MARIA"
+  },
+  {
+    "codigo": "9571280",
+    "sigla": "UBS 8 BRA",
+    "nome": "UBS 8 TORRE DE BRAZLANDIA"
+  },
+  {
+    "codigo": "5050359",
+    "sigla": "UBS 8 PLA",
+    "nome": "UBS 8 VALE DO AMANHECER PLANALTINA"
+  },
+  {
+    "codigo": "0011053",
+    "sigla": "UBS 9 CEI",
+    "nome": "UBS 9 CEILANDIA"
+  },
+  {
+    "codigo": "2779404",
+    "sigla": "UBS 9 GAM",
+    "nome": "UBS 9 ENGENHO DAS LAGES GAMA"
+  },
+  {
+    "codigo": "3742873",
+    "sigla": "UBS 9 SSB",
+    "nome": "UBS 9 RESIDENCIAL DO BOSQUE 1 SAO SEBASTIAO"
+  },
+  {
+    "codigo": "7740581",
+    "sigla": "UBS 9 SMA",
+    "nome": "UBS 9 SANTA MARIA"
+  },
+  {
+    "codigo": "2672235",
+    "sigla": "UBS 9 PLA",
+    "nome": "UBS 9 SANTOS DUMONT PLANALTINA"
+  },
+  {
+    "codigo": "9548203",
+    "sigla": "UBS 9 BRA",
+    "nome": "UBS 9 ZONA RURAL DE BRAZLANDIA"
+  },
+  {
+    "codigo": "3012093",
+    "sigla": "UBSF I",
+    "nome": "UBSF SHOPPING PARK I"
+  },
+  {
+    "codigo": "5090881",
+    "sigla": "UBSF II",
+    "nome": "UBSF TAIAMAN II"
+  },
+  {
+    "codigo": "4517393",
+    "sigla": "UBS PED IX",
+    "nome": "UNIDADE BASICA DE SAUDE PED IX I"
+  },
+  {
+    "codigo": "7686455",
+    "sigla": "UBS VPI",
+    "nome": "UNIDADE BASICA DE SAUDE UBS GUARA VICENTE PIRES"
+  },
+  {
+    "codigo": "3864359",
+    "sigla": "UB JARDIM INGA",
+    "nome": "UNIDADE BASICA DO JARDIM INGA"
+  },
+  {
+    "codigo": "2840499",
+    "sigla": "UPA BRA",
+    "nome": "UNIDADE DE PRONTO ATENDIMENTO UPA BRAZLANDIA"
+  },
+  {
+    "codigo": "0939145",
+    "sigla": "UPA GAM",
+    "nome": "UNIDADE DE PRONTO ATENDIMENTO UPA GAMA"
+  },
+  {
+    "codigo": "0924857",
+    "sigla": "UPA II CEI",
+    "nome": "UNIDADE DE PRONTO ATENDIMENTO UPA II CEILANDIA"
+  },
+  {
+    "codigo": "0935514",
+    "sigla": "UPA PAR",
+    "nome": "UNIDADE DE PRONTO ATENDIMENTO UPA PARANOA"
+  },
+  {
+    "codigo": "0969877",
+    "sigla": "UPA PLA",
+    "nome": "UNIDADE DE PRONTO ATENDIMENTO UPA PLANALTINA"
+  },
+  {
+    "codigo": "0945595",
+    "sigla": "UPA RFU",
+    "nome": "UNIDADE DE PRONTO ATENDIMENTO UPA RIACHO FUNDO"
+  },
+  {
+    "codigo": "0996068",
+    "sigla": "UPA VPI",
+    "nome": "UNIDADE DE PRONTO ATENDIMENTO UPA VICENTE PIRES"
+  },
+  {
+    "codigo": "7465157",
+    "sigla": "UPA CEI",
+    "nome": "UPA CEILANDIA"
+  },
+  {
+    "codigo": "7111924",
+    "sigla": "UPA NBA",
+    "nome": "UPA NUCLEO BANDEIRANTE"
+  },
+  {
+    "codigo": "7078730",
+    "sigla": "UPA RDE",
+    "nome": "UPA RECANTO DAS EMAS"
+  },
+  {
+    "codigo": "6708714",
+    "sigla": "UPA SAM",
+    "nome": "UPA SAMAMBAIA"
+  },
+  {
+    "codigo": "7592477",
+    "sigla": "UPA SOB",
+    "nome": "UPA SOBRADINHO"
+  },
+  {
+    "codigo": "7116756",
+    "sigla": "UPA SSB",
+    "nome": "UPA UNIDADE DE PRONTO ATENDIMENTO DE SAO SEBASTIAO"
+  },
+  {
+    "codigo": "7980221",
+    "sigla": "VISAO",
+    "nome": "VISAO HOSPITAL DE OLHOS"
+  },
+  {
+    "codigo": "3548104",
+    "sigla": "VISTA",
+    "nome": "VISTA HOSPITAL DA CATARATA DE BRASILIA"
+  }
+]

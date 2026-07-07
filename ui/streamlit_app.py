@@ -382,6 +382,30 @@ def _render_meta(prov: dict, elapsed: float | None = None) -> None:
         st.markdown(f'<div class="fe-meta">{" &middot; ".join(bits)}</div>', unsafe_allow_html=True)
 
 
+def _render_chart_or_scalar(resposta: dict) -> None:
+    """Renderiza grafico Plotly se shape!=scalar, ou st.metric se shape=scalar."""
+    chart = resposta.get("chart")
+    dados = resposta.get("dados") or {}
+    if chart:
+        st.plotly_chart(chart, use_container_width=True)
+        return
+    # Scalar -> metric card
+    if dados.get("shape") == "scalar" and dados.get("data"):
+        prov = resposta.get("proveniencia", {}) or {}
+        metric = prov.get("metric", "Resultado")
+        units = dados.get("units", "")
+        try:
+            value = dados["data"][0].get("value")
+            if isinstance(value, (int, float)):
+                formatted = f"{value:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".") if units == "%" else f"{int(value):,}".replace(",", ".")
+            else:
+                formatted = str(value)
+        except Exception:
+            formatted = "—"
+        label_suffix = f" ({units})" if units and units != "documentos" else ""
+        st.metric(label=f"{metric}{label_suffix}", value=formatted)
+
+
 def _render_details(resposta: dict) -> None:
     """Expansores tecnicos discretos (proveniencia + dados crus)."""
     col1, col2 = st.columns(2)
@@ -400,6 +424,7 @@ for entry in st.session_state.history:
         st.markdown(entry["pergunta"])
     with st.chat_message("assistant"):
         st.markdown(entry["resposta"]["narrativa"])
+        _render_chart_or_scalar(entry["resposta"])
         _render_meta(entry["resposta"].get("proveniencia", {}))
         _render_details(entry["resposta"])
 
@@ -424,6 +449,7 @@ if pergunta:
                 ).json()
                 elapsed = time.time() - t0
                 st.markdown(response["narrativa"])
+                _render_chart_or_scalar(response)
                 _render_meta(response.get("proveniencia", {}), elapsed=elapsed)
                 _render_details(response)
                 st.session_state.history.append({"pergunta": pergunta, "resposta": response})
