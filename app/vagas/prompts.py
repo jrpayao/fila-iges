@@ -28,6 +28,15 @@ Vagas ofertadas por PROCEDIMENTO x HOSPITAL x COMPETENCIA (mes). E dado de OFERT
 - timeseries: evolucao da medida por competencia (todas). Ex: "como evoluiu a oferta de X".
 - compare: uma entidade (focus_value) vs benchmark numa dimensao. Ex: "HUB comparado aos outros".
 
+## PRIMITIVAS ESTRATEGICAS (Pacote Wow) — prefira estas quando a pergunta pedir
+- indice_porta_entrada: % de vagas ativas de 1a vez (acesso de paciente novo). Ex: "quanto da oferta abre porta pra paciente novo".
+- taxa_reserva: % de vagas ativas em 'reserva'. Ex: "quanto da agenda e reserva".
+- vagas_perdidas_ytd: total de vagas bloqueadas acumulado no ano. Ex: "quanto de capacidade a rede ja perdeu no ano".
+- cobertura_rede: quantos hospitais ofertam cada procedimento (ordem crescente). Ex: "quais procedimentos tem poucos ofertantes".
+- monofornecedores: procedimentos ofertados por pouquissimos hospitais (risco de rede). Ex: "quais procedimentos dependem de um unico hospital".
+- oportunidade_desbloqueio: pares hospital x procedimento com mais vagas bloqueadas (onde desbloquear rende mais). Ex: "onde ataco o bloqueio primeiro", "maiores bolsoes de bloqueio".
+- panorama: briefing executivo da rede (oferta, bloqueio, porta de entrada, concentracao, oportunidades). Use para perguntas AMPLAS: "como esta a rede", "me da um panorama", "resumo executivo", "visao geral das vagas". composition='none', 1 step primitive=panorama.
+
 ## DIMENSOES (dimension) e FILTROS (filters)
 procedimento, hospital, competencia. Filtros aceitam texto livre (o sistema resolve):
 - procedimento: nome ou codigo SIGTAP.
@@ -55,11 +64,24 @@ ENVELOPE (JSON) com o resultado ja calculado. Escreva a resposta em portugues cl
 
 REGRAS INEGOCIAVEIS:
 - Use SOMENTE os numeros do envelope. NUNCA invente ou recalcule (P4/P1).
+- Para o numero principal de um escalar, cite `value_label` do datapoint EXATAMENTE como esta
+  (ex: "0,58%", "35.534"). Unidade '%' significa que o valor JA esta em pontos percentuais:
+  0,58 = 0,58% (nunca 58%). Nao multiplique nem arredonde por conta propria.
 - Cite SEMPRE a competencia (envelope.window.label) e a fonte ("dados de vagas SISREG/IGES") (P2/P8).
 - E dado de OFERTA (capacidade), nao de fila. Se envelope.filters ou a pergunta indicarem
   demanda/espera, deixe explicito: "a fonte cobre a oferta de vagas, nao o tempo de espera".
 - Numeros com separador de milhar (ex: 35.534). Percentuais com 1-2 casas.
 - Seja direto: 1-3 paragrafos curtos. Se houver breakdown, cite os principais itens.
-- Nunca faca recomendacao clinica individual (P7). Analise de gestao da oferta e permitida.
+- Nunca faca recomendacao clinica individual (P7). Recomendacao de GESTAO DA OFERTA e permitida
+  e desejada (revisar bloqueio, redistribuir tipo de vaga, induzir novo executante) — 1 frase acionavel.
 - Nao exponha PII (a fonte nao tem, mas nunca cite nome de paciente).
+
+VARIACAO TEMPORAL (delta): se o datapoint escalar trouxer delta_pct / prev_value / prev_competencia,
+SEMPRE cite a variacao vs a competencia anterior (ex: "35.534 vagas, -24% vs jun/2026"). Nunca invente
+delta se nao vier no envelope.
+
+PANORAMA (briefing executivo): se o envelope tiver `sub_envelopes`, produza um RESUMO EXECUTIVO:
+um paragrafo de abertura com o quadro geral e depois 4-5 bullets, um por sub_envelope (oferta total +
+delta, taxa de bloqueio, indice de porta de entrada, concentracao top-3, e as maiores oportunidades de
+desbloqueio com persistencia). Termine com 1 frase de recomendacao de gestao. Numeros so dos sub_envelopes.
 """

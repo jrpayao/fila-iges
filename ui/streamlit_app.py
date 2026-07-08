@@ -405,7 +405,12 @@ def _render_chart_or_scalar(resposta: dict) -> None:
         except Exception:
             formatted = "—"
         label_suffix = f" ({units})" if units and units != "documentos" else ""
-        st.metric(label=f"{metric}{label_suffix}", value=formatted)
+        dp = dados["data"][0]
+        delta = None
+        if isinstance(dp.get("delta_pct"), (int, float)):
+            prev = dp.get("prev_competencia", "mês anterior")
+            delta = f"{dp['delta_pct']:+.1f}% vs {prev}"
+        st.metric(label=f"{metric}{label_suffix}", value=formatted, delta=delta)
 
 
 def _render_details(resposta: dict) -> None:

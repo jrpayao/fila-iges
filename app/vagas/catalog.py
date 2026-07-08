@@ -96,6 +96,47 @@ CATALOG: dict[str, MetricDef] = {
         default_shape=Shape.BREAKDOWN,
         measure="vagas_ativas",
     ),
+    # --- derivadas do Pacote Wow (so com os campos existentes) ---
+    "indice_porta_entrada": MetricDef(
+        name="indice_porta_entrada",
+        description="% das vagas ativas que sao de 1a vez (acesso de paciente novo) = ativ_1 / vagas_ativas",
+        default_unit="%",
+        default_shape=Shape.SCALAR,
+        kind=MetricKind.DERIVED,
+        depends_on=("vagas_ativas",),
+        method_note="indice_porta_entrada = ativ_1 / vagas_ativas * 100. Baixo = rede fechada a paciente novo.",
+    ),
+    "taxa_reserva": MetricDef(
+        name="taxa_reserva",
+        description="% das vagas ativas em 'reserva' (nao circulam pela regulacao aberta) = ativ_reserva / vagas_ativas",
+        default_unit="%",
+        default_shape=Shape.SCALAR,
+        kind=MetricKind.DERIVED,
+        depends_on=("vagas_ativas",),
+        method_note="taxa_reserva = ativ_reserva / vagas_ativas * 100.",
+    ),
+    "cobertura_rede": MetricDef(
+        name="cobertura_rede",
+        description="Numero de hospitais que ofertam cada procedimento (resiliencia da rede)",
+        default_unit="hospitais",
+        default_shape=Shape.BREAKDOWN,
+        method_note="Contagem de hospitais distintos com vagas_disponiveis > 0 por procedimento.",
+    ),
+    "vagas_perdidas_ytd": MetricDef(
+        name="vagas_perdidas_ytd",
+        description="Soma de vagas bloqueadas de janeiro ate a competencia (custo acumulado do bloqueio no ano)",
+        default_unit="vagas-mes",
+        default_shape=Shape.SCALAR,
+        kind=MetricKind.DERIVED,
+        method_note="Soma de vagas_bloqueadas de jan/AAAA ate a competencia informada.",
+    ),
+    "oportunidade_desbloqueio": MetricDef(
+        name="oportunidade_desbloqueio",
+        description="Pares hospital x procedimento com mais vagas bloqueadas — onde desbloquear rende mais",
+        default_unit="vagas",
+        default_shape=Shape.BREAKDOWN,
+        method_note="Top-N pares (hospital, procedimento) por vagas_bloqueadas, com meses de persistencia.",
+    ),
 }
 
 # Nomes exportados para validacao do planejador (P9).

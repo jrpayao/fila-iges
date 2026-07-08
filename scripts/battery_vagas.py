@@ -45,6 +45,13 @@ CASES = [
     # H — off-topic
     ("H_offtopic", "Qual a previsao do tempo amanha em Brasilia?", {"scope": "off"}),
     ("H_offtopic", "Qual o melhor tratamento para hipertensao?", {"scope": "off"}),
+    # I — Pacote Wow (estrategicas)
+    ("I_wow", "Me da um panorama executivo da rede de vagas.", {"scope": "in", "shape": "breakdown", "primitive": "panorama"}),
+    ("I_wow", "Onde eu ataco o bloqueio de vagas primeiro?", {"scope": "in", "shape": "breakdown", "primitive": "oportunidade_desbloqueio"}),
+    ("I_wow", "Quanto da oferta ativa abre porta para paciente novo?", {"scope": "in", "shape": "scalar", "primitive": "indice_porta_entrada"}),
+    ("I_wow", "Qual a taxa de reserva das vagas neste mes?", {"scope": "in", "shape": "scalar", "primitive": "taxa_reserva"}),
+    ("I_wow", "Quais procedimentos dependem de pouquissimos hospitais?", {"scope": "in", "shape": "breakdown", "primitive": "monofornecedores"}),
+    ("I_wow", "Quantas vagas a rede ja perdeu por bloqueio acumulado no ano?", {"scope": "in", "shape": "scalar", "primitive": "vagas_perdidas_ytd"}),
 ]
 
 

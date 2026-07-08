@@ -27,7 +27,12 @@ class VagasStep(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     label: str = Field(..., description="Identificador unico no plano (ex: 'total_proc', 'serie').")
-    primitive: Literal["total", "taxa_bloqueio", "breakdown", "mix_tipo_vaga", "timeseries", "compare"]
+    primitive: Literal[
+        "total", "taxa_bloqueio", "breakdown", "mix_tipo_vaga", "timeseries", "compare",
+        # Pacote Wow (estrategicas):
+        "indice_porta_entrada", "taxa_reserva", "vagas_perdidas_ytd",
+        "cobertura_rede", "monofornecedores", "oportunidade_desbloqueio", "panorama",
+    ]
     metric: Literal["vagas_disponiveis", "vagas_ativas", "vagas_bloqueadas"] = Field(
         "vagas_disponiveis",
         description="Medida a agregar. Ignorada por taxa_bloqueio. Em mix_tipo_vaga, use vagas_ativas.",

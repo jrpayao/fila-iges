@@ -19,7 +19,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 4.2
+    "elapsed_s": 4.4
   },
   {
     "id": 2,
@@ -41,7 +41,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 3.6
+    "elapsed_s": 3.7
   },
   {
     "id": 3,
@@ -63,7 +63,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 3.5
+    "elapsed_s": 4.1
   },
   {
     "id": 4,
@@ -85,7 +85,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 4.8
+    "elapsed_s": 4.7
   },
   {
     "id": 5,
@@ -107,7 +107,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 4.8
+    "elapsed_s": 5.5
   },
   {
     "id": 6,
@@ -129,7 +129,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 6.3
+    "elapsed_s": 6.4
   },
   {
     "id": 7,
@@ -151,7 +151,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 3.9
+    "elapsed_s": 4.6
   },
   {
     "id": 8,
@@ -173,7 +173,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 3.9
+    "elapsed_s": 4.4
   },
   {
     "id": 9,
@@ -195,7 +195,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 3.4
+    "elapsed_s": 5.2
   },
   {
     "id": 10,
@@ -217,7 +217,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 4.6
+    "elapsed_s": 4.7
   },
   {
     "id": 11,
@@ -239,7 +239,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 6.5
+    "elapsed_s": 5.4
   },
   {
     "id": 12,
@@ -305,7 +305,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 3.9
+    "elapsed_s": 4.1
   },
   {
     "id": 15,
@@ -327,7 +327,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 4.9
+    "elapsed_s": 4.3
   },
   {
     "id": 16,
@@ -349,7 +349,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 4.6
+    "elapsed_s": 7.9
   },
   {
     "id": 17,
@@ -370,7 +370,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 4.1
+    "elapsed_s": 5.1
   },
   {
     "id": 18,
@@ -391,7 +391,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 4.0
+    "elapsed_s": 4.1
   },
   {
     "id": 19,
@@ -423,8 +423,140 @@
     "primitives": [],
     "caveat": false,
     "clarifications": [],
-    "refusal": "Pergunta sobre conduta clinica individual, nao relacionada a vagas/capacidade SISREG.",
+    "refusal": "Pergunta sobre conduta clinica individual, nao relacionada a vagas ou capacidade hospitalar.",
     "error": null,
     "elapsed_s": 1.5
+  },
+  {
+    "id": 21,
+    "cat": "I_wow",
+    "q": "Me da um panorama executivo da rede de vagas.",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "breakdown",
+    "primitives": [
+      "panorama"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 7.1
+  },
+  {
+    "id": 22,
+    "cat": "I_wow",
+    "q": "Onde eu ataco o bloqueio de vagas primeiro?",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "breakdown",
+    "primitives": [
+      "oportunidade_desbloqueio"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 6.3
+  },
+  {
+    "id": 23,
+    "cat": "I_wow",
+    "q": "Quanto da oferta ativa abre porta para paciente novo?",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "scalar",
+    "primitives": [
+      "indice_porta_entrada"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 4.2
+  },
+  {
+    "id": 24,
+    "cat": "I_wow",
+    "q": "Qual a taxa de reserva das vagas neste mes?",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "scalar",
+    "primitives": [
+      "taxa_reserva"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 4.1
+  },
+  {
+    "id": 25,
+    "cat": "I_wow",
+    "q": "Quais procedimentos dependem de pouquissimos hospitais?",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "breakdown",
+    "primitives": [
+      "monofornecedores"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 4.7
+  },
+  {
+    "id": 26,
+    "cat": "I_wow",
+    "q": "Quantas vagas a rede ja perdeu por bloqueio acumulado no ano?",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "scalar",
+    "primitives": [
+      "vagas_perdidas_ytd"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 3.7
   }
 ]

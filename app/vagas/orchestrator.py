@@ -126,6 +126,21 @@ def _execute_step(step: VagasStep, df: pd.DataFrame, *, request_id: str) -> tupl
             raise ValueError(f"step '{step.label}': compare exige dimension + focus_value")
         focus = _resolve_focus(step.dimension, step.focus_value, df)
         env = P.compare(df, metric=step.metric, dimension=step.dimension, focus_value=focus, filters=filters, competencia=competencia, top_n=step.top_n, request_id=request_id)
+    # --- Pacote Wow ---
+    elif prim == "indice_porta_entrada":
+        env = P.indice_porta_entrada(df, filters=filters, competencia=competencia, request_id=request_id)
+    elif prim == "taxa_reserva":
+        env = P.taxa_reserva(df, filters=filters, competencia=competencia, request_id=request_id)
+    elif prim == "vagas_perdidas_ytd":
+        env = P.vagas_perdidas_ytd(df, filters=filters, competencia=competencia, request_id=request_id)
+    elif prim == "cobertura_rede":
+        env = P.cobertura_rede(df, filters=filters, competencia=competencia, top_n=step.top_n, request_id=request_id)
+    elif prim == "monofornecedores":
+        env = P.cobertura_rede(df, filters=filters, competencia=competencia, top_n=step.top_n, max_hospitais=2, request_id=request_id)
+    elif prim == "oportunidade_desbloqueio":
+        env = P.oportunidade_desbloqueio(df, filters=filters, competencia=competencia, top_n=step.top_n, request_id=request_id)
+    elif prim == "panorama":
+        env = P.panorama(df, filters=filters, competencia=competencia, request_id=request_id)
     else:
         raise ValueError(f"primitiva desconhecida: {prim}")
     return env, []
