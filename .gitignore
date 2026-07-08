@@ -50,3 +50,7 @@ data/*.sqlite
 fila-eletiva.zip
 *.code-workspace
 .claude/
+
+# Artefatos temporarios do caprover deploy
+temporary-captain-to-deploy.tar
+capout.json

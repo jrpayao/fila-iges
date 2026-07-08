@@ -24,6 +24,7 @@ COPY start.sh /app/start.sh
 
 # Usuario nao-root + diretorios persistentes (cache de vagas + logs diarios)
 RUN useradd --create-home --uid 1000 appuser \
+    && sed -i 's/\r$//' /app/start.sh \
     && mkdir -p /app/data /app/logs \
     && chmod +x /app/start.sh \
     && chown -R appuser:appuser /app

@@ -1,0 +1,4 @@
+# Scripts shell sempre em LF (evita "exec: no such file or directory" no Docker)
+*.sh text eol=lf
+start.sh text eol=lf
+Dockerfile text eol=lf
