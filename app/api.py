@@ -84,6 +84,7 @@ class ChatResponse(BaseModel):
     dados: Any | None
     proveniencia: dict[str, Any]
     chart: dict[str, Any] | None = None
+    sugestoes: list[dict[str, Any]] = []
 
 
 @app.get("/")

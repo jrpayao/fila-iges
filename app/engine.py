@@ -19,6 +19,7 @@ from typing import Any
 from app.agent.envelope import Envelope
 from app.agent.plan import ClarificationRequest
 from app.agent.skills.chart import to_plotly_dict
+from app.vagas import suggestions as _suggestions
 from app.vagas.orchestrator import VagasResponse as AgentResponse
 from app.vagas.orchestrator import ask as _agent_ask
 
@@ -70,6 +71,7 @@ def ask(
         "dados": _envelope_to_dados(resp.envelope) if resp.envelope else None,
         "proveniencia": proveniencia,
         "chart": chart,
+        "sugestoes": _suggestions.build(resp),
     }
 
 

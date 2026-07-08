@@ -338,30 +338,6 @@ with st.sidebar:
             st.session_state["pending_question"] = question
             st.rerun()
 
-    st.markdown("### O que estão perguntando")
-    try:
-        ins = httpx.get(f"{API_BASE_URL}/insights?days=7", timeout=5, auth=_AUTH).json()
-        total = ins.get("total_perguntas", 0)
-        if total:
-            st.caption(f"{total} perguntas nos últimos 7 dias")
-            tops = ins.get("top_metricas", [])[:3]
-            if tops:
-                st.markdown("**Mais pedidos:** " + ", ".join(f"{k} ({v})" for k, v in tops))
-            procs = ins.get("top_procedimentos", [])[:2]
-            if procs:
-                st.caption("Procedimentos: " + ", ".join(f"{str(k)[:22]} ({v})" for k, v in procs))
-            lac = ins.get("lacunas", {})
-            dem = lac.get("perguntas_de_demanda_fila", 0)
-            if dem:
-                st.markdown(f"⚠️ **{dem}** perguntas sobre fila/espera — a fonte só cobre a oferta.")
-            campos = lac.get("campos_nao_resolvidos", [])
-            if campos:
-                st.caption("Não resolvidos: " + ", ".join(f"{k}×{v}" for k, v in campos[:3]))
-        else:
-            st.caption("Ainda sem perguntas registradas.")
-    except Exception:
-        st.caption("Insights indisponíveis.")
-
     st.markdown(
         f'<div class="fe-footer">'
         f"<strong>IGES-DF</strong> &middot; ZELLO<br>"
@@ -449,8 +425,23 @@ def _render_details(resposta: dict) -> None:
                 st.json(resposta["dados"], expanded=False)
 
 
-# ===== Renderiza historico =====
-for entry in st.session_state.history:
+def _render_sugestoes(resposta: dict, key_prefix: str) -> None:
+    """Chips de acompanhamento — clicar vira a proxima pergunta (usa a memoria)."""
+    sugs = resposta.get("sugestoes") or []
+    if not sugs:
+        return
+    st.caption("Continue explorando:")
+    cols = st.columns(len(sugs))
+    for i, (col, s) in enumerate(zip(cols, sugs)):
+        with col:
+            if st.button(s["label"], key=f"{key_prefix}-{i}", use_container_width=True):
+                st.session_state["pending_question"] = s["question"]
+                st.rerun()
+
+
+# ===== Renderiza historico (unico caminho de render; chips sob a ultima resposta) =====
+_n_hist = len(st.session_state.history)
+for idx, entry in enumerate(st.session_state.history):
     with st.chat_message("user"):
         st.markdown(entry["pergunta"])
     with st.chat_message("assistant"):
@@ -458,9 +449,11 @@ for entry in st.session_state.history:
         _render_chart_or_scalar(entry["resposta"])
         _render_meta(entry["resposta"].get("proveniencia", {}))
         _render_details(entry["resposta"])
+        if idx == _n_hist - 1:
+            _render_sugestoes(entry["resposta"], key_prefix=f"sug-{idx}")
 
 # ===== Input =====
-pergunta = st.chat_input("Pergunte sobre a fila eletiva…")
+pergunta = st.chat_input("Pergunte sobre a oferta de vagas…")
 if pergunta is None and st.session_state.pending_question:
     pergunta = st.session_state.pending_question
     st.session_state.pending_question = None
@@ -468,10 +461,10 @@ if pergunta is None and st.session_state.pending_question:
 if pergunta:
     with st.chat_message("user"):
         st.markdown(pergunta)
+    _ok = False
     with st.chat_message("assistant"):
-        with st.spinner("Analisando dados da fila…"):
+        with st.spinner("Analisando as vagas…"):
             try:
-                t0 = time.time()
                 # Memoria de conversa: manda os ultimos turnos (compactos) pro backend.
                 history_payload = [
                     {
@@ -487,13 +480,11 @@ if pergunta:
                     timeout=120,
                     auth=_AUTH,
                 ).json()
-                elapsed = time.time() - t0
-                st.markdown(response["narrativa"])
-                _render_chart_or_scalar(response)
-                _render_meta(response.get("proveniencia", {}), elapsed=elapsed)
-                _render_details(response)
                 st.session_state.history.append({"pergunta": pergunta, "resposta": response})
+                _ok = True
             except httpx.ReadTimeout:
                 st.error("Tempo limite excedido — a consulta levou mais de 2 minutos.")
             except Exception as exc:
                 st.error(f"Erro ao consultar a API: {exc}")
+    if _ok:
+        st.rerun()  # re-renderiza pelo caminho unico (com os chips)
