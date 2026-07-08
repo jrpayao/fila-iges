@@ -34,15 +34,18 @@ class VagasStep(BaseModel):
         "cobertura_rede", "monofornecedores", "oportunidade_desbloqueio", "panorama",
         # 2a onda:
         "simular_desbloqueio", "anomalias", "raio_x_unidade",
+        # 3a onda:
+        "concentracao", "projecao", "comparar_hospitais", "plano_acao",
     ]
     metric: Literal["vagas_disponiveis", "vagas_ativas", "vagas_bloqueadas"] = Field(
         "vagas_disponiveis",
         description="Medida a agregar. Ignorada por taxa_bloqueio. Em mix_tipo_vaga, use vagas_ativas.",
     )
-    dimension: Optional[Literal["procedimento", "hospital", "competencia"]] = Field(
-        None, description="Dimensao do breakdown/compare."
+    dimension: Optional[Literal["procedimento", "especialidade", "hospital", "competencia"]] = Field(
+        None, description="Dimensao do breakdown/compare. 'especialidade' agrupa procedimentos (imagem, cardio, oftalmo...)."
     )
     focus_value: Optional[str] = Field(None, description="compare: entidade em destaque (nome de hospital/procedimento).")
+    hospital_b: Optional[str] = Field(None, description="comparar_hospitais: o segundo hospital (o primeiro vai em filters.hospital).")
     top_n: int = Field(10, ge=1, le=50)
     mix_base: Optional[Literal["ativas", "bloqueadas"]] = Field(
         None, description="mix_tipo_vaga: sobre vagas ativas ou bloqueadas (default ativas)."

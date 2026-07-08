@@ -559,3 +559,126 @@ def raio_x_unidade(df, *, hospital, competencia=None, request_id=None) -> Envelo
             "Veja sub_envelopes para oferta, porta de entrada e top procedimentos."
         ),
     })
+
+
+# ===== 3a onda — HHI, projecao, comparar hospitais, plano de acao =====
+
+
+def concentracao(df, *, filters=None, competencia=None, top_n=10, request_id=None) -> Envelope:
+    """HHI de concentracao da oferta. Procedimento filtrado -> escalar; senao -> top concentrados."""
+    filters = filters or {}
+    base = _apply_filters(df, filters)
+    fdf, comp = _select_competencia(base, competencia)
+    disp = fdf[fdf["vagas_disponiveis"].fillna(0) > 0]
+
+    if filters.get("procedimento"):
+        by_h = disp.groupby("hospital")["vagas_disponiveis"].sum()
+        tot = float(by_h.sum())
+        hhi = round(float(((by_h / tot) ** 2).sum()), 3) if tot else 0.0
+        top = by_h.sort_values(ascending=False)
+        dom = str(top.index[0]) if len(top) else "-"
+        dom_share = round(float(top.iloc[0] / tot * 100), 1) if tot else 0.0
+        note = (f"HHI={hhi} (0=pulverizado, 1=monopolio). {int(len(by_h))} hospitais ofertam; "
+                f"maior participacao: {dom} ({dom_share}%).")
+        return _scalar_env(
+            metric="concentracao", kind=MetricKind.DERIVED, value=hhi, units="HHI",
+            window=_window(comp), filters_meta=_filters_meta(filters, comp),
+            method_note=note, total_documents=int(len(by_h)), request_id=request_id,
+        )
+
+    rows = []
+    for proc, g in disp.groupby("procedimento"):
+        by_h = g.groupby("hospital")["vagas_disponiveis"].sum()
+        tot = float(by_h.sum())
+        if tot <= 0:
+            continue
+        rows.append((proc, round(float(((by_h / tot) ** 2).sum()), 3), int(len(by_h))))
+    rows.sort(key=lambda x: x[1], reverse=True)
+    buckets = [{"key": str(p)[:46], "value": h, "n_hospitais": n} for p, h, n in rows[:top_n]]
+    return Envelope.breakdown(
+        metric="concentracao", metric_kind=MetricKind.DERIVED, dimension="procedimento",
+        buckets=buckets, units="HHI", source_index=SOURCE, window=_window(comp),
+        filters=_filters_meta(filters, comp), total_documents=len(rows), request_id=request_id,
+    )
+
+
+def projecao(df, *, metric="vagas_disponiveis", filters=None, request_id=None) -> Envelope:
+    """Projecao transparente (P3) da oferta para a proxima competencia. Rotulada como estimativa."""
+    filters = filters or {}
+    base = _apply_filters(df, filters)
+    work = base.copy()
+    work["_m"] = catalog.measure_series(work, metric)
+    serie = work.groupby("competencia")["_m"].sum().sort_index()
+    if len(serie) < 2:
+        raise ValueError("serie curta demais para projetar")
+    last = int(serie.iloc[-1])
+    deltas = serie.diff().dropna().tail(3)
+    trend = int(round(float(deltas.mean()))) if len(deltas) else 0
+    proj = max(0, last + trend)
+    lastk = int(serie.index[-1])
+    m, a = lastk % 100, lastk // 100
+    nm, na = (1, a + 1) if m == 12 else (m + 1, a)
+    note = (
+        f"Estimativa (NAO previsao estatistica): projecao para {nm:02d}/{na} = ultimo valor ({last}) "
+        f"+ tendencia media dos ultimos {int(len(deltas))} meses ({trend:+d}) = {proj}. "
+        "Mantido o ritmo atual e sem repriorizacao."
+    )
+    return _scalar_env(
+        metric="projecao_oferta", kind=MetricKind.DERIVED, value=proj, units="vagas",
+        window=Window(gte=None, lte=None, label=f"projecao {nm:02d}/{na}"),
+        filters_meta={k: v for k, v in filters.items() if v},
+        method_note=note, total_documents=proj, request_id=request_id,
+    )
+
+
+def comparar_hospitais(df, *, hospital_a, hospital_b, competencia=None, request_id=None) -> Envelope:
+    """Head-to-head de dois hospitais: vagas, bloqueio e porta de entrada."""
+    def stat(h):
+        sub, _ = _select_competencia(_apply_filters(df, {"hospital": h}), competencia)
+        a = int(catalog.measure_series(sub, "vagas_ativas").sum())
+        b = int(catalog.measure_series(sub, "vagas_bloqueadas").sum())
+        tot = int(catalog.measure_series(sub, "vagas_disponiveis").sum())
+        p1 = int(sub["ativ_1"].fillna(0).sum())
+        return {
+            "vagas": tot,
+            "taxa_bloqueio": round(b / (a + b) * 100, 2) if (a + b) else 0.0,
+            "porta_entrada": round(p1 / a * 100, 2) if a else 0.0,
+        }
+
+    _, comp = _select_competencia(_apply_filters(df, {"hospital": hospital_a}), competencia)
+    sa, sb = stat(hospital_a), stat(hospital_b)
+    buckets = [
+        {"key": str(hospital_a)[:40], "value": sa["vagas"]},
+        {"key": str(hospital_b)[:40], "value": sb["vagas"]},
+    ]
+    note = (
+        f"{hospital_a}: {sa['vagas']} vagas, bloqueio {sa['taxa_bloqueio']}%, porta de entrada {sa['porta_entrada']}%. "
+        f"{hospital_b}: {sb['vagas']} vagas, bloqueio {sb['taxa_bloqueio']}%, porta de entrada {sb['porta_entrada']}%."
+    )
+    return Envelope.breakdown(
+        metric="comparar_hospitais", metric_kind=MetricKind.SNAPSHOT, dimension="hospital",
+        buckets=buckets, units="vagas", source_index=SOURCE, window=_window(comp),
+        filters={"competencia": comp.label, "hospital_a": hospital_a, "hospital_b": hospital_b},
+        method_note=note, total_documents=sa["vagas"] + sb["vagas"], request_id=request_id,
+    )
+
+
+def plano_acao(df, *, filters=None, competencia=None, request_id=None) -> Envelope:
+    """Plano de acao priorizado: cruza desbloqueio + monofornecedores + anomalias."""
+    filters = filters or {}
+    _, comp = _select_competencia(_apply_filters(df, filters), competencia)
+    subs = [
+        oportunidade_desbloqueio(df, filters=filters, competencia=comp, top_n=5, request_id=request_id),
+        cobertura_rede(df, filters=filters, competencia=comp, top_n=6, max_hospitais=2, request_id=request_id),
+        anomalias(df, dimension="hospital", filters=filters, competencia=comp, top_n=5, request_id=request_id),
+    ]
+    primary = subs[0]
+    return primary.model_copy(update={
+        "metric": "plano_acao",
+        "sub_envelopes": [e.model_dump(mode="json") for e in subs],
+        "method_note": (
+            f"Plano de acao ({comp.label}): priorize (1) desbloqueio das agendas com mais vagas travadas; "
+            "(2) inducao de novos executantes nos procedimentos monofornecedor; "
+            "(3) investigacao das maiores quedas de oferta. Recomendacao de gestao da oferta."
+        ),
+    })

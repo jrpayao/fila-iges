@@ -19,7 +19,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 4.5
+    "elapsed_s": 6.3
   },
   {
     "id": 2,
@@ -41,7 +41,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 4.5
+    "elapsed_s": 4.8
   },
   {
     "id": 3,
@@ -63,7 +63,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 5.0
+    "elapsed_s": 5.5
   },
   {
     "id": 4,
@@ -85,7 +85,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 4.9
+    "elapsed_s": 5.5
   },
   {
     "id": 5,
@@ -107,7 +107,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 6.1
+    "elapsed_s": 5.7
   },
   {
     "id": 6,
@@ -129,7 +129,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 6.7
+    "elapsed_s": 10.8
   },
   {
     "id": 7,
@@ -151,7 +151,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 5.1
+    "elapsed_s": 5.0
   },
   {
     "id": 8,
@@ -173,7 +173,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 5.2
+    "elapsed_s": 6.4
   },
   {
     "id": 9,
@@ -195,7 +195,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 4.4
+    "elapsed_s": 4.5
   },
   {
     "id": 10,
@@ -217,7 +217,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 8.2
+    "elapsed_s": 5.5
   },
   {
     "id": 11,
@@ -239,7 +239,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 9.7
+    "elapsed_s": 7.4
   },
   {
     "id": 12,
@@ -261,7 +261,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 5.3
+    "elapsed_s": 6.1
   },
   {
     "id": 13,
@@ -283,7 +283,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 4.8
+    "elapsed_s": 4.9
   },
   {
     "id": 14,
@@ -305,7 +305,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 5.4
+    "elapsed_s": 4.3
   },
   {
     "id": 15,
@@ -327,7 +327,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 6.2
+    "elapsed_s": 5.8
   },
   {
     "id": 16,
@@ -349,7 +349,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 7.1
+    "elapsed_s": 5.6
   },
   {
     "id": 17,
@@ -370,7 +370,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 4.7
+    "elapsed_s": 6.3
   },
   {
     "id": 18,
@@ -391,7 +391,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 5.1
+    "elapsed_s": 4.7
   },
   {
     "id": 19,
@@ -406,9 +406,9 @@
     "primitives": [],
     "caveat": false,
     "clarifications": [],
-    "refusal": "A pergunta é sobre clima, que está fora do escopo de vagas/capacidade SISREG do IGES.",
+    "refusal": "A pergunta é sobre clima, não sobre vagas hospitalares.",
     "error": null,
-    "elapsed_s": 1.7
+    "elapsed_s": 2.0
   },
   {
     "id": 20,
@@ -425,7 +425,7 @@
     "clarifications": [],
     "refusal": "A pergunta é sobre conduta clínica individual, não sobre vagas ou capacidade hospitalar.",
     "error": null,
-    "elapsed_s": 1.8
+    "elapsed_s": 1.6
   },
   {
     "id": 21,
@@ -447,7 +447,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 8.2
+    "elapsed_s": 8.9
   },
   {
     "id": 22,
@@ -469,7 +469,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 7.2
+    "elapsed_s": 7.6
   },
   {
     "id": 23,
@@ -491,7 +491,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 4.8
+    "elapsed_s": 6.0
   },
   {
     "id": 24,
@@ -513,7 +513,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 5.1
+    "elapsed_s": 4.9
   },
   {
     "id": 25,
@@ -535,7 +535,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 6.5
+    "elapsed_s": 8.3
   },
   {
     "id": 26,
@@ -557,7 +557,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 4.2
+    "elapsed_s": 4.5
   },
   {
     "id": 27,
@@ -579,7 +579,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 5.0
+    "elapsed_s": 5.3
   },
   {
     "id": 28,
@@ -601,7 +601,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 7.4
+    "elapsed_s": 6.3
   },
   {
     "id": 29,
@@ -623,6 +623,114 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 7.2
+    "elapsed_s": 8.3
+  },
+  {
+    "id": 30,
+    "cat": "K_wave3",
+    "q": "Quais especialidades tem mais vagas disponiveis?",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "breakdown",
+    "primitives": [
+      "breakdown"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 5.1
+  },
+  {
+    "id": 31,
+    "cat": "K_wave3",
+    "q": "Quais procedimentos dependem de poucos hospitais (concentracao)?",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true
+    },
+    "shape": "breakdown",
+    "primitives": [
+      "concentracao"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 6.1
+  },
+  {
+    "id": 32,
+    "cat": "K_wave3",
+    "q": "Qual a projecao de vagas para o proximo mes?",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "scalar",
+    "primitives": [
+      "projecao"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 5.8
+  },
+  {
+    "id": 33,
+    "cat": "K_wave3",
+    "q": "Compare o HUB com o Hospital de Base",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "breakdown",
+    "primitives": [
+      "comparar_hospitais"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 8.1
+  },
+  {
+    "id": 34,
+    "cat": "K_wave3",
+    "q": "Me da um plano de acao pra melhorar a oferta",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true
+    },
+    "shape": "breakdown",
+    "primitives": [
+      "plano_acao"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 10.9
   }
 ]

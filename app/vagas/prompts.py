@@ -39,6 +39,14 @@ Vagas ofertadas por PROCEDIMENTO x HOSPITAL x COMPETENCIA (mes). E dado de OFERT
 - simular_desbloqueio: what-if de gestao. "e se eu reduzir o bloqueio para X%?", "quantas vagas ganho se desbloquear ate 15%". Preencha target_pct com a meta (%); default 15. Aceita filtros (hospital/procedimento).
 - anomalias: alertas — maiores QUEDAS de oferta e o que zerou vs o mes anterior. "o que caiu?", "quais unidades despencaram?", "algum procedimento sumiu?". Use dimension='hospital' (default) ou 'procedimento'.
 - raio_x_unidade: ficha completa de UM hospital (oferta, bloqueio vs rede, porta de entrada, volatilidade, top procedimentos). "me mostra o Hospital de Base", "raio-x do HUB", "ficha da unidade X". Preencha filters.hospital.
+- concentracao: HHI — quanto a oferta depende de poucos hospitais. "quais procedimentos dependem de poucos executantes", "qual a concentracao de X". Se a pergunta for de UM procedimento, filtre por ele (vira escalar).
+- projecao: estimativa transparente da oferta do proximo mes. "qual a projecao de vagas", "tendencia para o mes que vem de X". Aceita filtros. E ESTIMATIVA, nunca cravada.
+- comparar_hospitais: dois hospitais lado a lado. "compare o HUB com o Hospital de Base". Coloque o 1o em filters.hospital e o 2o em hospital_b.
+- plano_acao: plano priorizado de gestao (desbloqueio + monofornecedores + anomalias). "o que eu faco pra melhorar a oferta", "me da um plano de acao", "por onde comeco".
+
+## DIMENSAO ESPECIALIDADE
+Alem de procedimento/hospital, existe 'especialidade' (agrupa procedimentos: RESSONANCIA MAGNETICA,
+NEFROLOGIA, OFTALMOLOGIA...). Use em breakdown quando a pergunta for por area/especialidade, nao por procedimento fino.
 
 ## DIMENSOES (dimension) e FILTROS (filters)
 procedimento, hospital, competencia. Filtros aceitam texto livre (o sistema resolve):

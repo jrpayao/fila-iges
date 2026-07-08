@@ -39,6 +39,7 @@ MIX_COMPONENTS: dict[str, dict[str, str]] = {
 
 DIMENSIONS: dict[str, str] = {
     "procedimento": "procedimento",
+    "especialidade": "especialidade",
     "hospital": "hospital",
     "competencia": "competencia",
 }
@@ -159,6 +160,37 @@ CATALOG: dict[str, MetricDef] = {
         default_unit="vagas",
         default_shape=Shape.BREAKDOWN,
         method_note="Diagnostico de um hospital com contexto de rede (medianas) e volatilidade.",
+    ),
+    # --- 3a onda ---
+    "concentracao": MetricDef(
+        name="concentracao",
+        description="Indice HHI de concentracao da oferta (dependencia de poucos executantes)",
+        default_unit="HHI",
+        default_shape=Shape.BREAKDOWN,
+        kind=MetricKind.DERIVED,
+        method_note="HHI = soma dos quadrados das participacoes dos hospitais. >0,25 = concentrado.",
+    ),
+    "projecao_oferta": MetricDef(
+        name="projecao_oferta",
+        description="Projecao transparente da oferta para a proxima competencia (estimativa, nao previsao)",
+        default_unit="vagas",
+        default_shape=Shape.SCALAR,
+        kind=MetricKind.DERIVED,
+        method_note="Ultimo valor + tendencia media dos ultimos 3 meses. Rotulada como estimativa (P3).",
+    ),
+    "comparar_hospitais": MetricDef(
+        name="comparar_hospitais",
+        description="Head-to-head de dois hospitais (vagas, bloqueio, porta de entrada)",
+        default_unit="vagas",
+        default_shape=Shape.BREAKDOWN,
+        method_note="Compara hospital_a vs hospital_b nas metricas-chave da competencia.",
+    ),
+    "plano_acao": MetricDef(
+        name="plano_acao",
+        description="Plano de acao priorizado: desbloqueio + monofornecedores + anomalias",
+        default_unit="vagas",
+        default_shape=Shape.BREAKDOWN,
+        method_note="Sintese prescritiva de gestao da oferta a partir de 3 diagnosticos.",
     ),
 }
 

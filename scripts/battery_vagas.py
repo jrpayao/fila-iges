@@ -56,6 +56,12 @@ CASES = [
     ("J_wave2", "E se eu reduzir o bloqueio de vagas para 15%? Quantas vagas ganho?", {"scope": "in", "shape": "scalar", "primitive": "simular_desbloqueio"}),
     ("J_wave2", "O que mais caiu na oferta de vagas este mes?", {"scope": "in", "shape": "breakdown", "primitive": "anomalias"}),
     ("J_wave2", "Me mostra o raio-x do Hospital de Base", {"scope": "in", "shape": "breakdown", "primitive": "raio_x_unidade"}),
+    # K — 3a onda (especialidade, HHI, projecao, comparar, plano)
+    ("K_wave3", "Quais especialidades tem mais vagas disponiveis?", {"scope": "in", "shape": "breakdown", "primitive": "breakdown"}),
+    ("K_wave3", "Quais procedimentos dependem de poucos hospitais (concentracao)?", {"scope": "in", "primitive": "concentracao"}),
+    ("K_wave3", "Qual a projecao de vagas para o proximo mes?", {"scope": "in", "shape": "scalar", "primitive": "projecao"}),
+    ("K_wave3", "Compare o HUB com o Hospital de Base", {"scope": "in", "shape": "breakdown", "primitive": "comparar_hospitais"}),
+    ("K_wave3", "Me da um plano de acao pra melhorar a oferta", {"scope": "in", "primitive": "plano_acao"}),
 ]
 
 

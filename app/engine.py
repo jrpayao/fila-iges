@@ -19,6 +19,7 @@ from typing import Any
 from app.agent.envelope import Envelope
 from app.agent.plan import ClarificationRequest
 from app.agent.skills.chart import to_plotly_dict
+from app.vagas import export as _export
 from app.vagas import suggestions as _suggestions
 from app.vagas.orchestrator import VagasResponse as AgentResponse
 from app.vagas.orchestrator import ask as _agent_ask
@@ -66,12 +67,20 @@ def ask(
         except Exception:
             chart = None  # falha de chart nunca quebra a resposta
 
+    export_csv = None
+    if resp.envelope is not None:
+        try:
+            export_csv = _export.envelope_to_csv(resp.envelope)
+        except Exception:
+            export_csv = None  # export nunca quebra a resposta
+
     return {
         "narrativa": resp.narrativa or "(sem narrativa)",
         "dados": _envelope_to_dados(resp.envelope) if resp.envelope else None,
         "proveniencia": proveniencia,
         "chart": chart,
         "sugestoes": _suggestions.build(resp),
+        "export_csv": export_csv,
     }
 
 
