@@ -182,19 +182,28 @@ def _compose(plan: VagasPlan, envelopes: dict[str, Envelope]) -> Envelope:
 # ===== API principal =====
 
 
-def ask(pergunta: str, *, request_id: str | None = None) -> VagasResponse:
+def history_entry(resp: "VagasResponse") -> dict:
+    """Resumo compacto de um turno para alimentar o contexto do proximo (memoria)."""
+    return {
+        "pergunta": resp.pergunta,
+        "metric": (resp.plan.metric if resp.plan else None) or (resp.envelope.metric if resp.envelope else None),
+        "filters": resp.envelope.filters if resp.envelope else None,
+    }
+
+
+def ask(pergunta: str, *, history: list[dict] | None = None, request_id: str | None = None) -> VagasResponse:
     rid = request_id or str(uuid.uuid4())
     resp = VagasResponse(request_id=rid, pergunta=pergunta)
-    audit.event("vagas.request.received", request_id=rid, pergunta=pergunta)
+    audit.event("vagas.request.received", request_id=rid, pergunta=pergunta, turnos_contexto=len(history or []))
 
     df = get_df()
     if df.empty:
         resp.error = "Cache de vagas vazio — rode o sync (scripts/smoke_vagas.py)."
         return resp
 
-    # 1) Planner
+    # 1) Planner (com memoria de conversa)
     try:
-        plan_obj = _planner.plan(pergunta, request_id=rid)
+        plan_obj = _planner.plan(pergunta, history=history, request_id=rid)
     except Exception as exc:
         audit.event("vagas.planner.failed", request_id=rid, error=str(exc))
         resp.error = f"Planner falhou: {exc}"

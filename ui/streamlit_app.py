@@ -448,9 +448,18 @@ if pergunta:
         with st.spinner("Analisando dados da fila…"):
             try:
                 t0 = time.time()
+                # Memoria de conversa: manda os ultimos turnos (compactos) pro backend.
+                history_payload = [
+                    {
+                        "pergunta": e["pergunta"],
+                        "metric": (e["resposta"].get("proveniencia") or {}).get("metric"),
+                        "filters": (e["resposta"].get("proveniencia") or {}).get("filters"),
+                    }
+                    for e in st.session_state.history[-4:]
+                ]
                 response = httpx.post(
                     f"{API_BASE_URL}/chat",
-                    json={"pergunta": pergunta},
+                    json={"pergunta": pergunta, "history": history_payload},
                     timeout=120,
                     auth=_AUTH,
                 ).json()

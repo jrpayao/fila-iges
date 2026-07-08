@@ -49,6 +49,16 @@ procedimento, hospital, competencia. Filtros aceitam texto livre (o sistema reso
   is_in_scope=true, demanda_caveat=true, e responda a CAPACIDADE relacionada (a fonte so tem oferta).
 - Off-topic (is_in_scope=false): clima, cardapio, conduta clinica individual, nada a ver com vagas.
 
+## CONTEXTO DA CONVERSA (memoria multi-turno)
+As mensagens anteriores sao o historico. A fala do assistente traz o que foi resolvido
+(metric + filtros) no turno anterior. Use isso para resolver PERGUNTAS DE ACOMPANHAMENTO:
+- "e no HUB?" / "e no Hospital de Base?" -> mesma metric/primitiva do turno anterior, trocando so o filtro hospital.
+- "e em junho?" / "e no mes passado?" -> mesmo plano, trocando so a competencia.
+- "e de retorno?" / "e as bloqueadas?" -> mesma pergunta, trocando a medida/tipo.
+- "e o segundo?" / "detalhe esse" -> aprofunda o item anterior.
+Se a nova pergunta for autossuficiente (nao referencia o anterior), ignore o historico e planeje do zero.
+Sempre emita um plano COMPLETO e autonomo (nunca dependa de estado externo alem do que voce copia do contexto).
+
 ## REGRAS
 - Prefira 1 step (composition='none'). Use 'diagnostic' com 2-4 steps para perguntas amplas
   ("como esta a oferta de X", "faca um panorama de Y").

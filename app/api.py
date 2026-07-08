@@ -66,8 +66,15 @@ app.add_middleware(
 )
 
 
+class HistoryTurn(BaseModel):
+    pergunta: str = ""
+    metric: str | None = None
+    filters: dict[str, Any] | None = None
+
+
 class ChatRequest(BaseModel):
     pergunta: str = Field(..., min_length=1, max_length=500)
+    history: list[HistoryTurn] = Field(default_factory=list, description="Turnos anteriores (memoria de conversa)")
     pii_exposure: bool = Field(default=False)
     justificativa: str = Field(default="")
 
@@ -129,6 +136,7 @@ def chat(req: ChatRequest) -> ChatResponse:
     try:
         result = ask(
             req.pergunta,
+            history=[h.model_dump() for h in req.history],
             pii_exposure=req.pii_exposure,
             justificativa=req.justificativa,
         )

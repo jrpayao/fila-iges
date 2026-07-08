@@ -30,11 +30,12 @@ class EngineError(RuntimeError):
 def ask(
     pergunta: str,
     *,
+    history: list[dict[str, Any]] | None = None,
     pii_exposure: bool = False,  # noqa: ARG001 — backward compat, ignorado na v2
     justificativa: str = "",  # noqa: ARG001 — backward compat, ignorado na v2
 ) -> dict[str, Any]:
-    """Pergunta livre -> resposta no shape esperado pela UI v1."""
-    resp = _agent_ask(pergunta)
+    """Pergunta livre -> resposta no shape esperado pela UI v1. `history` = memoria de conversa."""
+    resp = _agent_ask(pergunta, history=history)
 
     if resp.error:
         raise EngineError(resp.error)
