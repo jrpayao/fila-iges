@@ -93,8 +93,15 @@ def _breakdown_bar(env: Envelope) -> dict[str, Any]:
 
 
 def _timeseries_line(env: Envelope) -> dict[str, Any]:
-    x = [p.get("timestamp") for p in env.data]
+    # Fonte legada usa 'timestamp' (data); motor de vagas usa 'key' (competencia MM/AAAA).
+    x = [p.get("timestamp") or p.get("key") for p in env.data]
     y = [float(p.get("value", 0) or 0) for p in env.data]
+    is_date = bool(env.data) and env.data[0].get("timestamp") is not None
+    hover = (
+        "%{x|%d/%m/%Y}<br><b>%{y:,.0f}</b> " + str(env.units) + "<extra></extra>"
+        if is_date
+        else "%{x}<br><b>%{y:,.0f}</b> " + str(env.units) + "<extra></extra>"
+    )
     fig = go.Figure(
         go.Scatter(
             x=x,
@@ -104,12 +111,12 @@ def _timeseries_line(env: Envelope) -> dict[str, Any]:
             marker=dict(size=6, color=COLOR_PRIMARY),
             fill="tozeroy",
             fillcolor="rgba(26,111,168,0.08)",
-            hovertemplate="%{x|%d/%m/%Y}<br><b>%{y:,.0f}</b> " + str(env.units) + "<extra></extra>",
+            hovertemplate=hover,
         )
     )
     fig.update_layout(
         title=f"{env.metric} ao longo do tempo",
-        xaxis_title="data",
+        xaxis_title="competência" if not is_date else "data",
         yaxis_title=str(env.units),
         height=340,
         **_LAYOUT_BASE,

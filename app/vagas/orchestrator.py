@@ -32,8 +32,28 @@ _DF: pd.DataFrame | None = None
 def get_df(*, force_reload: bool = False) -> pd.DataFrame:
     global _DF
     if _DF is None or force_reload:
-        _DF = VagasStore().load_df()
+        store = VagasStore()
+        df = store.load_df()
+        if df.empty:
+            df = _bootstrap(store)
+        _DF = df
     return _DF
+
+
+def _bootstrap(store: VagasStore, meses: int = 18) -> pd.DataFrame:
+    """Cache vazio: tenta sincronizar os ultimos `meses` competencias (se houver creds)."""
+    from datetime import date
+
+    from app.config import settings
+
+    if not (settings.iges_vagas_client_id and settings.iges_vagas_client_secret):
+        return store.load_df()  # sem creds — devolve vazio, orquestrador reporta erro
+    hoje = date.today()
+    start_idx = hoje.year * 12 + (hoje.month - 1) - (meses - 1)
+    start = (start_idx % 12 + 1, start_idx // 12)
+    audit.event("vagas.bootstrap.start", start=f"{start[0]:02d}/{start[1]}")
+    store.sync_range(start, (hoje.month, hoje.year))
+    return store.load_df()
 
 
 @dataclass

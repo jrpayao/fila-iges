@@ -275,8 +275,8 @@ st.markdown(
     """
 <div class="fe-header">
     <div class="fe-header-text">
-        <h1 class="fe-title">Fila Eletiva DF <span class="fe-chip">POC</span></h1>
-        <p class="fe-subtitle">Painel analítico da regulação ambulatorial e hospitalar &nbsp;·&nbsp; SISREG-DF</p>
+        <h1 class="fe-title">Vagas SISREG DF <span class="fe-chip">POC</span></h1>
+        <p class="fe-subtitle">Painel analítico da oferta/capacidade de vagas &nbsp;·&nbsp; SISREG-DF · IGES</p>
     </div>
 </div>
 """,
@@ -291,7 +291,7 @@ with st.sidebar:
         backend_ok = h.get("ok", False)
         rows = [
             ("Backend", backend_ok),
-            ("Base de dados", h.get("es_reachable")),
+            ("Fonte de vagas", h.get("fonte_reachable")),
             ("Serviço de IA", h.get("openai_reachable")),
         ]
         for label, is_ok in rows:
@@ -326,12 +326,12 @@ with st.sidebar:
 
     st.markdown("### Perguntas frequentes")
     examples = [
-        ("Top CIDs solicitados", "Top 10 CIDs solicitados nos últimos 30 dias"),
-        ("Distribuição por status", "Distribuição por status na fila ambulatorial hoje"),
-        ("Unidades com mais cancelamentos", "Top 5 unidades solicitantes com mais cancelamentos nos últimos 60 dias"),
-        ("CIDs hospitalares", "Quais são os principais CIDs hospitalares atendidos no último mês?"),
-        ("Estado atual da fila", "Como está o estado atual da fila ambulatorial?"),
-        ("Top procedimentos", "Quais os top 5 procedimentos mais solicitados nos últimos 30 dias?"),
+        ("Procedimentos com mais vagas", "Quais procedimentos têm mais vagas disponíveis neste mês?"),
+        ("Hospitais com mais vagas", "Quais hospitais oferecem mais vagas em julho de 2026?"),
+        ("Capacidade bloqueada", "Quanto da capacidade de vagas está bloqueada neste mês?"),
+        ("Evolução da oferta", "Como evoluiu a oferta de ressonância magnética ao longo dos meses?"),
+        ("Mix por tipo de vaga", "Qual a distribuição das vagas ativas por tipo (1ª vez, retorno, reserva)?"),
+        ("Vagas no HUB", "Quantas vagas disponíveis há no Hospital Universitário de Brasília?"),
     ]
     for label, question in examples:
         if st.button(label, key=f"ex-{hash(label)}", use_container_width=True):
@@ -360,8 +360,10 @@ if not st.session_state.history:
     <div class="fe-welcome-icon">💬</div>
     <h2 class="fe-welcome-title">Como posso ajudar?</h2>
     <p class="fe-welcome-text">
-        Faça perguntas em português sobre a fila de regulação do SISREG no Distrito Federal.
+        Faça perguntas em português sobre a <strong>oferta de vagas do SISREG-DF</strong>:
+        capacidade por procedimento e hospital, vagas bloqueadas, mix por tipo e tendência.
         Use os exemplos à esquerda ou digite sua pergunta no campo abaixo.
+        <br><small>Esta fonte cobre a <em>oferta</em> de vagas, não o tempo de espera da fila.</small>
     </p>
 </div>
 """,

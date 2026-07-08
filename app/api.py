@@ -23,7 +23,7 @@ from pydantic import BaseModel, Field
 from app import __version__, audit
 from app.config import settings
 from app.engine import EngineError, ask
-from app.es.client import SisregESClient
+from app.vagas.orchestrator import get_df
 
 # --- Basic Auth opcional (env-gated, util pra deploy publico) ---
 _AUTH_ENABLED = os.environ.get("API_AUTH_ENABLED", "false").lower() == "true"
@@ -94,18 +94,19 @@ def root() -> dict[str, Any]:
 def health() -> dict[str, Any]:
     checks: dict[str, Any] = {
         "config_loaded": True,
-        "es_reachable": False,
+        "fonte_reachable": False,
         "openai_reachable": False,
         "app_mode": settings.app_mode,
         "poc_expires_at": str(settings.poc_expires_at),
     }
-    # ES check
+    # Fonte de vagas: cache carregado (com competencias)
     try:
-        with SisregESClient() as es:
-            es._client.get("/", timeout=3)
-        checks["es_reachable"] = True
+        df = get_df()
+        checks["fonte_reachable"] = not df.empty
+        checks["competencias_em_cache"] = int(df["competencia"].nunique()) if not df.empty else 0
+        checks["registros_em_cache"] = int(len(df))
     except Exception as exc:
-        checks["es_error"] = str(exc)
+        checks["fonte_error"] = str(exc)
     # OpenAI check
     try:
         with httpx.Client(timeout=3) as c:
@@ -119,7 +120,7 @@ def health() -> dict[str, Any]:
     except Exception as exc:
         checks["openai_error"] = str(exc)
 
-    ok = checks["config_loaded"] and checks["es_reachable"] and checks["openai_reachable"]
+    ok = checks["config_loaded"] and checks["fonte_reachable"] and checks["openai_reachable"]
     return {"ok": ok, **checks}
 
 
