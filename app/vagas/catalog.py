@@ -137,6 +137,29 @@ CATALOG: dict[str, MetricDef] = {
         default_shape=Shape.BREAKDOWN,
         method_note="Top-N pares (hospital, procedimento) por vagas_bloqueadas, com meses de persistencia.",
     ),
+    # --- 2a onda ---
+    "simular_desbloqueio": MetricDef(
+        name="simular_desbloqueio",
+        description="What-if: quantas vagas seriam liberadas ao reduzir a taxa de bloqueio a uma meta",
+        default_unit="vagas",
+        default_shape=Shape.SCALAR,
+        kind=MetricKind.DERIVED,
+        method_note="freed = bloqueadas - meta% * capacidade. Estimativa de gestao da oferta.",
+    ),
+    "anomalias": MetricDef(
+        name="anomalias",
+        description="Maiores quedas de oferta (e procedimentos/hospitais que zeraram) vs o mes anterior",
+        default_unit="vagas perdidas",
+        default_shape=Shape.BREAKDOWN,
+        method_note="Ranking das maiores quedas de vagas_disponiveis por dimensao vs competencia anterior.",
+    ),
+    "raio_x_unidade": MetricDef(
+        name="raio_x_unidade",
+        description="Ficha de uma unidade: oferta, bloqueio (vs rede), porta de entrada, volatilidade, top procedimentos",
+        default_unit="vagas",
+        default_shape=Shape.BREAKDOWN,
+        method_note="Diagnostico de um hospital com contexto de rede (medianas) e volatilidade.",
+    ),
 }
 
 # Nomes exportados para validacao do planejador (P9).
