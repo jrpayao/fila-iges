@@ -134,7 +134,50 @@ Após `2026-07-19`:
 
 ---
 
+---
+
+## Emenda v3.0 — 2026-07-07 — Virada de fonte: API de vagas SISREG (IGES)
+
+Formalização da mudança de fonte de dados (P16, spec-first). A base é a
+[Spec do motor de vagas](../specs/002-vagas-sisreg/spec.md).
+
+**E1. Fonte única passa a ser a API de vagas SISREG do IGES.**
+`GET https://api.igesdf.org.br/iges/dados_vagas_sisreg?mes=MM&ano=AAAA`. O
+Elasticsearch do SISREG-ES (`app/es/`) e o motor MV/Oracle ficam **aposentados**.
+Auth por header `client_id`/`client_secret`. Camada `app/vagas/` substitui `app/es/`.
+
+**E2. Escopo do produto é CAPACIDADE (oferta), não FILA (demanda).**
+O dado é oferta de vagas por procedimento × hospital × competência. **Não** há
+tempo de espera, tamanho de fila, faltas ou demanda. Perguntas sobre espera/fila
+são respondidas com a ressalva explícita de que a fonte só cobre oferta.
+
+**E3. P5 (estoque ≠ fluxo) simplifica: tudo é `snapshot`.**
+Vagas são capacidade num instante (`data_extracao`) por competência. Não há
+métrica de fluxo nesta fonte. Comparação temporal é entre competências (snapshots).
+
+**E4. P6 (LGPD) fica trivial — a fonte é agregada e sem PII.**
+Nenhum campo de PII. Scanner/auditor de PII seguem ativos como rede de segurança,
+mas na prática não há o que redigir. O piso de agregação ≥5 deixa de ser gargalo.
+
+**E5. P9 — vocabulário fechado reancorado no schema de vagas.**
+Métricas e dimensões passam a derivar dos 16 campos do registro de vagas
+(`app/vagas/`). `free_search` do override POC é removido. Nunca SQL/DSL livre.
+
+**E6. Janela temporal = competência (`mes`/`ano`), não janela rolante em dias.**
+O default seguro de janela vira "competência mais recente disponível".
+
+**E7. Provedor LLM.** A migração POC→Claude (antes vinculada a 2026-07-19) é
+**dobrada nesta virada**: o motor de vagas nasce provider-agnostic com default
+Claude. Nada de migrar duas vezes.
+
+Princípios P1, P2, P4, P7, P8, P10, P11, P15, P16 seguem **integralmente válidos**.
+P12/P13/P14 (específicos de ES) ficam sem objeto e são substituídos pela camada
+`app/vagas/` (read-only por construção: a API é GET-only).
+
+---
+
 **Histórico de versão**:
 - v1.0 — 2026-05-20 — versão inicial (templates fixos, Claude default).
 - v1.1-POC — 2026-05-20 — overrides POC em P2/P3/P8.
 - **v2.0 — 2026-05-21** — virada arquitetural: catálogo semântico + primitivas + Envelope, conforme [spec do agente analítico](../docs/reference/spec-agente-analitico-fila-eletiva.md). Mantém overrides POC até 2026-07-19.
+- **v3.0 — 2026-07-07** — virada de fonte: API de vagas SISREG (IGES). Produto de capacidade/oferta. Aposenta SISREG-ES e MV/Oracle. Ver Emenda v3.0 acima e [spec 002](../specs/002-vagas-sisreg/spec.md).

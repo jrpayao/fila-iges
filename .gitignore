@@ -42,6 +42,10 @@ build/
 logs/
 tmp/
 
+# Cache local da API de vagas (regeneravel)
+data/vagas_cache.sqlite
+data/*.sqlite
+
 # Backups locais e arquivos pessoais
 fila-eletiva.zip
 *.code-workspace
