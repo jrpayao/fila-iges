@@ -1,7 +1,7 @@
 """Export do Envelope para CSV com carimbo de proveniencia (P8).
 
 Todo arquivo carrega cabecalho: fonte, competencia/janela, filtros, metrica,
-method_note, gerado_em, e o aviso de modo POC. Le SOMENTE o Envelope (P4).
+method_note e gerado_em. Le SOMENTE o Envelope (P4).
 """
 
 from __future__ import annotations
@@ -10,8 +10,6 @@ import csv
 import io
 from datetime import datetime, timezone
 from typing import Any
-
-_BANNER = "Modo POC — uso interno IGES-DF, distribuicao proibida"
 
 
 def _rows_for(shape: str, data: list[dict], units: str) -> tuple[list[str], list[list]]:
@@ -58,7 +56,6 @@ def envelope_to_csv(envelope: dict[str, Any] | Any) -> str:
     if env.get("method_note"):
         w.writerow(["# metodo", env["method_note"]])
     w.writerow(["# gerado_em", datetime.now(timezone.utc).isoformat()])
-    w.writerow(["# aviso", _BANNER])
     w.writerow([])
 
     subs = env.get("sub_envelopes")

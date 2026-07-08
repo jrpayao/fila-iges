@@ -275,7 +275,7 @@ st.markdown(
     """
 <div class="fe-header">
     <div class="fe-header-text">
-        <h1 class="fe-title">Vagas SISREG DF <span class="fe-chip">POC</span></h1>
+        <h1 class="fe-title">Vagas SISREG DF</h1>
         <p class="fe-subtitle">Painel analítico da oferta/capacidade de vagas &nbsp;·&nbsp; SISREG-DF · IGES</p>
     </div>
 </div>
@@ -301,16 +301,6 @@ with st.sidebar:
                 f'<div class="fe-status-row">'
                 f'<span class="fe-status-label"><span class="fe-dot fe-dot-{cls}"></span>{label}</span>'
                 f'<span class="fe-status-value fe-status-{cls}">{text}</span>'
-                f"</div>",
-                unsafe_allow_html=True,
-            )
-        modo = h.get("app_mode", "?")
-        expira = h.get("poc_expires_at", "")
-        if modo == "poc" and expira:
-            st.markdown(
-                f'<div class="fe-status-row" style="margin-top:0.5rem;">'
-                f'<span class="fe-status-label">Modo POC válido até</span>'
-                f'<span class="fe-status-value" style="color:{COLOR_PRIMARY};">{expira}</span>'
                 f"</div>",
                 unsafe_allow_html=True,
             )
@@ -341,7 +331,7 @@ with st.sidebar:
     st.markdown(
         f'<div class="fe-footer">'
         f"<strong>IGES-DF</strong> &middot; ZELLO<br>"
-        f"v0.1 POC &middot; {date.today().isoformat()}"
+        f"v1.0 &middot; {date.today().isoformat()}"
         f"</div>",
         unsafe_allow_html=True,
     )
