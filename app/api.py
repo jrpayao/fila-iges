@@ -85,6 +85,7 @@ class ChatResponse(BaseModel):
     proveniencia: dict[str, Any]
     chart: dict[str, Any] | None = None
     sugestoes: list[dict[str, Any]] = []
+    export_csv: str | None = None
 
 
 @app.get("/")

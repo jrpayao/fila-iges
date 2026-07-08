@@ -154,6 +154,19 @@ def _execute_step(step: VagasStep, df: pd.DataFrame, *, request_id: str) -> tupl
         if not hosp:
             raise ValueError("raio_x_unidade exige um hospital (filters.hospital)")
         env = P.raio_x_unidade(df, hospital=hosp, competencia=competencia, request_id=request_id)
+    # --- 3a onda ---
+    elif prim == "concentracao":
+        env = P.concentracao(df, filters=filters, competencia=competencia, top_n=step.top_n, request_id=request_id)
+    elif prim == "projecao":
+        env = P.projecao(df, metric=step.metric, filters=filters, request_id=request_id)
+    elif prim == "comparar_hospitais":
+        hosp_a = filters.get("hospital")
+        hosp_b = _resolve_focus("hospital", step.hospital_b, df) if step.hospital_b else None
+        if not hosp_a or not hosp_b:
+            raise ValueError("comparar_hospitais exige filters.hospital (1o) + hospital_b (2o)")
+        env = P.comparar_hospitais(df, hospital_a=hosp_a, hospital_b=hosp_b, competencia=competencia, request_id=request_id)
+    elif prim == "plano_acao":
+        env = P.plano_acao(df, filters=filters, competencia=competencia, request_id=request_id)
     else:
         raise ValueError(f"primitiva desconhecida: {prim}")
     return env, []

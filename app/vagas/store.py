@@ -13,12 +13,30 @@ Fluxo tipico:
 
 from __future__ import annotations
 
+import re
 import sqlite3
 from datetime import date
 from pathlib import Path
 from typing import Iterable
 
 import pandas as pd
+
+_RE_CONSULTA = re.compile(r"\s*CONSULTA\s+EM\s+(.+?)(?:\s*-\s|\s*\(|$)", re.I)
+_RE_GRUPO = re.compile(r"\s*GRUPO\s*-\s*(?:\d+\.)?\s*(.+?)\s*\(", re.I)
+
+
+def _especialidade(nome) -> str:
+    """Extrai especialidade/grupo do nome do procedimento (dimensao agregadora)."""
+    if not isinstance(nome, str) or not nome.strip():
+        return "OUTROS"
+    m = _RE_CONSULTA.match(nome)
+    if m:
+        return m.group(1).strip().upper()
+    m = _RE_GRUPO.match(nome)
+    if m:
+        return m.group(1).strip().upper()
+    s = re.sub(r"\(.*?\)|\[.*?\]", "", nome).strip()
+    return (s[:40].strip() or "OUTROS").upper()
 
 from app import audit
 from app.config import settings
@@ -158,6 +176,10 @@ class VagasStore:
 
         # Coluna derivada de competencia (AAAAMM) para ordenacao/serie temporal.
         df["competencia"] = df["ano_comp"] * 100 + df["mes_comp"]
+
+        # Coluna derivada de especialidade/grupo, extraida do nome do procedimento.
+        if "procedimento" in df.columns:
+            df["especialidade"] = df["procedimento"].map(_especialidade)
 
         if competencias is not None:
             wanted = {a * 100 + m for m, a in competencias}

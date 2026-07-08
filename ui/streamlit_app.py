@@ -449,6 +449,16 @@ for idx, entry in enumerate(st.session_state.history):
         _render_chart_or_scalar(entry["resposta"])
         _render_meta(entry["resposta"].get("proveniencia", {}))
         _render_details(entry["resposta"])
+        _csv = entry["resposta"].get("export_csv")
+        if _csv:
+            _metric = (entry["resposta"].get("proveniencia") or {}).get("metric", "vagas")
+            st.download_button(
+                "⬇️ Baixar CSV (com proveniência)",
+                data=_csv.encode("utf-8"),
+                file_name=f"ofertas-vagas_{_metric}.csv",
+                mime="text/csv",
+                key=f"dl-{idx}",
+            )
         if idx == _n_hist - 1:
             _render_sugestoes(entry["resposta"], key_prefix=f"sug-{idx}")
 

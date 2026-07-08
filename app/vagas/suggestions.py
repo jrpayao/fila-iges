@@ -121,6 +121,11 @@ O que o chat SABE responder (so isso):
 - simulacao what-if (reduzir bloqueio a uma meta -> quantas vagas libera).
 - anomalias (maiores quedas de oferta / o que zerou vs o mes anterior).
 - raio-x de um hospital (ficha: oferta, bloqueio vs rede, porta de entrada, volatilidade).
+- oferta por ESPECIALIDADE (agrupa procedimentos: imagem, cardio, oftalmo...).
+- concentracao HHI (procedimentos que dependem de poucos hospitais).
+- projecao da oferta do proximo mes (estimativa transparente).
+- comparar DOIS hospitais lado a lado.
+- plano de acao priorizado (o que fazer pra melhorar a oferta).
 
 REGRAS:
 - NUNCA proponha tempo de espera, tamanho de fila, demanda, faltas ou conduta clinica — a fonte NAO tem.
