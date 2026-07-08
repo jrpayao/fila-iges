@@ -1,158 +1,73 @@
-# Deploy no CapRover — `captain.payao.tech`
+# Deploy — ofertas-vagas (CapRover · `captain.payao.tech`)
 
-Arquitetura: **2 apps separadas** no CapRover.
+App único no CapRover chamado **`ofertas-vagas`**, rodando **API (FastAPI) + UI (Streamlit)**
+no mesmo container. A UI é a face pública (porta 8501); a API roda interna em `127.0.0.1:8000`.
 
-| App | Função | Exposição | Porta interna |
-|---|---|---|---|
-| `fila-eletiva-api` | FastAPI backend (engine multi-agente) | Privada (recomendado) | 80 |
-| `fila-eletiva-ui` | Streamlit UI | Pública via HTTPS | 80 |
+Arquivos de build (raiz do repo):
+- `Dockerfile` — imagem combinada.
+- `start.sh` — sobe uvicorn (interno) + streamlit (público).
+- `captain-definition` — aponta para `./Dockerfile`.
 
-A UI chama a API via DNS interno do CapRover: `http://srv-captain--fila-eletiva-api`. Nenhum tráfego entre containers passa pela internet.
+> Os dois apps antigos (`Dockerfile.api` / `Dockerfile.ui` / `captain-definition.*.json`)
+> ficam no repo como legado do motor SISREG-ES; **não** são usados neste deploy.
 
----
+## 1. Criar o app no CapRover
 
-## Pré-requisitos (uma vez por máquina)
+No painel: **Apps → Create New App → `ofertas-vagas`** (deixe "Has Persistent Data" marcado).
 
-1. **CapRover CLI**:
-   ```bash
-   npm install -g caprover
-   ```
+## 2. Configurar a porta e os volumes
 
-2. **Login**:
-   ```bash
-   caprover login --caproverUrl https://captain.payao.tech
-   ```
-   Salva token em `~/.caprover/config`.
+Em **ofertas-vagas → App Configs**:
 
-3. **Criar as 2 apps no painel** (https://captain.payao.tech):
-   - Apps → New App → `fila-eletiva-api` → Create
-   - Apps → New App → `fila-eletiva-ui` → Create
+- **Container HTTP Port**: `8501`  ← obrigatório (o Streamlit escuta nessa porta).
+- **Persistent Directories** (cache não rebaixa a API a cada restart + guarda os logs):
+  | Path in App | Label |
+  |---|---|
+  | `/app/data` | `ofertas-vagas-data` |
+  | `/app/logs` | `ofertas-vagas-logs` |
 
----
+## 3. Variáveis de ambiente
 
-## Env vars (configurar no painel CapRover, NÃO no código)
+Em **App Configs → Environmental Variables** (segredos NÃO vão na imagem):
 
-### `fila-eletiva-api` → App Configs → Environmental Variables
-
-| Variável | Valor | Notas |
-|---|---|---|
-| `OPENAI_API_KEY` | `sk-proj-...` (chave **viva**) | rotacione antes do deploy se já trafegou em chat |
-| `OPENAI_PLANNER_MODEL` | `gpt-4o` | |
-| `OPENAI_VALIDATOR_MODEL` | `gpt-4o` | |
-| `OPENAI_NARRATOR_MODEL` | `gpt-4o-mini` | |
-| `OPENAI_ROUTER_MODEL` | `gpt-4o-mini` | |
-| `OPENAI_CRITIC_MODEL` | `gpt-4o-mini` | |
-| `SISREG_BASE_URL` | `https://sisreg-es.saude.gov.br` | |
-| `SISREG_USER` | `claudio.payao` | |
-| `SISREG_PASS` | `Datasus@2026` | considere rotacionar |
-| `SISREG_UF_CODE_IBGE` | `53` | |
-| `SISREG_CENTRAIS_REGULADORAS` | `530010` | |
-| `SISREG_REQUEST_TIMEOUT_SECONDS` | `10` | |
-| `APP_MODE` | `poc` | |
-| `POC_EXPIRES_AT` | `2026-07-19` | |
-| `AUDIT_JSONL_PATH` | `/data/audit.jsonl` | usar com volume persistente |
-| `API_AUTH_ENABLED` | `true` | **recomendado em deploy público** |
-| `API_AUTH_USER` | `iges-admin` (escolha) | |
-| `API_AUTH_PASS` | (senha forte) | |
-
-### `fila-eletiva-ui` → App Configs → Environmental Variables
-
-| Variável | Valor | Notas |
-|---|---|---|
-| `API_BASE_URL` | `http://srv-captain--fila-eletiva-api` | DNS interno do CapRover (sem HTTPS, é rede privada) |
-| `API_AUTH_USER` | mesma do API | se API_AUTH_ENABLED=true na API |
-| `API_AUTH_PASS` | mesma do API | |
-
----
-
-## Volume persistente para audit (recomendado na API)
-
-CapRover → app `fila-eletiva-api` → App Configs → Persistent Directories → Add:
-- **Path in App**: `/data`
-- **Label**: `audit-data`
-
-Depois `AUDIT_JSONL_PATH=/data/audit.jsonl` persiste entre restarts.
-
----
-
-## HTTPS e domínio
-
-- CapRover serve HTTPS automaticamente via Let's Encrypt no subdomínio padrão.
-- Para `fila-eletiva-api`: na aba **HTTP Settings**, **DESMARQUE** `Has Public HTTP Connection` (mantém só rede interna). 
-- Para `fila-eletiva-ui`: **MANTENHA** `Has Public HTTP Connection` e **MARQUE** `Force HTTPS`.
-
-URLs finais:
-- API (interna): `http://srv-captain--fila-eletiva-api/` (acessível só por outras apps no CapRover)
-- UI (pública): `https://fila-eletiva-ui.captain.payao.tech/`
-
----
-
-## Deploy
-
-Da raiz do projeto, com `caprover` CLI logado:
-
-```bash
-# Em ordem (API primeiro pra UI achar o DNS interno na primeira chamada)
-bash scripts/deploy_api.sh
-bash scripts/deploy_ui.sh
+```
+OPENAI_API_KEY=sk-...
+IGES_VAGAS_CLIENT_ID=...
+IGES_VAGAS_CLIENT_SECRET=...
 ```
 
-Cada script:
-1. Copia `captain-definition.{api,ui}.json` → `captain-definition`.
-2. Roda `caprover deploy --appName fila-eletiva-{api,ui}`.
-3. Limpa o `captain-definition` temporário.
+Já vêm com default no Dockerfile (sobrescreva se quiser):
+`IGES_VAGAS_URL`, `VAGAS_CACHE_PATH=/app/data/vagas_cache.sqlite`,
+`QUERY_LOG_DIR=/app/logs`, `AUDIT_JSONL_PATH=/app/logs/audit.jsonl`, `APP_MODE=poc`.
 
-Alternativa via dashboard: cada app → **Deployment** → **Tarball Upload** → fazer `tar czf` da raiz incluindo `captain-definition.json` renomeado pra `captain-definition`.
+Opcional (proteger a API com Basic Auth): `API_AUTH_ENABLED=true`, `API_AUTH_USER`, `API_AUTH_PASS`.
 
----
+## 4. HTTPS
 
-## Verificação pós-deploy
+Em **ofertas-vagas → HTTP Settings**: habilite HTTPS + force redirect. Domínio:
+`ofertas-vagas.captain.payao.tech` (ou um custom).
+
+## 5. Deploy
+
+Da raiz do repo, com a CLI do CapRover autenticada no servidor:
 
 ```bash
-# Health (de fora — bate na UI primeiro, que internamente bate na API)
-curl https://fila-eletiva-ui.captain.payao.tech/_stcore/health
-# Esperado: ok
-
-# Abrir UI no browser
-open https://fila-eletiva-ui.captain.payao.tech/
-# Sidebar deve mostrar "API status: OK", "ES alcançável: OK", "OpenAI alcançável: OK"
+caprover deploy -a ofertas-vagas
 ```
 
----
+(ou **Deploy from GitHub** apontando para a branch `feat/motor-vagas-sisreg` — o CapRover
+usa o `captain-definition` da raiz automaticamente.)
 
-## Logs e troubleshooting
+## 6. Primeiro acesso
 
-No painel CapRover: **Apps → app → App Logs** (tail em tempo real).
+No **primeiro chat**, o app baixa as competências da API de vagas (jan/2025 → mês atual)
+e monta o cache em `/app/data` — pode levar ~30–60s nessa primeira pergunta. Como o
+diretório é persistente, os restarts seguintes sobem com o cache pronto.
 
-| Sintoma | Diagnóstico | Fix |
-|---|---|---|
-| UI mostra "API offline" na sidebar | API_BASE_URL errada ou API não bootou | Conferir env `API_BASE_URL=http://srv-captain--fila-eletiva-api` e logs da API |
-| API retorna 401 em todas chamadas | Basic Auth ativado mas UI sem credencial | Garantir `API_AUTH_USER`/`API_AUTH_PASS` iguais nas 2 apps |
-| API falha no boot com "Field required" | env var faltando | Conferir lista acima — `OPENAI_API_KEY`, `SISREG_USER`, `SISREG_PASS` são obrigatórios |
-| `503` ao subir | Health check falhando | Aguardar `start-period` (10-15s). Se persistir, ver logs |
-| Build falha em `pip install` | rede CapRover lenta ou pacote indisponível | Re-deploy; verificar status do PyPI |
-| ES 401 nas queries | senha SISREG errada/expirada | Atualizar env `SISREG_PASS` no painel + restart |
+## Notas
 
----
-
-## Rollback
-
-CapRover guarda histórico de imagens. **Apps → app → Deployment → Versions** → **Revert** na versão anterior.
-
----
-
-## Custo e escala
-
-- Default CapRover: 1 instância por app, sem auto-scale.
-- Pra escalar: **App Configs → Instance Count**. Stateless, multiplica trivialmente.
-- Atenção ao audit.jsonl em multi-instância: cada instância escreve no seu próprio volume (a menos que use volume compartilhado tipo NFS). Em produção, migrar para Postgres ou similar.
-
----
-
-## Hardening pendente (depois do MVP)
-
-1. **OIDC/SAML** no lugar de Basic Auth (integrar com Keycloak IGES).
-2. **Rate limit** por usuário no API (FastAPI middleware ou nginx no CapRover).
-3. **Circuit breaker** de orçamento OpenAI (cortar requests ao atingir 90% do limite mensal).
-4. **Migrar OpenAI → Claude** antes de `POC_EXPIRES_AT=2026-07-19` (P8 da constituição).
-5. **Audit centralizado** (Postgres ou ES próprio) em vez de JSONL local.
+- Um container, dois processos (uvicorn + streamlit). Para escalar separado, dá para
+  voltar ao modelo de dois apps (`Dockerfile.api` / `Dockerfile.ui`).
+- Logs diários de perguntas em `/app/logs/perguntas-AAAA-MM-DD.jsonl` (uso interno).
+- Sem PII: a fonte de vagas é agregada; os logs guardam só a pergunta do gestor.
+- Se o build falhar por causa do `pytest` no `requirements.txt`, pode removê-lo (é dev-only).
