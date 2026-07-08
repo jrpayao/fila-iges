@@ -448,3 +448,114 @@ def panorama(df, *, filters=None, competencia=None, request_id=None) -> Envelope
             "indice de porta de entrada, concentracao (top-3 hospitais) e oportunidades de desbloqueio."
         ),
     })
+
+
+# ===== 2a onda — simulador, anomalias, raio-x de unidade =====
+
+
+def simular_desbloqueio(df, *, target_pct=15.0, filters=None, competencia=None, request_id=None) -> Envelope:
+    """What-if: reduzir a taxa de bloqueio para `target_pct`% libera quantas vagas."""
+    filters = filters or {}
+    base = _apply_filters(df, filters)
+    fdf, comp = _select_competencia(base, competencia)
+    A = int(catalog.measure_series(fdf, "vagas_ativas").sum())      # ativas
+    B = int(catalog.measure_series(fdf, "vagas_bloqueadas").sum())  # bloqueadas
+    C = A + B
+    cur = round(B / C * 100, 2) if C else 0.0
+    t = max(0.0, float(target_pct))
+    if C == 0 or t >= cur:
+        freed = 0
+        note = (
+            f"Taxa de bloqueio atual ({cur}%) ja esta em ou abaixo da meta ({t}%). "
+            "Nenhuma vaga adicional a liberar por este caminho."
+        )
+    else:
+        b_target = t / 100 * C
+        freed = int(round(B - b_target))
+        ganho_pct = round(freed / A * 100, 1) if A else 0.0
+        note = (
+            f"Reduzir a taxa de bloqueio de {cur}% para {t}% libera {freed} vagas "
+            f"(de {A} para {A + freed} ativas, +{ganho_pct}% de capacidade util). "
+            "Estimativa de gestao da oferta — assume desbloqueio direto, sem repriorizacao."
+        )
+    return _scalar_env(
+        metric="simular_desbloqueio", kind=MetricKind.DERIVED, value=freed, units="vagas",
+        window=_window(comp), filters_meta={**_filters_meta(filters, comp), "meta_bloqueio_pct": t},
+        method_note=note, total_documents=C, request_id=request_id,
+    )
+
+
+def anomalias(df, *, dimension="hospital", filters=None, competencia=None, top_n=8, request_id=None) -> Envelope:
+    """Maiores QUEDAS de oferta (e churn) vs a competencia anterior, por dimensao."""
+    if dimension not in ("hospital", "procedimento"):
+        raise ValueError("anomalias: dimension deve ser 'hospital' ou 'procedimento'.")
+    filters = filters or {}
+    base = _apply_filters(df, filters)
+    _, comp = _select_competencia(base, competencia)
+    prev = _prev_comp(df, comp)
+    col = catalog.DIMENSIONS[dimension]
+
+    cur_s = base[base["competencia"] == comp.key].groupby(col)["vagas_disponiveis"].sum()
+    prev_s = base[base["competencia"] == prev.key].groupby(col)["vagas_disponiveis"].sum() if prev else cur_s * 0
+
+    buckets = []
+    for key in prev_s.index:
+        pv = int(prev_s.get(key, 0) or 0)
+        cv = int(cur_s.get(key, 0) or 0)
+        drop = pv - cv
+        if pv >= 50 and drop > 0:  # material + caiu
+            pct = round(-drop / pv * 100, 1)
+            zerou = " (zerou)" if cv == 0 else ""
+            buckets.append({
+                "key": f"{str(key)[:46]}{zerou}",
+                "value": int(drop),           # vagas perdidas (magnitude)
+                "prev_value": pv, "current": cv, "delta_pct": pct,
+            })
+    buckets.sort(key=lambda b: b["value"], reverse=True)
+    buckets = buckets[:top_n]
+    janela = f"{prev.label} -> {comp.label}" if prev else comp.label
+    return Envelope.breakdown(
+        metric="anomalias", metric_kind=MetricKind.SNAPSHOT, dimension=dimension,
+        buckets=buckets, units="vagas perdidas", source_index=SOURCE,
+        window=Window(gte=None, lte=None, label=janela),
+        filters=_filters_meta(filters, comp), total_documents=sum(b["value"] for b in buckets),
+        request_id=request_id,
+    )
+
+
+def raio_x_unidade(df, *, hospital, competencia=None, request_id=None) -> Envelope:
+    """Ficha da unidade: oferta+delta, bloqueio (vs mediana da rede), porta de entrada,
+    volatilidade e top procedimentos."""
+    f = {"hospital": hospital}
+    base = _apply_filters(df, f)
+    if base.empty:
+        raise ValueError(f"Hospital '{hospital}' sem dados.")
+    fdf, comp = _select_competencia(base, competencia)
+
+    subs = [
+        total(df, metric="vagas_disponiveis", filters=f, competencia=comp, request_id=request_id),
+        taxa_bloqueio(df, filters=f, competencia=comp, request_id=request_id),
+        indice_porta_entrada(df, filters=f, competencia=comp, request_id=request_id),
+        breakdown(df, metric="vagas_disponiveis", dimension="procedimento", filters=f, competencia=comp, top_n=5, request_id=request_id),
+    ]
+
+    # Contexto de rede (taxa agregada da rede toda) + volatilidade da unidade.
+    comp_df = df[df["competencia"] == comp.key]
+    a_rede = int(catalog.measure_series(comp_df, "vagas_ativas").sum())
+    b_rede = int(catalog.measure_series(comp_df, "vagas_bloqueadas").sum())
+    taxa_rede = round(b_rede / (a_rede + b_rede) * 100, 2) if (a_rede + b_rede) else 0.0
+    serie = base.groupby("competencia")["vagas_disponiveis"].sum()
+    cv = round(float(serie.std() / serie.mean() * 100), 1) if serie.mean() else 0.0
+    this_taxa = subs[1].data[0]["value"]
+    vs = "abaixo" if this_taxa < taxa_rede else ("acima" if this_taxa > taxa_rede else "igual a")
+
+    primary = subs[3]
+    return primary.model_copy(update={
+        "metric": "raio_x_unidade",
+        "sub_envelopes": [e.model_dump(mode="json") for e in subs],
+        "method_note": (
+            f"Raio-X de {hospital} na competencia {comp.label}: taxa de bloqueio {this_taxa}% "
+            f"({vs} a taxa agregada da rede, {taxa_rede}%); volatilidade da oferta (CV mensal) {cv}%. "
+            "Veja sub_envelopes para oferta, porta de entrada e top procedimentos."
+        ),
+    })

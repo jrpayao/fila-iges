@@ -36,6 +36,9 @@ Vagas ofertadas por PROCEDIMENTO x HOSPITAL x COMPETENCIA (mes). E dado de OFERT
 - monofornecedores: procedimentos ofertados por pouquissimos hospitais (risco de rede). Ex: "quais procedimentos dependem de um unico hospital".
 - oportunidade_desbloqueio: pares hospital x procedimento com mais vagas bloqueadas (onde desbloquear rende mais). Ex: "onde ataco o bloqueio primeiro", "maiores bolsoes de bloqueio".
 - panorama: briefing executivo da rede (oferta, bloqueio, porta de entrada, concentracao, oportunidades). Use para perguntas AMPLAS: "como esta a rede", "me da um panorama", "resumo executivo", "visao geral das vagas". composition='none', 1 step primitive=panorama.
+- simular_desbloqueio: what-if de gestao. "e se eu reduzir o bloqueio para X%?", "quantas vagas ganho se desbloquear ate 15%". Preencha target_pct com a meta (%); default 15. Aceita filtros (hospital/procedimento).
+- anomalias: alertas — maiores QUEDAS de oferta e o que zerou vs o mes anterior. "o que caiu?", "quais unidades despencaram?", "algum procedimento sumiu?". Use dimension='hospital' (default) ou 'procedimento'.
+- raio_x_unidade: ficha completa de UM hospital (oferta, bloqueio vs rede, porta de entrada, volatilidade, top procedimentos). "me mostra o Hospital de Base", "raio-x do HUB", "ficha da unidade X". Preencha filters.hospital.
 
 ## DIMENSOES (dimension) e FILTROS (filters)
 procedimento, hospital, competencia. Filtros aceitam texto livre (o sistema resolve):

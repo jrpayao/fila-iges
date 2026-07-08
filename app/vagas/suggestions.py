@@ -118,6 +118,9 @@ O que o chat SABE responder (so isso):
 - evolucao mensal (serie temporal); ranking por procedimento ou por hospital.
 - comparacao entre hospitais; procedimentos com poucos ofertantes (monofornecedores).
 - oportunidade de desbloqueio (onde ha mais vagas travadas); panorama executivo da rede.
+- simulacao what-if (reduzir bloqueio a uma meta -> quantas vagas libera).
+- anomalias (maiores quedas de oferta / o que zerou vs o mes anterior).
+- raio-x de um hospital (ficha: oferta, bloqueio vs rede, porta de entrada, volatilidade).
 
 REGRAS:
 - NUNCA proponha tempo de espera, tamanho de fila, demanda, faltas ou conduta clinica — a fonte NAO tem.

@@ -52,6 +52,10 @@ CASES = [
     ("I_wow", "Qual a taxa de reserva das vagas neste mes?", {"scope": "in", "shape": "scalar", "primitive": "taxa_reserva"}),
     ("I_wow", "Quais procedimentos dependem de pouquissimos hospitais?", {"scope": "in", "shape": "breakdown", "primitive": "monofornecedores"}),
     ("I_wow", "Quantas vagas a rede ja perdeu por bloqueio acumulado no ano?", {"scope": "in", "shape": "scalar", "primitive": "vagas_perdidas_ytd"}),
+    # J — 2a onda (simulador, anomalias, raio-x)
+    ("J_wave2", "E se eu reduzir o bloqueio de vagas para 15%? Quantas vagas ganho?", {"scope": "in", "shape": "scalar", "primitive": "simular_desbloqueio"}),
+    ("J_wave2", "O que mais caiu na oferta de vagas este mes?", {"scope": "in", "shape": "breakdown", "primitive": "anomalias"}),
+    ("J_wave2", "Me mostra o raio-x do Hospital de Base", {"scope": "in", "shape": "breakdown", "primitive": "raio_x_unidade"}),
 ]
 
 

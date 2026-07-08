@@ -142,6 +142,18 @@ def _execute_step(step: VagasStep, df: pd.DataFrame, *, request_id: str) -> tupl
         env = P.oportunidade_desbloqueio(df, filters=filters, competencia=competencia, top_n=step.top_n, request_id=request_id)
     elif prim == "panorama":
         env = P.panorama(df, filters=filters, competencia=competencia, request_id=request_id)
+    # --- 2a onda ---
+    elif prim == "simular_desbloqueio":
+        env = P.simular_desbloqueio(df, target_pct=step.target_pct if step.target_pct is not None else 15.0,
+                                    filters=filters, competencia=competencia, request_id=request_id)
+    elif prim == "anomalias":
+        env = P.anomalias(df, dimension=step.dimension or "hospital", filters=filters,
+                          competencia=competencia, top_n=step.top_n, request_id=request_id)
+    elif prim == "raio_x_unidade":
+        hosp = filters.get("hospital")
+        if not hosp:
+            raise ValueError("raio_x_unidade exige um hospital (filters.hospital)")
+        env = P.raio_x_unidade(df, hospital=hosp, competencia=competencia, request_id=request_id)
     else:
         raise ValueError(f"primitiva desconhecida: {prim}")
     return env, []

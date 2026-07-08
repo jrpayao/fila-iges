@@ -19,7 +19,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 5.1
+    "elapsed_s": 4.5
   },
   {
     "id": 2,
@@ -41,7 +41,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 4.1
+    "elapsed_s": 4.5
   },
   {
     "id": 3,
@@ -63,7 +63,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 4.0
+    "elapsed_s": 5.0
   },
   {
     "id": 4,
@@ -85,7 +85,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 7.9
+    "elapsed_s": 4.9
   },
   {
     "id": 5,
@@ -107,7 +107,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 5.3
+    "elapsed_s": 6.1
   },
   {
     "id": 6,
@@ -129,7 +129,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 5.8
+    "elapsed_s": 6.7
   },
   {
     "id": 7,
@@ -151,7 +151,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 3.9
+    "elapsed_s": 5.1
   },
   {
     "id": 8,
@@ -173,7 +173,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 4.1
+    "elapsed_s": 5.2
   },
   {
     "id": 9,
@@ -195,7 +195,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 3.9
+    "elapsed_s": 4.4
   },
   {
     "id": 10,
@@ -217,7 +217,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 8.6
+    "elapsed_s": 8.2
   },
   {
     "id": 11,
@@ -239,7 +239,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 5.7
+    "elapsed_s": 9.7
   },
   {
     "id": 12,
@@ -261,7 +261,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 4.2
+    "elapsed_s": 5.3
   },
   {
     "id": 13,
@@ -283,7 +283,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 3.8
+    "elapsed_s": 4.8
   },
   {
     "id": 14,
@@ -305,7 +305,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 4.0
+    "elapsed_s": 5.4
   },
   {
     "id": 15,
@@ -327,7 +327,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 5.0
+    "elapsed_s": 6.2
   },
   {
     "id": 16,
@@ -349,7 +349,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 5.6
+    "elapsed_s": 7.1
   },
   {
     "id": 17,
@@ -370,7 +370,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 4.1
+    "elapsed_s": 4.7
   },
   {
     "id": 18,
@@ -391,7 +391,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 4.7
+    "elapsed_s": 5.1
   },
   {
     "id": 19,
@@ -408,7 +408,7 @@
     "clarifications": [],
     "refusal": "A pergunta é sobre clima, que está fora do escopo de vagas/capacidade SISREG do IGES.",
     "error": null,
-    "elapsed_s": 1.4
+    "elapsed_s": 1.7
   },
   {
     "id": 20,
@@ -425,7 +425,7 @@
     "clarifications": [],
     "refusal": "A pergunta é sobre conduta clínica individual, não sobre vagas ou capacidade hospitalar.",
     "error": null,
-    "elapsed_s": 1.4
+    "elapsed_s": 1.8
   },
   {
     "id": 21,
@@ -447,7 +447,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 7.8
+    "elapsed_s": 8.2
   },
   {
     "id": 22,
@@ -469,7 +469,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 6.1
+    "elapsed_s": 7.2
   },
   {
     "id": 23,
@@ -491,7 +491,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 5.9
+    "elapsed_s": 4.8
   },
   {
     "id": 24,
@@ -513,7 +513,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 6.0
+    "elapsed_s": 5.1
   },
   {
     "id": 25,
@@ -535,7 +535,7 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 5.3
+    "elapsed_s": 6.5
   },
   {
     "id": 26,
@@ -557,6 +557,72 @@
     "clarifications": [],
     "refusal": null,
     "error": null,
-    "elapsed_s": 4.0
+    "elapsed_s": 4.2
+  },
+  {
+    "id": 27,
+    "cat": "J_wave2",
+    "q": "E se eu reduzir o bloqueio de vagas para 15%? Quantas vagas ganho?",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "scalar",
+    "primitives": [
+      "simular_desbloqueio"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 5.0
+  },
+  {
+    "id": 28,
+    "cat": "J_wave2",
+    "q": "O que mais caiu na oferta de vagas este mes?",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "breakdown",
+    "primitives": [
+      "anomalias"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 7.4
+  },
+  {
+    "id": 29,
+    "cat": "J_wave2",
+    "q": "Me mostra o raio-x do Hospital de Base",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "breakdown",
+    "primitives": [
+      "raio_x_unidade"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 7.2
   }
 ]

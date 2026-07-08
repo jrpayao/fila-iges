@@ -32,6 +32,8 @@ class VagasStep(BaseModel):
         # Pacote Wow (estrategicas):
         "indice_porta_entrada", "taxa_reserva", "vagas_perdidas_ytd",
         "cobertura_rede", "monofornecedores", "oportunidade_desbloqueio", "panorama",
+        # 2a onda:
+        "simular_desbloqueio", "anomalias", "raio_x_unidade",
     ]
     metric: Literal["vagas_disponiveis", "vagas_ativas", "vagas_bloqueadas"] = Field(
         "vagas_disponiveis",
@@ -44,6 +46,9 @@ class VagasStep(BaseModel):
     top_n: int = Field(10, ge=1, le=50)
     mix_base: Optional[Literal["ativas", "bloqueadas"]] = Field(
         None, description="mix_tipo_vaga: sobre vagas ativas ou bloqueadas (default ativas)."
+    )
+    target_pct: Optional[float] = Field(
+        None, description="simular_desbloqueio: meta de taxa de bloqueio em % (ex: 15). Default 15."
     )
     filters: VagasFilterSpec = Field(default_factory=VagasFilterSpec)
 
