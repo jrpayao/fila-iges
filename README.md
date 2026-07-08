@@ -1,82 +1,120 @@
-# fila-eletiva
+# fila-eletiva — Vagas SISREG DF
 
-Plataforma conversacional sobre a fila do **SISREG** (Sistema de Regulação / Ministério da Saúde) para subsidiar política pública de saúde no **Distrito Federal**, sob o **IGES-DF** em parceria com a **ZELLO**.
+Plataforma conversacional sobre a **oferta de vagas do SISREG** (Sistema de Regulação /
+Ministério da Saúde) na rede do **IGES-DF**, em parceria com a **ZELLO**. O usuário
+pergunta em português; o agente planeja, agrega o dado e responde com prosa + gráfico,
+sempre com número rastreável (nada de alucinação numérica).
 
-A interação é via chat — análogo conceitual: **Databricks AI/BI Genie** — sobre os dados indexados no Elasticsearch do MS (`sisreg-es.saude.gov.br`).
+> **Fonte v3 (atual)**: API de vagas SISREG publicada pelo IGES. Substitui as fontes
+> anteriores (SISREG-ES e a exploração MV/Oracle). Ver [memory/constitution.md](memory/constitution.md)
+> — **Emenda v3.0** — e [specs/002-vagas-sisreg/spec.md](specs/002-vagas-sisreg/spec.md).
 
-## Cenário-âncora
+## O que dá pra perguntar
 
-> *"Me diga os tops CIDs de atendimento nos últimos 10 dias."*
+É um produto de **capacidade / oferta** (não de fila/espera). Exemplos:
 
-O modelo de linguagem recebe a pergunta, gera uma consulta Elasticsearch DSL restrita por allowlist, executa via API SISREG, agrega os resultados (sem PII) e devolve uma resposta narrativa + dado tabular.
+- *"Quais procedimentos têm mais vagas disponíveis neste mês?"*
+- *"Quanto da capacidade está bloqueada no HUB?"*
+- *"Como evoluiu a oferta de ressonância magnética ao longo dos meses?"*
+- *"Qual a distribuição das vagas ativas por tipo (1ª vez / retorno / reserva)?"*
+- *"Compare o Hospital de Base com os demais em oferta de vagas."*
 
-## Metodologia: Spec-Driven Development
+**Fora do escopo da fonte**: tempo de espera, tamanho de fila, demanda, faltas. Perguntas
+assim são respondidas com a capacidade relacionada + ressalva explícita ("a fonte cobre a
+oferta de vagas, não o tempo de espera").
 
-Este repositório segue **SDD**. A spec é a fonte da verdade — código deriva dela.
+## Fonte de dados
+
+`GET https://api.igesdf.org.br/iges/dados_vagas_sisreg?mes=MM&ano=AAAA`
+
+- Auth por **headers** `client_id` + `client_secret`. GET-only.
+- Retorno: lista JSON (~850 regs/competência). Competência sem dado → HTML de erro (tratado).
+- Histórico ≥ jan/2025. Snapshot mensal (`data_extracao`). **Sem PII.**
+- Um registro = procedimento × hospital × competência, com `vagas_disponiveis`,
+  `ativ_{1,retorno,reserva}`, `bloq_{1,retorno,reserva}`.
+
+## Arquitetura
+
+Pipeline (reusa o "motor v2": Envelope, chart, audit, api, UI):
 
 ```
-fila-eletiva/
-├── memory/
-│   └── constitution.md                    # Princípios não-negociáveis
-├── specs/
-│   └── 001-chat-politicas-publicas/
-│       ├── spec.md                        # WHAT/WHY
-│       ├── plan.md                        # HOW técnico
-│       ├── data-model.md                  # Dicionário derivado do manual SISREG
-│       ├── contracts/
-│       │   └── elasticsearch.md           # Templates DSL aprovados
-│       ├── research.md                    # (pendente) Decisões com tradeoffs
-│       └── tasks.md                       # (pendente) Quebra implementável
-├── docs/
-│   └── reference/
-│       ├── manual_api_ms.pdf              # Original CGRA/MS v2.1
-│       └── manual_api_ms.txt              # Extração textual
-└── README.md
+pergunta → Planner (LLM, structured output) → VagasPlan
+        → resolver (procedimento SIGTAP / hospital CNES / competência)
+        → primitivas sobre DataFrame (pandas)
+        → Envelope (fonte única do número, P4)
+        → Synthesizer (LLM, lê só o Envelope) → prosa + gráfico
 ```
 
-## Estado atual
+Camadas em [app/vagas/](app/vagas/):
 
-- [x] Análise do manual oficial SISREG v2.1 (CGRA/MS, jun/2023)
-- [x] `constitution.md` — invariantes do projeto (v1.1-POC até 2026-07-19)
-- [x] `spec.md` — funcionalidade, personas, escopo
-- [x] `plan.md` — arquitetura técnica
-- [x] `data-model.md` — dicionário de dados normalizado + mappings reais
-- [x] `contracts/elasticsearch.md` — 11 templates DSL implementados
-- [x] **Motor implementado** (`app/`): pipeline multi-agente 5-LLM + 3 camadas mecânicas
-  - 5 agentes: Router, Planner, Validator, Narrator, Critic
-  - Retry loops: Planner↔Validator e Narrator↔Critic (max 2 attempts cada)
-  - 11 templates: 10 especializados + 1 free_text_search com safety guard
-- [x] **FastAPI** (`app/api.py`): POST /chat, GET /health, GET /audit
-- [x] **UI Streamlit** (`ui/streamlit_app.py`): chat com histórico + sidebar
-- [ ] `research.md` — registro de decisões com tradeoffs
-- [ ] `tasks.md` — quebra em tarefas implementáveis (inclui migração POC→Prod)
-- [ ] Testes pytest (anonymize, safety, registry, render)
+| Módulo | Papel |
+|---|---|
+| `client.py` | HTTP GET-only, auth por header, guard de content-type |
+| `store.py` | cache SQLite por competência + carga em DataFrame tipado |
+| `catalog.py` | métricas (vagas_disponiveis/ativas/bloqueadas, taxa_bloqueio, mix) + dimensões |
+| `resolver.py` | resolve procedimento/hospital/competência (data-driven + aliases HUB/HBDF/…) |
+| `primitives.py` | total / taxa_bloqueio / breakdown / mix_tipo_vaga / timeseries / compare → Envelope |
+| `plan.py`, `prompts.py`, `planner.py`, `synthesizer.py` | planejamento e narrativa (OpenAI) |
+| `orchestrator.py` | costura o pipeline; clarificação (P10); audit (P15) |
 
-## ⚠️ Modo POC ativo até 2026-07-19
+O dado é pequeno (~15k linhas) e sem PII → **sem Oracle, sem Vanna, sem text-to-SQL**: cabe
+inteiro em memória, agregado por pandas, com governança por construção.
 
-Esta release está em **Modo POC** com overrides explícitos em P2, P3 e P8 da constituição. Detalhes em [memory/constitution.md](memory/constitution.md). **Release gates** antes do primeiro request com PII real:
+```
+app/
+├── vagas/            # motor v3 (fonte de vagas)
+├── agent/            # motor v2 reaproveitado (envelope, chart, prompts…)
+├── engine.py         # adapter fino → app.vagas.orchestrator (v3-vagas)
+├── api.py            # FastAPI: POST /chat, GET /health, GET /audit
+└── config.py         # settings (.env) — IGES_VAGAS_*
+ui/streamlit_app.py   # chat
+specs/002-vagas-sisreg/spec.md
+memory/constitution.md
+scripts/              # smokes + bateria de regressão
+```
 
-1. **DPA OpenAI** com opt-out de treinamento assinado.
-2. **Aprovação formal** de uso de PII pelo jurídico IGES + CGRA.
-3. **Audit log** funcional (sem audit, sem POC).
-4. **`.env.local`** fora do repo, chave rotacionada.
+## Rodando localmente
 
-## Decisões já fixadas (2026-05-20)
+1. **Ambiente + deps**
+   ```bash
+   python -m venv .venv && . .venv/Scripts/activate   # Windows: .venv\Scripts\activate
+   pip install -r requirements.txt
+   ```
+2. **Credenciais** — copie `.env.example` para `.env` e preencha `IGES_VAGAS_CLIENT_ID` /
+   `IGES_VAGAS_CLIENT_SECRET` e `OPENAI_API_KEY`. (`.env` é gitignored.)
+3. **Popular o cache** (baixa jan/2025 → competência atual):
+   ```bash
+   python scripts/smoke_vagas.py
+   ```
+   (o `get_df` também faz auto-bootstrap se o cache estiver vazio.)
+4. **API + UI**
+   ```bash
+   uvicorn app.api:app --port 8000
+   streamlit run ui/streamlit_app.py        # noutro terminal
+   ```
 
-| Tópico | Decisão POC | Decisão Produção (a partir de 2026-07-20) |
-|---|---|---|
-| Escopo de dados | DF (subnacional) — endpoint `-{uf}-{municipio}` | idem |
-| Tratamento de PII | **`POC_VISIBLE_PII`** liberado para LLM em cenários individuais; **`ALWAYS_MASKED_PII`** segue mascarado. Banner obrigatório. | LLM **nunca** vê PII. |
-| DSL | Templates allowlist + `free_text_search` com safety guard | Templates allowlist exclusiva. |
-| Stack | Python 3.11+ · FastAPI · **OpenAI API** · elasticsearch-py | Python 3.11+ · FastAPI · **Claude API** · elasticsearch-py |
-| Modelo LLM | `gpt-4o` (planner) · `gpt-4o-mini` (narrator) | `claude-opus-4-7` (planner) · `claude-haiku-4-5-20251001` (narrator) |
-| Janela POC | **60 dias** — expira **2026-07-19** | n/a |
-| Dado-fonte | **SISREG-DF real** (exige release gates) | SISREG-DF real |
+## Testes / regressão
 
-## Próximo passo
+- `scripts/battery_vagas.py` — bateria de capacidade (8 categorias, **20/20**), com gate.
+- `scripts/smoke_vagas*.py` — smokes por fase (data → primitivas → agente → engine).
 
-Revisar `specs/001-chat-politicas-publicas/spec.md` e `plan.md`. Após aprovação:
-1. Gerar `research.md` registrando alternativas descartadas e por quê.
-2. Gerar `tasks.md` com a quebra implementável (TDD-first), **incluindo o item obrigatório de migração POC→Produção (Claude default) com data 2026-07-19**.
-3. Resolver **release gates** acima (DPA OpenAI, aprovação jurídica).
-4. Inicializar `app/` apenas então.
+## Princípios (constituição)
+
+Número nasce de agregação rastreável (P1); resposta declara competência + fonte (P2/P8);
+Envelope é fonte única (P4); tudo é `snapshot` (P5); sem PII (P6, trivial nesta fonte);
+sem recomendação clínica individual (P7); vocabulário fechado (P9); clarificação só quando
+necessária (P10); auditoria fim-a-fim (P15); spec-first (P16). Detalhes e a **Emenda v3.0**
+em [memory/constitution.md](memory/constitution.md).
+
+## Histórico de arquitetura
+
+- **v2 (SISREG-ES)** — motor de catálogo + primitivas sobre Elasticsearch. Arquivado na
+  branch `feat/agente-analitico`.
+- **MV/Oracle (explorado, engavetado)** — text-to-SQL sobre o HIS MV; descartado por
+  complexidade/PII em favor da API de vagas.
+- **v3 (atual)** — motor de vagas sobre a API IGES. Branch `feat/motor-vagas-sisreg`.
+
+## Pendências
+
+- Testes pytest formais (hoje: smokes + bateria).
+- Provider **Claude** (Emenda E7): plugável quando houver `ANTHROPIC_API_KEY` (hoje roda OpenAI).

@@ -275,8 +275,8 @@ st.markdown(
     """
 <div class="fe-header">
     <div class="fe-header-text">
-        <h1 class="fe-title">Fila Eletiva DF <span class="fe-chip">POC</span></h1>
-        <p class="fe-subtitle">Painel analítico da regulação ambulatorial e hospitalar &nbsp;·&nbsp; SISREG-DF</p>
+        <h1 class="fe-title">Vagas SISREG DF <span class="fe-chip">POC</span></h1>
+        <p class="fe-subtitle">Painel analítico da oferta/capacidade de vagas &nbsp;·&nbsp; SISREG-DF · IGES</p>
     </div>
 </div>
 """,
@@ -291,7 +291,7 @@ with st.sidebar:
         backend_ok = h.get("ok", False)
         rows = [
             ("Backend", backend_ok),
-            ("Base de dados", h.get("es_reachable")),
+            ("Fonte de vagas", h.get("fonte_reachable")),
             ("Serviço de IA", h.get("openai_reachable")),
         ]
         for label, is_ok in rows:
@@ -326,12 +326,12 @@ with st.sidebar:
 
     st.markdown("### Perguntas frequentes")
     examples = [
-        ("Top CIDs solicitados", "Top 10 CIDs solicitados nos últimos 30 dias"),
-        ("Distribuição por status", "Distribuição por status na fila ambulatorial hoje"),
-        ("Unidades com mais cancelamentos", "Top 5 unidades solicitantes com mais cancelamentos nos últimos 60 dias"),
-        ("CIDs hospitalares", "Quais são os principais CIDs hospitalares atendidos no último mês?"),
-        ("Estado atual da fila", "Como está o estado atual da fila ambulatorial?"),
-        ("Top procedimentos", "Quais os top 5 procedimentos mais solicitados nos últimos 30 dias?"),
+        ("Procedimentos com mais vagas", "Quais procedimentos têm mais vagas disponíveis neste mês?"),
+        ("Hospitais com mais vagas", "Quais hospitais oferecem mais vagas em julho de 2026?"),
+        ("Capacidade bloqueada", "Quanto da capacidade de vagas está bloqueada neste mês?"),
+        ("Evolução da oferta", "Como evoluiu a oferta de ressonância magnética ao longo dos meses?"),
+        ("Mix por tipo de vaga", "Qual a distribuição das vagas ativas por tipo (1ª vez, retorno, reserva)?"),
+        ("Vagas no HUB", "Quantas vagas disponíveis há no Hospital Universitário de Brasília?"),
     ]
     for label, question in examples:
         if st.button(label, key=f"ex-{hash(label)}", use_container_width=True):
@@ -360,8 +360,10 @@ if not st.session_state.history:
     <div class="fe-welcome-icon">💬</div>
     <h2 class="fe-welcome-title">Como posso ajudar?</h2>
     <p class="fe-welcome-text">
-        Faça perguntas em português sobre a fila de regulação do SISREG no Distrito Federal.
+        Faça perguntas em português sobre a <strong>oferta de vagas do SISREG-DF</strong>:
+        capacidade por procedimento e hospital, vagas bloqueadas, mix por tipo e tendência.
         Use os exemplos à esquerda ou digite sua pergunta no campo abaixo.
+        <br><small>Esta fonte cobre a <em>oferta</em> de vagas, não o tempo de espera da fila.</small>
     </p>
 </div>
 """,
@@ -382,6 +384,35 @@ def _render_meta(prov: dict, elapsed: float | None = None) -> None:
         st.markdown(f'<div class="fe-meta">{" &middot; ".join(bits)}</div>', unsafe_allow_html=True)
 
 
+def _render_chart_or_scalar(resposta: dict) -> None:
+    """Renderiza grafico Plotly se shape!=scalar, ou st.metric se shape=scalar."""
+    chart = resposta.get("chart")
+    dados = resposta.get("dados") or {}
+    if chart:
+        st.plotly_chart(chart, use_container_width=True)
+        return
+    # Scalar -> metric card
+    if dados.get("shape") == "scalar" and dados.get("data"):
+        prov = resposta.get("proveniencia", {}) or {}
+        metric = prov.get("metric", "Resultado")
+        units = dados.get("units", "")
+        try:
+            value = dados["data"][0].get("value")
+            if isinstance(value, (int, float)):
+                formatted = f"{value:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".") if units == "%" else f"{int(value):,}".replace(",", ".")
+            else:
+                formatted = str(value)
+        except Exception:
+            formatted = "—"
+        label_suffix = f" ({units})" if units and units != "documentos" else ""
+        dp = dados["data"][0]
+        delta = None
+        if isinstance(dp.get("delta_pct"), (int, float)):
+            prev = dp.get("prev_competencia", "mês anterior")
+            delta = f"{dp['delta_pct']:+.1f}% vs {prev}"
+        st.metric(label=f"{metric}{label_suffix}", value=formatted, delta=delta)
+
+
 def _render_details(resposta: dict) -> None:
     """Expansores tecnicos discretos (proveniencia + dados crus)."""
     col1, col2 = st.columns(2)
@@ -394,17 +425,35 @@ def _render_details(resposta: dict) -> None:
                 st.json(resposta["dados"], expanded=False)
 
 
-# ===== Renderiza historico =====
-for entry in st.session_state.history:
+def _render_sugestoes(resposta: dict, key_prefix: str) -> None:
+    """Chips de acompanhamento — clicar vira a proxima pergunta (usa a memoria)."""
+    sugs = resposta.get("sugestoes") or []
+    if not sugs:
+        return
+    st.caption("Continue explorando:")
+    cols = st.columns(len(sugs))
+    for i, (col, s) in enumerate(zip(cols, sugs)):
+        with col:
+            if st.button(s["label"], key=f"{key_prefix}-{i}", use_container_width=True):
+                st.session_state["pending_question"] = s["question"]
+                st.rerun()
+
+
+# ===== Renderiza historico (unico caminho de render; chips sob a ultima resposta) =====
+_n_hist = len(st.session_state.history)
+for idx, entry in enumerate(st.session_state.history):
     with st.chat_message("user"):
         st.markdown(entry["pergunta"])
     with st.chat_message("assistant"):
         st.markdown(entry["resposta"]["narrativa"])
+        _render_chart_or_scalar(entry["resposta"])
         _render_meta(entry["resposta"].get("proveniencia", {}))
         _render_details(entry["resposta"])
+        if idx == _n_hist - 1:
+            _render_sugestoes(entry["resposta"], key_prefix=f"sug-{idx}")
 
 # ===== Input =====
-pergunta = st.chat_input("Pergunte sobre a fila eletiva…")
+pergunta = st.chat_input("Pergunte sobre a oferta de vagas…")
 if pergunta is None and st.session_state.pending_question:
     pergunta = st.session_state.pending_question
     st.session_state.pending_question = None
@@ -412,22 +461,30 @@ if pergunta is None and st.session_state.pending_question:
 if pergunta:
     with st.chat_message("user"):
         st.markdown(pergunta)
+    _ok = False
     with st.chat_message("assistant"):
-        with st.spinner("Analisando dados da fila…"):
+        with st.spinner("Analisando as vagas…"):
             try:
-                t0 = time.time()
+                # Memoria de conversa: manda os ultimos turnos (compactos) pro backend.
+                history_payload = [
+                    {
+                        "pergunta": e["pergunta"],
+                        "metric": (e["resposta"].get("proveniencia") or {}).get("metric"),
+                        "filters": (e["resposta"].get("proveniencia") or {}).get("filters"),
+                    }
+                    for e in st.session_state.history[-4:]
+                ]
                 response = httpx.post(
                     f"{API_BASE_URL}/chat",
-                    json={"pergunta": pergunta},
+                    json={"pergunta": pergunta, "history": history_payload},
                     timeout=120,
                     auth=_AUTH,
                 ).json()
-                elapsed = time.time() - t0
-                st.markdown(response["narrativa"])
-                _render_meta(response.get("proveniencia", {}), elapsed=elapsed)
-                _render_details(response)
                 st.session_state.history.append({"pergunta": pergunta, "resposta": response})
+                _ok = True
             except httpx.ReadTimeout:
                 st.error("Tempo limite excedido — a consulta levou mais de 2 minutos.")
             except Exception as exc:
                 st.error(f"Erro ao consultar a API: {exc}")
+    if _ok:
+        st.rerun()  # re-renderiza pelo caminho unico (com os chips)

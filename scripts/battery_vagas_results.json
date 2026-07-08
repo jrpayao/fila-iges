@@ -1,0 +1,562 @@
+[
+  {
+    "id": 1,
+    "cat": "A_total",
+    "q": "Quantas vagas de ressonancia magnetica ha na competencia atual?",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "scalar",
+    "primitives": [
+      "total"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 5.1
+  },
+  {
+    "id": 2,
+    "cat": "A_total",
+    "q": "Qual o total de vagas disponiveis em julho de 2026?",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "scalar",
+    "primitives": [
+      "total"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 4.1
+  },
+  {
+    "id": 3,
+    "cat": "A_total",
+    "q": "Quantas vagas ativas existem no Hospital Universitario de Brasilia?",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "scalar",
+    "primitives": [
+      "total"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 4.0
+  },
+  {
+    "id": 4,
+    "cat": "B_breakdown",
+    "q": "Quais procedimentos tem mais vagas disponiveis?",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "breakdown",
+    "primitives": [
+      "breakdown"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 7.9
+  },
+  {
+    "id": 5,
+    "cat": "B_breakdown",
+    "q": "Quais hospitais oferecem mais vagas em julho de 2026?",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "breakdown",
+    "primitives": [
+      "breakdown"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 5.3
+  },
+  {
+    "id": 6,
+    "cat": "B_breakdown",
+    "q": "Ranking de hospitais por vagas de ressonancia magnetica.",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "breakdown",
+    "primitives": [
+      "breakdown"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 5.8
+  },
+  {
+    "id": 7,
+    "cat": "C_bloqueio",
+    "q": "Quanto da capacidade esta bloqueada neste mes?",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "scalar",
+    "primitives": [
+      "taxa_bloqueio"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 3.9
+  },
+  {
+    "id": 8,
+    "cat": "C_bloqueio",
+    "q": "Qual a taxa de bloqueio de vagas no HUB?",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "scalar",
+    "primitives": [
+      "taxa_bloqueio"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 4.1
+  },
+  {
+    "id": 9,
+    "cat": "C_bloqueio",
+    "q": "Quantas vagas estao bloqueadas em julho de 2026?",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "scalar",
+    "primitives": [
+      "total"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 3.9
+  },
+  {
+    "id": 10,
+    "cat": "D_timeseries",
+    "q": "Como evoluiu a oferta de ressonancia magnetica ao longo dos meses?",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "timeseries",
+    "primitives": [
+      "timeseries"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 8.6
+  },
+  {
+    "id": 11,
+    "cat": "D_timeseries",
+    "q": "Mostre a tendencia de vagas de ecocardiografia.",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "timeseries",
+    "primitives": [
+      "timeseries"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 5.7
+  },
+  {
+    "id": 12,
+    "cat": "D_timeseries",
+    "q": "A oferta total de vagas cresceu ou caiu no ultimo ano?",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "timeseries",
+    "primitives": [
+      "timeseries"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 4.2
+  },
+  {
+    "id": 13,
+    "cat": "E_mix",
+    "q": "Qual a distribuicao das vagas por tipo (primeira vez, retorno, reserva)?",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "breakdown",
+    "primitives": [
+      "mix_tipo_vaga"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 3.8
+  },
+  {
+    "id": 14,
+    "cat": "E_mix",
+    "q": "Do total de vagas ativas, quanto e de retorno?",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "breakdown",
+    "primitives": [
+      "mix_tipo_vaga"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 4.0
+  },
+  {
+    "id": 15,
+    "cat": "F_compare",
+    "q": "Como o HUB se compara aos outros hospitais em vagas disponiveis?",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "comparison",
+    "primitives": [
+      "compare"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 5.0
+  },
+  {
+    "id": 16,
+    "cat": "F_compare",
+    "q": "Compare o Hospital de Base com os demais em oferta de vagas.",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "comparison",
+    "primitives": [
+      "compare"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 5.6
+  },
+  {
+    "id": 17,
+    "cat": "G_demanda",
+    "q": "Qual o tempo de espera para ressonancia magnetica?",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "caveat_ok": true
+    },
+    "shape": "scalar",
+    "primitives": [
+      "total"
+    ],
+    "caveat": true,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 4.1
+  },
+  {
+    "id": 18,
+    "cat": "G_demanda",
+    "q": "Quantas pessoas estao na fila de ecocardiografia?",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "caveat_ok": true
+    },
+    "shape": "scalar",
+    "primitives": [
+      "total"
+    ],
+    "caveat": true,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 4.7
+  },
+  {
+    "id": 19,
+    "cat": "H_offtopic",
+    "q": "Qual a previsao do tempo amanha em Brasilia?",
+    "pass": true,
+    "status": "refusal",
+    "checks": {
+      "refused": true
+    },
+    "shape": null,
+    "primitives": [],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": "A pergunta é sobre clima, que está fora do escopo de vagas/capacidade SISREG do IGES.",
+    "error": null,
+    "elapsed_s": 1.4
+  },
+  {
+    "id": 20,
+    "cat": "H_offtopic",
+    "q": "Qual o melhor tratamento para hipertensao?",
+    "pass": true,
+    "status": "refusal",
+    "checks": {
+      "refused": true
+    },
+    "shape": null,
+    "primitives": [],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": "A pergunta é sobre conduta clínica individual, não sobre vagas ou capacidade hospitalar.",
+    "error": null,
+    "elapsed_s": 1.4
+  },
+  {
+    "id": 21,
+    "cat": "I_wow",
+    "q": "Me da um panorama executivo da rede de vagas.",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "breakdown",
+    "primitives": [
+      "panorama"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 7.8
+  },
+  {
+    "id": 22,
+    "cat": "I_wow",
+    "q": "Onde eu ataco o bloqueio de vagas primeiro?",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "breakdown",
+    "primitives": [
+      "oportunidade_desbloqueio"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 6.1
+  },
+  {
+    "id": 23,
+    "cat": "I_wow",
+    "q": "Quanto da oferta ativa abre porta para paciente novo?",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "scalar",
+    "primitives": [
+      "indice_porta_entrada"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 5.9
+  },
+  {
+    "id": 24,
+    "cat": "I_wow",
+    "q": "Qual a taxa de reserva das vagas neste mes?",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "scalar",
+    "primitives": [
+      "taxa_reserva"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 6.0
+  },
+  {
+    "id": 25,
+    "cat": "I_wow",
+    "q": "Quais procedimentos dependem de pouquissimos hospitais?",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "breakdown",
+    "primitives": [
+      "monofornecedores"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 5.3
+  },
+  {
+    "id": 26,
+    "cat": "I_wow",
+    "q": "Quantas vagas a rede ja perdeu por bloqueio acumulado no ano?",
+    "pass": true,
+    "status": "ok",
+    "checks": {
+      "not_refused": true,
+      "has_narrative": true,
+      "primitive_ok": true,
+      "shape_ok": true
+    },
+    "shape": "scalar",
+    "primitives": [
+      "vagas_perdidas_ytd"
+    ],
+    "caveat": false,
+    "clarifications": [],
+    "refusal": null,
+    "error": null,
+    "elapsed_s": 4.0
+  }
+]

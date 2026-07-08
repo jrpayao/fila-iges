@@ -1,0 +1,1874 @@
+[
+  {
+    "id": 1,
+    "cat": "A_scalar_snapshot",
+    "q": "Quantos pacientes estao na fila ambulatorial agora?",
+    "elapsed_s": 10.2,
+    "narrativa_preview": "Atualmente, o índice \"solicitacao-ambulatorial-df-brasilia\" apresenta um total de 396.665 documentos na fila ambulatorial, conforme a janela",
+    "shape": "scalar",
+    "metric": "estoque_fila",
+    "composition": "none",
+    "total": 396665,
+    "checks": {
+      "shape_ok": true,
+      "metric_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 2,
+    "cat": "A_scalar_snapshot",
+    "q": "Quantas solicitacoes pendentes existem hoje?",
+    "elapsed_s": 12.2,
+    "narrativa_preview": "Atualmente, no índice \"solicitacao-ambulatorial-df-brasilia\", há um total de 396.665 documentos registrados, correspondendo ao snapshot da j",
+    "shape": "scalar",
+    "metric": "estoque_fila",
+    "composition": "none",
+    "total": 396665,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 3,
+    "cat": "A_scalar_snapshot",
+    "q": "Qual o tamanho atual da fila eletiva ambulatorial?",
+    "elapsed_s": 9.4,
+    "narrativa_preview": "Atualmente, o índice consultado é o \"solicitacao-ambulatorial-df-brasilia\", com uma janela temporal marcada como \"snapshot (agora)\", e o tot",
+    "shape": "scalar",
+    "metric": "estoque_fila",
+    "composition": "none",
+    "total": 396667,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 4,
+    "cat": "A_scalar_snapshot",
+    "q": "Quantos casos urgentes (P1) estao na fila atualmente?",
+    "elapsed_s": 10.7,
+    "narrativa_preview": "Atualmente, o índice \"solicitacao-ambulatorial-df-brasilia\" apresenta um total de 255.548 documentos na fila, referente à janela temporal \"s",
+    "shape": "scalar",
+    "metric": "estoque_fila",
+    "composition": "none",
+    "total": 255548,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 5,
+    "cat": "A_scalar_snapshot",
+    "q": "Quantas emergencias (P0) estao pendentes na fila?",
+    "elapsed_s": 11.3,
+    "narrativa_preview": "No índice \"solicitacao-ambulatorial-df-brasilia\", a janela temporal é um snapshot atual e o total de documentos no universo filtrado é de 36",
+    "shape": "scalar",
+    "metric": "estoque_fila",
+    "composition": "none",
+    "total": 36412,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 6,
+    "cat": "A_scalar_snapshot",
+    "q": "Quantos casos eletivos (P3) aguardam atendimento?",
+    "elapsed_s": 19.2,
+    "narrativa_preview": "No índice \"solicitacao-ambulatorial-df-brasilia\", a janela temporal é a atual (snapshot) e o total de documentos no universo filtrado é de 2",
+    "shape": "scalar",
+    "metric": "estoque_fila",
+    "composition": "none",
+    "total": 28850,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 7,
+    "cat": "A_scalar_snapshot",
+    "q": "Quantas solicitacoes o HBDF tem pendentes?",
+    "elapsed_s": 8.0,
+    "narrativa_preview": "O índice consultado foi \"solicitacao-ambulatorial-df-brasilia\", com uma janela temporal marcada como \"snapshot (agora)\", e o total de docume",
+    "shape": "scalar",
+    "metric": "estoque_fila",
+    "composition": "none",
+    "total": 0,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 8,
+    "cat": "A_scalar_snapshot",
+    "q": "Quantos casos de hipertensao essencial (I10) estao na fila?",
+    "elapsed_s": 10.5,
+    "narrativa_preview": "No índice \"solicitacao-ambulatorial-df-brasilia\", a janela temporal é a atual (snapshot) e o total de documentos na fila de espera para hipe",
+    "shape": "scalar",
+    "metric": "estoque_fila",
+    "composition": "none",
+    "total": 11509,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 9,
+    "cat": "A_scalar_snapshot",
+    "q": "Volume da fila no HRT agora",
+    "elapsed_s": 8.5,
+    "narrativa_preview": "O índice consultado foi \"solicitacao-ambulatorial-df-brasilia\", com uma janela temporal de \"snapshot (agora)\", e o total de documentos no un",
+    "shape": "scalar",
+    "metric": "estoque_fila",
+    "composition": "none",
+    "total": 0,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 10,
+    "cat": "A_scalar_snapshot",
+    "q": "Quantas solicitacoes nao urgentes (P2) existem agora?",
+    "elapsed_s": 10.5,
+    "narrativa_preview": "Atualmente, o índice \"solicitacao-ambulatorial-df-brasilia\" apresenta um total de 75.857 solicitações não urgentes, conforme a janela tempor",
+    "shape": "scalar",
+    "metric": "estoque_fila",
+    "composition": "none",
+    "total": 75857,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 11,
+    "cat": "B_scalar_flow",
+    "q": "Quantas solicitacoes chegaram nos ultimos 7 dias?",
+    "elapsed_s": 7.6,
+    "narrativa_preview": "No índice \"solicitacao-ambulatorial-df-brasilia\", foram registradas 18.610 solicitações no período de 14 a 21 de maio de 2026, conforme indi",
+    "shape": "scalar",
+    "metric": "entrada_solicitacoes",
+    "composition": "none",
+    "total": 18610,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 12,
+    "cat": "B_scalar_flow",
+    "q": "Quantos atendimentos foram realizados em 30 dias?",
+    "elapsed_s": 14.0,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", durante a janela temporal dos últimos 30 dias (de 21 de abril a 21 de maio de 2026), foram re",
+    "shape": "scalar",
+    "metric": "atendimentos",
+    "composition": "none",
+    "total": 46235,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 13,
+    "cat": "B_scalar_flow",
+    "q": "Quantas faltas tivemos no ultimo mes?",
+    "elapsed_s": 11.1,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", durante a janela temporal dos últimos 30 dias, foram registradas um total de 9.190 faltas. Es",
+    "shape": "scalar",
+    "metric": "faltas",
+    "composition": "none",
+    "total": 9190,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 14,
+    "cat": "B_scalar_flow",
+    "q": "Quantos cancelamentos nos ultimos 60 dias?",
+    "elapsed_s": 9.5,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", foram registrados 1951 cancelamentos nos últimos 60 dias, conforme a janela temporal de 22 de",
+    "shape": "scalar",
+    "metric": "cancelamentos",
+    "composition": "none",
+    "total": 1951,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 15,
+    "cat": "B_scalar_flow",
+    "q": "Quantos agendamentos foram feitos em 14 dias?",
+    "elapsed_s": 13.6,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", foram registrados um total de 28.805 agendamentos no período de 14 dias, compreendido entre 7",
+    "shape": "scalar",
+    "metric": "agendamentos",
+    "composition": "none",
+    "total": 28805,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 16,
+    "cat": "B_scalar_flow",
+    "q": "Total de solicitacoes em 90 dias",
+    "elapsed_s": 9.7,
+    "narrativa_preview": "No índice \"solicitacao-ambulatorial-df-brasilia\", no período de 90 dias compreendido entre 20 de fevereiro de 2026 e 21 de maio de 2026, for",
+    "shape": "scalar",
+    "metric": "entrada_solicitacoes",
+    "composition": "none",
+    "total": 190746,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 17,
+    "cat": "B_scalar_flow",
+    "q": "Volume de atendimentos confirmados em 30 dias",
+    "elapsed_s": 15.3,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", durante a janela temporal dos últimos 30 dias (de 21 de abril a 21 de maio de 2026), foram re",
+    "shape": "scalar",
+    "metric": "atendimentos",
+    "composition": "none",
+    "total": 46239,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 18,
+    "cat": "B_scalar_flow",
+    "q": "Quantas marcacoes foram feitas no ultimo trimestre (90 dias)?",
+    "elapsed_s": 12.6,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", foram registradas 166.824 marcações no período de 90 dias, compreendido entre 20 de fevereiro",
+    "shape": "scalar",
+    "metric": "agendamentos",
+    "composition": "none",
+    "total": 166824,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 19,
+    "cat": "B_scalar_flow",
+    "q": "Solicitacoes recebidas nos ultimos 45 dias",
+    "elapsed_s": 12.0,
+    "narrativa_preview": "No índice \"solicitacao-ambulatorial-df-brasilia\", foram registradas 99.113 solicitações recebidas nos últimos 45 dias, conforme a janela tem",
+    "shape": "scalar",
+    "metric": "entrada_solicitacoes",
+    "composition": "none",
+    "total": 99113,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 20,
+    "cat": "B_scalar_flow",
+    "q": "Quantos atendimentos o HBDF executou em 30 dias?",
+    "elapsed_s": 13.0,
+    "narrativa_preview": "No período de 21 de abril a 21 de maio de 2026, o índice consultado foi \"marcacao-ambulatorial-df-brasilia\", com um total de 13.156 atendime",
+    "shape": "scalar",
+    "metric": "atendimentos",
+    "composition": "none",
+    "total": 13156,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 21,
+    "cat": "C_breakdown_cid",
+    "q": "Top 10 CIDs solicitados nos ultimos 30 dias",
+    "elapsed_s": 24.3,
+    "narrativa_preview": "No índice \"solicitacao-ambulatorial-df-brasilia\", referente ao período dos últimos 30 dias, foram registrados um total de 66.978 documentos.",
+    "shape": "breakdown",
+    "metric": "entrada_solicitacoes",
+    "composition": "none",
+    "total": 66978,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 22,
+    "cat": "C_breakdown_cid",
+    "q": "Quais os 5 CIDs mais agendados em 60 dias?",
+    "elapsed_s": 20.1,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", referente ao período de 60 dias entre 22 de março de 2026 e 21 de maio de 2026, foram registr",
+    "shape": "breakdown",
+    "metric": "agendamentos",
+    "composition": "none",
+    "total": 110353,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 23,
+    "cat": "C_breakdown_cid",
+    "q": "Top 15 CIDs com mais cancelamentos no ultimo mes",
+    "elapsed_s": 17.4,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos os dados referentes aos cancelamentos no período de 21 de abril a 21 de maio de 20",
+    "shape": "breakdown",
+    "metric": "cancelamentos",
+    "composition": "none",
+    "total": 999,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 24,
+    "cat": "C_breakdown_cid",
+    "q": "Principais CIDs atendidos em 30 dias",
+    "elapsed_s": 13.6,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos os atendimentos registrados nos últimos 30 dias, totalizando 46.248 documentos. Du",
+    "shape": "breakdown",
+    "metric": "atendimentos",
+    "composition": "none",
+    "total": 46248,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 25,
+    "cat": "C_breakdown_cid",
+    "q": "Top 10 CIDs em internacoes hospitalares",
+    "elapsed_s": 9.4,
+    "narrativa_preview": "Nenhum registro de internações hospitalares foi registrado no período de 21 de abril de 2026 a 21 de maio de 2026. Portanto, não há dados di",
+    "shape": "breakdown",
+    "metric": "entrada_solicitacoes",
+    "composition": "none",
+    "total": 0,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 26,
+    "cat": "C_breakdown_cid",
+    "q": "Quais doencas geram mais entrada na fila em 30 dias?",
+    "elapsed_s": 14.0,
+    "narrativa_preview": "No índice \"solicitacao-ambulatorial-df-brasilia\", referente ao período de 21 de abril a 21 de maio de 2026, foram registradas um total de 66",
+    "shape": "breakdown",
+    "metric": "entrada_solicitacoes",
+    "composition": "none",
+    "total": 66985,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 27,
+    "cat": "C_breakdown_cid",
+    "q": "CIDs com mais faltas nos ultimos 30 dias",
+    "elapsed_s": 25.5,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos os dados referentes aos últimos 30 dias, com uma totalidade de 9.193 documentos fi",
+    "shape": "breakdown",
+    "metric": "faltas",
+    "composition": "none",
+    "total": 9193,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 28,
+    "cat": "C_breakdown_cid",
+    "q": "Top 20 CIDs solicitados nos ultimos 90 dias",
+    "elapsed_s": 29.4,
+    "narrativa_preview": "No índice \"solicitacao-ambulatorial-df-brasilia\", analisamos os dados referentes aos últimos 90 dias, com uma janela temporal de 20 de fever",
+    "shape": "breakdown",
+    "metric": "entrada_solicitacoes",
+    "composition": "none",
+    "total": 190764,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 29,
+    "cat": "C_breakdown_cid",
+    "q": "CIDs mais frequentes em cancelamento ambulatorial",
+    "elapsed_s": 19.3,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos os cancelamentos ambulatoriais registrados nos últimos 30 dias, totalizando 999 do",
+    "shape": "breakdown",
+    "metric": "cancelamentos",
+    "composition": "none",
+    "total": 999,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 30,
+    "cat": "C_breakdown_cid",
+    "q": "Quais os principais CIDs de oftalmologia solicitados?",
+    "elapsed_s": 3.6,
+    "narrativa_preview": "**Preciso de mais detalhes para responder:**  - Termo ambíguo: `cid` = _\"oftalmologia\"_   Sugestões:     - T49: Intoxicação por substâncias ",
+    "status": "clarification",
+    "pass": false
+  },
+  {
+    "id": 31,
+    "cat": "C_breakdown_cid",
+    "q": "Top 8 CIDs agendados no ultimo mes",
+    "elapsed_s": 15.7,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos os agendamentos realizados nos últimos 30 dias, totalizando 56.744 documentos. É i",
+    "shape": "breakdown",
+    "metric": "agendamentos",
+    "composition": "none",
+    "total": 56744,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 32,
+    "cat": "C_breakdown_cid",
+    "q": "Top 10 CIDs solicitados de janeiro a marco",
+    "elapsed_s": 18.9,
+    "narrativa_preview": "No índice \"solicitacao-ambulatorial-df-brasilia\", analisamos os dados referentes ao período de 90 dias, de 20 de fevereiro de 2026 a 21 de m",
+    "shape": "breakdown",
+    "metric": "entrada_solicitacoes",
+    "composition": "none",
+    "total": 190778,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 33,
+    "cat": "D_breakdown_unidade",
+    "q": "Top 5 unidades solicitantes nos ultimos 30 dias",
+    "elapsed_s": 13.4,
+    "narrativa_preview": "No índice \"solicitacao-ambulatorial-df-brasilia\", analisamos os dados dos últimos 30 dias, com uma janela temporal de 21 de abril de 2026 a ",
+    "shape": "breakdown",
+    "metric": "entrada_solicitacoes",
+    "composition": "none",
+    "total": 67009,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 34,
+    "cat": "D_breakdown_unidade",
+    "q": "Quais hospitais mais solicitam atendimento em 60 dias?",
+    "elapsed_s": 14.1,
+    "narrativa_preview": "No índice \"solicitacao-ambulatorial-df-brasilia\", referente ao período de 60 dias entre 22 de março de 2026 e 21 de maio de 2026, foram regi",
+    "shape": "breakdown",
+    "metric": "entrada_solicitacoes",
+    "composition": "none",
+    "total": 126722,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 35,
+    "cat": "D_breakdown_unidade",
+    "q": "Top 10 unidades com mais cancelamentos no mes",
+    "elapsed_s": 17.4,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos os cancelamentos ocorridos nos últimos 30 dias, totalizando 999 documentos. Este r",
+    "shape": "breakdown",
+    "metric": "cancelamentos",
+    "composition": "none",
+    "total": 999,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 36,
+    "cat": "D_breakdown_unidade",
+    "q": "Unidades que mais executam atendimentos em 30 dias",
+    "elapsed_s": 15.2,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos os atendimentos realizados nos últimos 30 dias, entre 21 de abril de 2026 e 21 de ",
+    "shape": "breakdown",
+    "metric": "atendimentos",
+    "composition": "none",
+    "total": 46276,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 37,
+    "cat": "D_breakdown_unidade",
+    "q": "Top 5 unidades com mais entrada de solicitacoes",
+    "elapsed_s": 12.2,
+    "narrativa_preview": "No índice \"solicitacao-ambulatorial-df-brasilia\", analisamos os dados referentes aos últimos 30 dias, com um total de 67.014 documentos filt",
+    "shape": "breakdown",
+    "metric": "entrada_solicitacoes",
+    "composition": "none",
+    "total": 67014,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 38,
+    "cat": "D_breakdown_unidade",
+    "q": "Quais 7 hospitais executam mais atendimentos em 60 dias?",
+    "elapsed_s": 17.1,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos os dados referentes aos atendimentos realizados nos últimos 60 dias, entre 22 de m",
+    "shape": "breakdown",
+    "metric": "atendimentos",
+    "composition": "none",
+    "total": 99178,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 39,
+    "cat": "D_breakdown_unidade",
+    "q": "Unidades solicitantes em casos de emergencia (P0)",
+    "elapsed_s": 12.5,
+    "narrativa_preview": "No índice \"solicitacao-ambulatorial-df-brasilia\", referente ao período de 21 de abril a 21 de maio de 2026, foram registradas um total de 21",
+    "shape": "breakdown",
+    "metric": "entrada_solicitacoes",
+    "composition": "none",
+    "total": 21270,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 40,
+    "cat": "D_breakdown_unidade",
+    "q": "Quais unidades mais pedem consultas em 30 dias?",
+    "elapsed_s": 16.1,
+    "narrativa_preview": "No índice \"solicitacao-ambulatorial-df-brasilia\", referente ao período de 21 de abril a 21 de maio de 2026, foram registradas um total de 67",
+    "shape": "breakdown",
+    "metric": "entrada_solicitacoes",
+    "composition": "none",
+    "total": 67021,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 41,
+    "cat": "D_breakdown_unidade",
+    "q": "Top 5 hospitais por volume de faltas",
+    "elapsed_s": 16.7,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos o período dos últimos 30 dias, com um total de 9.210 documentos filtrados. O foco ",
+    "shape": "breakdown",
+    "metric": "faltas",
+    "composition": "none",
+    "total": 9210,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 42,
+    "cat": "D_breakdown_unidade",
+    "q": "Top 10 unidades solicitantes em casos urgentes",
+    "elapsed_s": 16.7,
+    "narrativa_preview": "No índice \"solicitacao-ambulatorial-df-brasilia\", analisamos os dados referentes ao período de 21 de abril de 2026 a 21 de maio de 2026, tot",
+    "shape": "breakdown",
+    "metric": "entrada_solicitacoes",
+    "composition": "none",
+    "total": 33123,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 43,
+    "cat": "E_breakdown_outras",
+    "q": "Distribuicao por prioridade na fila atual",
+    "elapsed_s": 11.4,
+    "narrativa_preview": "No índice \"solicitacao-ambulatorial-df-brasilia\", a janela temporal é um snapshot atual e o total de documentos no universo filtrado é de 39",
+    "shape": "breakdown",
+    "metric": "estoque_fila",
+    "composition": "none",
+    "total": 396716,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 44,
+    "cat": "E_breakdown_outras",
+    "q": "Distribuicao por status na fila ambulatorial agora",
+    "elapsed_s": 11.5,
+    "narrativa_preview": "O índice analisado é o \"solicitacao-ambulatorial-df-brasilia\", com uma janela temporal de \"snapshot (agora)\" e um total de 396.713 documento",
+    "shape": "breakdown",
+    "metric": "estoque_fila",
+    "composition": "none",
+    "total": 396713,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 45,
+    "cat": "E_breakdown_outras",
+    "q": "Distribuicao por tipo de vaga (primeira vez vs retorno)",
+    "elapsed_s": 11.8,
+    "narrativa_preview": "O índice analisado é o \"solicitacao-ambulatorial-df-brasilia\", com uma janela temporal representando um snapshot atual e um total de 7.335.7",
+    "shape": "breakdown",
+    "metric": "mix_tipo_vaga",
+    "composition": "none",
+    "total": 7335731,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 46,
+    "cat": "E_breakdown_outras",
+    "q": "Carater hospitalar: urgente vs eletiva nos ultimos 30 dias",
+    "elapsed_s": 9.9,
+    "narrativa_preview": "Nenhum registro de solicitações hospitalares foi registrado no período de 21 de abril de 2026 a 21 de maio de 2026. O total de documentos fi",
+    "shape": "comparison",
+    "metric": "entrada_solicitacoes",
+    "composition": "none",
+    "total": 0,
+    "checks": {
+      "shape_ok": false,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": false,
+    "status": "fail"
+  },
+  {
+    "id": 47,
+    "cat": "E_breakdown_outras",
+    "q": "Como esta dividida a fila por urgencia hoje?",
+    "elapsed_s": 9.6,
+    "narrativa_preview": "O índice analisado é \"solicitacao-ambulatorial-df-brasilia\", com uma janela temporal de \"snapshot (agora)\" e um total de 396.714 documentos ",
+    "shape": "breakdown",
+    "metric": "estoque_fila",
+    "composition": "none",
+    "total": 396714,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 48,
+    "cat": "E_breakdown_outras",
+    "q": "Top municipios com mais solicitacoes em 30 dias",
+    "elapsed_s": 11.4,
+    "narrativa_preview": "No índice \"solicitacao-ambulatorial-df-brasilia\", analisamos o período dos últimos 30 dias, com um total de 67.024 documentos registrados. O",
+    "shape": "breakdown",
+    "metric": "entrada_solicitacoes",
+    "composition": "none",
+    "total": 67024,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 49,
+    "cat": "E_breakdown_outras",
+    "q": "Distribuicao por tipo de regulacao (R vs F) na fila",
+    "elapsed_s": 11.4,
+    "narrativa_preview": "O índice analisado é o \"solicitacao-ambulatorial-df-brasilia\", com uma janela temporal de \"snapshot (agora)\" e um total de 396714 documentos",
+    "shape": "breakdown",
+    "metric": "estoque_fila",
+    "composition": "none",
+    "total": 396714,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 50,
+    "cat": "E_breakdown_outras",
+    "q": "Quem mais cancela: paciente ou sistema? (perfil_cancelamento)",
+    "elapsed_s": 12.3,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos os dados dos últimos 30 dias, com um total de 999 documentos filtrados. O objetivo",
+    "shape": "breakdown",
+    "metric": "cancel_por_perfil",
+    "composition": "none",
+    "total": 999,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 51,
+    "cat": "E_breakdown_outras",
+    "q": "Distribuicao de agendamentos por status nos ultimos 30 dias",
+    "elapsed_s": 22.0,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos a distribuição de agendamentos por status nos últimos 30 dias, com um total de 56.",
+    "shape": "breakdown",
+    "metric": "agendamentos",
+    "composition": "none",
+    "total": 56754,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 52,
+    "cat": "E_breakdown_outras",
+    "q": "Quais prioridades concentram os atendimentos confirmados?",
+    "elapsed_s": 14.4,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos os atendimentos confirmados no período de 21 de abril a 21 de maio de 2026, totali",
+    "shape": "breakdown",
+    "metric": "atendimentos",
+    "composition": "none",
+    "total": 46287,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 53,
+    "cat": "E_breakdown_outras",
+    "q": "Tipo de vaga dos agendamentos em 30 dias",
+    "elapsed_s": 12.5,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos os agendamentos realizados nos últimos 30 dias, totalizando 56.754 documentos. Dur",
+    "shape": "breakdown",
+    "metric": "agendamentos",
+    "composition": "none",
+    "total": 56754,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 54,
+    "cat": "E_breakdown_outras",
+    "q": "Quem cancelou mais nos ultimos 60 dias por perfil?",
+    "elapsed_s": 16.5,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos os dados referentes aos últimos 60 dias, totalizando 1.951 documentos. O foco da a",
+    "shape": "breakdown",
+    "metric": "cancel_por_perfil",
+    "composition": "none",
+    "total": 1951,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 55,
+    "cat": "E_breakdown_outras",
+    "q": "Top 8 grupos de procedimento mais solicitados",
+    "elapsed_s": 19.8,
+    "narrativa_preview": "No índice \"solicitacao-ambulatorial-df-brasilia\", analisamos os dados referentes aos últimos 30 dias, de 21 de abril de 2026 a 21 de maio de",
+    "shape": "breakdown",
+    "metric": "entrada_solicitacoes",
+    "composition": "none",
+    "total": 67024,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 56,
+    "cat": "F_timeseries",
+    "q": "Evolucao diaria das solicitacoes nos ultimos 14 dias",
+    "elapsed_s": 17.3,
+    "narrativa_preview": "No índice \"solicitacao-ambulatorial-df-brasilia\", analisamos a evolução diária das solicitações nos últimos 14 dias, entre 07 e 21 de maio d",
+    "shape": "timeseries",
+    "metric": "entrada_solicitacoes",
+    "composition": "none",
+    "total": 34669,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 57,
+    "cat": "F_timeseries",
+    "q": "Tendencia semanal dos atendimentos nos ultimos 90 dias",
+    "elapsed_s": 12.8,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos a tendência semanal dos atendimentos nos últimos 90 dias, com uma janela temporal ",
+    "shape": "timeseries",
+    "metric": "atendimentos",
+    "composition": "none",
+    "total": 157113,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 58,
+    "cat": "F_timeseries",
+    "q": "Faltas dia a dia em 30 dias",
+    "elapsed_s": 11.6,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos os dados referentes às faltas registradas nos últimos 30 dias, totalizando 9210 do",
+    "shape": "timeseries",
+    "metric": "faltas",
+    "composition": "none",
+    "total": 9210,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 59,
+    "cat": "F_timeseries",
+    "q": "Cancelamentos diarios nas ultimas 2 semanas",
+    "elapsed_s": 12.2,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos os cancelamentos diários registrados nos últimos 14 dias, de 07 a 21 de maio de 20",
+    "shape": "timeseries",
+    "metric": "cancelamentos",
+    "composition": "none",
+    "total": 494,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 60,
+    "cat": "F_timeseries",
+    "q": "Inflow diario da fila em 30 dias",
+    "elapsed_s": 12.4,
+    "narrativa_preview": "No índice \"solicitacao-ambulatorial-df-brasilia\", analisamos o inflow diário da fila nos últimos 30 dias, com um total de 67.024 documentos ",
+    "shape": "timeseries",
+    "metric": "entrada_solicitacoes",
+    "composition": "none",
+    "total": 67024,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 61,
+    "cat": "F_timeseries",
+    "q": "Atendimentos semanais nos ultimos 60 dias",
+    "elapsed_s": 13.7,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos os atendimentos semanais nos últimos 60 dias, entre 22 de março de 2026 e 21 de ma",
+    "shape": "timeseries",
+    "metric": "atendimentos",
+    "composition": "none",
+    "total": 99184,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 62,
+    "cat": "F_timeseries",
+    "q": "Curva de agendamentos diaria em 30 dias",
+    "elapsed_s": 9.8,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos a curva de agendamentos diários nos últimos 30 dias, com um total de 56.754 docume",
+    "shape": "timeseries",
+    "metric": "agendamentos",
+    "composition": "none",
+    "total": 56754,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 63,
+    "cat": "F_timeseries",
+    "q": "Tendencia mensal de entradas nos ultimos 90 dias",
+    "elapsed_s": 10.1,
+    "narrativa_preview": "O índice analisado é \"solicitacao-ambulatorial-df-brasilia\", com uma janela temporal que abrange os últimos 90 dias, totalizando 190.797 doc",
+    "shape": "timeseries",
+    "metric": "entrada_solicitacoes",
+    "composition": "none",
+    "total": 190797,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 64,
+    "cat": "F_timeseries",
+    "q": "Evolucao das faltas semanais em 60 dias",
+    "elapsed_s": 14.0,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos a evolução das faltas semanais no período de 60 dias, de 22 de março a 21 de maio ",
+    "shape": "timeseries",
+    "metric": "faltas",
+    "composition": "none",
+    "total": 23125,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 65,
+    "cat": "F_timeseries",
+    "q": "Volume diario de solicitacoes em maio",
+    "elapsed_s": 23.4,
+    "narrativa_preview": "No índice \"solicitacao-ambulatorial-df-brasilia\", analisamos o volume diário de solicitações no período de 20 de abril a 21 de maio de 2026,",
+    "shape": "timeseries",
+    "metric": "entrada_solicitacoes",
+    "composition": "none",
+    "total": 67800,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 66,
+    "cat": "G_comparison",
+    "q": "Compare o volume de solicitacoes do HRT com outras unidades em 30 dias",
+    "elapsed_s": 14.4,
+    "narrativa_preview": "O índice analisado é o \"solicitacao-ambulatorial-df-brasilia\", com uma janela temporal de 30 dias, abrangendo o período de 21 de abril a 21 ",
+    "shape": "comparison",
+    "metric": "entrada_solicitacoes",
+    "composition": "none",
+    "total": 67024,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 67,
+    "cat": "G_comparison",
+    "q": "HBDF vs outras unidades em volume de atendimentos em 60 dias",
+    "elapsed_s": 18.0,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos os atendimentos realizados nos últimos 60 dias, totalizando 99.184 documentos. O p",
+    "shape": "comparison",
+    "metric": "atendimentos",
+    "composition": "none",
+    "total": 99184,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 68,
+    "cat": "G_comparison",
+    "q": "HUB comparado com outras unidades em cancelamentos",
+    "elapsed_s": 10.9,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos os cancelamentos ocorridos nos últimos 30 dias, totalizando 999 documentos. O foco",
+    "shape": "comparison",
+    "metric": "cancelamentos",
+    "composition": "none",
+    "total": 999,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 69,
+    "cat": "G_comparison",
+    "q": "Como o HRT se compara com outros hospitais em faltas?",
+    "elapsed_s": 11.6,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", referente ao período de 21 de abril a 21 de maio de 2026, foram registrados um total de 9.210",
+    "shape": "comparison",
+    "metric": "faltas",
+    "composition": "none",
+    "total": 9210,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 70,
+    "cat": "G_comparison",
+    "q": "Compare a unidade HRAN com as outras em solicitacoes",
+    "elapsed_s": 9.1,
+    "narrativa_preview": "No índice \"solicitacao-ambulatorial-df-brasilia\", analisamos o período dos últimos 30 dias, com um total de 67.024 documentos registrados. D",
+    "shape": "comparison",
+    "metric": "entrada_solicitacoes",
+    "composition": "none",
+    "total": 67024,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 71,
+    "cat": "G_comparison",
+    "q": "Volume do HMIB vs outras unidades em 30 dias",
+    "elapsed_s": 9.1,
+    "narrativa_preview": "O índice analisado é o \"solicitacao-ambulatorial-df-brasilia\", com uma janela temporal de 30 dias, abrangendo o período de 21 de abril a 21 ",
+    "shape": "comparison",
+    "metric": "entrada_solicitacoes",
+    "composition": "none",
+    "total": 67024,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 72,
+    "cat": "G_comparison",
+    "q": "HRGu vs outras unidades em entradas em 60 dias",
+    "elapsed_s": 9.6,
+    "narrativa_preview": "O índice analisado é o \"solicitacao-ambulatorial-df-brasilia\", com uma janela temporal de 60 dias, abrangendo o período de 22 de março de 20",
+    "shape": "comparison",
+    "metric": "entrada_solicitacoes",
+    "composition": "none",
+    "total": 126737,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 73,
+    "cat": "G_comparison",
+    "q": "Compare a producao do HRC com outros hospitais",
+    "elapsed_s": 15.6,
+    "narrativa_preview": "O índice analisado é o \"solicitacao-ambulatorial-df-brasilia\", com uma janela temporal de 30 dias, compreendendo o período de 21 de abril a ",
+    "shape": "comparison",
+    "metric": "entrada_solicitacoes",
+    "composition": "none",
+    "total": 67024,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 74,
+    "cat": "H_distribution",
+    "q": "Tempo medio de regulacao dos agendamentos nos ultimos 30 dias",
+    "elapsed_s": 9.0,
+    "narrativa_preview": "Nenhum registro de tempo médio de regulação dos agendamentos foi encontrado no período de 21 de abril de 2026 a 21 de maio de 2026. O índice",
+    "shape": "distribution",
+    "metric": "tempo_regulacao",
+    "composition": "none",
+    "total": 0,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 75,
+    "cat": "H_distribution",
+    "q": "Distribuicao do tempo total de espera (solicitacao ate atendimento)",
+    "elapsed_s": 12.7,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos a distribuição do tempo total de espera entre solicitação e atendimento nos último",
+    "shape": "distribution",
+    "metric": "tempo_espera_total",
+    "composition": "none",
+    "total": 47114,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 76,
+    "cat": "H_distribution",
+    "q": "Qual a mediana do tempo de marcacao em 60 dias?",
+    "elapsed_s": 10.9,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos os dados referentes à janela temporal dos últimos 60 dias, totalizando 110.363 doc",
+    "shape": "distribution",
+    "metric": "tempo_marcacao",
+    "composition": "none",
+    "total": 110363,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 77,
+    "cat": "H_distribution",
+    "q": "Tempo de execucao dos atendimentos nos ultimos 60 dias",
+    "elapsed_s": 14.1,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos os dados referentes ao tempo de execução dos atendimentos nos últimos 60 dias, ent",
+    "shape": "distribution",
+    "metric": "tempo_execucao",
+    "composition": "none",
+    "total": 99184,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 78,
+    "cat": "H_distribution",
+    "q": "Distribuicao de tempo solicitacao-aprovacao no mes",
+    "elapsed_s": 6.9,
+    "narrativa_preview": "Nenhum dado foi registrado no período de 21 de abril de 2026 a 21 de maio de 2026 referente à distribuição de tempo entre solicitação e apro",
+    "shape": "distribution",
+    "metric": "tempo_regulacao",
+    "composition": "none",
+    "total": 0,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 79,
+    "cat": "H_distribution",
+    "q": "Mediana do tempo da fila ate confirmacao em 90 dias",
+    "elapsed_s": 12.8,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos os dados referentes ao tempo de espera até a confirmação no período de 90 dias, to",
+    "shape": "distribution",
+    "metric": "tempo_espera_total",
+    "composition": "none",
+    "total": 159424,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 80,
+    "cat": "H_distribution",
+    "q": "P90 do tempo de regulacao nos ultimos 60 dias",
+    "elapsed_s": 7.3,
+    "narrativa_preview": "Nenhum dado sobre o tempo de regulação foi registrado no período de 22 de março de 2026 a 21 de maio de 2026. O total de documentos filtrado",
+    "shape": "distribution",
+    "metric": "tempo_regulacao",
+    "composition": "none",
+    "total": 0,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 81,
+    "cat": "H_distribution",
+    "q": "Tempo medio de regulacao para o HRT no ultimo mes",
+    "elapsed_s": 8.7,
+    "narrativa_preview": "O índice analisado é o \"solicitacao-ambulatorial-df-brasilia\", com uma janela temporal de 30 dias, abrangendo o período de 21 de abril a 21 ",
+    "shape": "distribution",
+    "metric": "tempo_regulacao",
+    "composition": "none",
+    "total": 0,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 82,
+    "cat": "H_distribution",
+    "q": "Quanto demora em media do agendamento ao atendimento?",
+    "elapsed_s": 13.2,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos o período dos últimos 30 dias, com um total de 47.114 documentos. A média de tempo",
+    "shape": "distribution",
+    "metric": "tempo_execucao",
+    "composition": "none",
+    "total": 47114,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 83,
+    "cat": "H_distribution",
+    "q": "Distribuicao do tempo total de espera ambulatorial",
+    "elapsed_s": 25.4,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos a distribuição do tempo total de espera ambulatorial nos últimos 30 dias, com um t",
+    "shape": "distribution",
+    "metric": "tempo_espera_total",
+    "composition": "none",
+    "total": 47114,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 84,
+    "cat": "I_ratio",
+    "q": "Taxa de falta nos agendamentos em 30 dias",
+    "elapsed_s": 12.3,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", durante a janela temporal dos últimos 30 dias, foram registrados um total de 56.754 agendamen",
+    "shape": "scalar",
+    "metric": "taxa_falta",
+    "composition": "ratio",
+    "total": 56754,
+    "checks": {
+      "shape_ok": true,
+      "metric_ok": true,
+      "composition_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 85,
+    "cat": "I_ratio",
+    "q": "Taxa de conversao em atendimento nos ultimos 60 dias",
+    "elapsed_s": 13.9,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos a taxa de conversão em atendimento nos últimos 60 dias, com uma janela temporal de",
+    "shape": "scalar",
+    "metric": "taxa_conversao",
+    "composition": "ratio",
+    "total": 110363,
+    "checks": {
+      "shape_ok": true,
+      "metric_ok": true,
+      "composition_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 86,
+    "cat": "I_ratio",
+    "q": "Taxa de cancelamento dos ultimos 30 dias",
+    "elapsed_s": 32.8,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", referente à janela temporal dos últimos 30 dias, foi registrado um total de 56.754 documentos",
+    "shape": "scalar",
+    "metric": "taxa_cancelamento",
+    "composition": "ratio",
+    "total": 56754,
+    "checks": {
+      "shape_ok": true,
+      "metric_ok": true,
+      "composition_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 87,
+    "cat": "I_ratio",
+    "q": "Taxa de falta do HRT no ultimo mes",
+    "elapsed_s": 13.3,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", referente ao período de 21 de abril a 21 de maio de 2026, não foram registrados documentos, t",
+    "shape": "scalar",
+    "metric": "taxa_falta",
+    "composition": "ratio",
+    "total": 0,
+    "checks": {
+      "shape_ok": true,
+      "metric_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 88,
+    "cat": "I_ratio",
+    "q": "Taxa de conversao do HBDF em 30 dias",
+    "elapsed_s": 17.1,
+    "narrativa_preview": "O índice analisado é o \"marcacao-ambulatorial-df-brasilia\", com uma janela temporal de 30 dias, abrangendo o período de 21 de abril de 2026 ",
+    "shape": "scalar",
+    "metric": "taxa_conversao",
+    "composition": "ratio",
+    "total": 5976,
+    "checks": {
+      "shape_ok": true,
+      "metric_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 89,
+    "cat": "I_ratio",
+    "q": "Qual a taxa de cancelamento de primeira vez vs retorno?",
+    "elapsed_s": 13.9,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos a taxa de cancelamento de atendimentos no período de 21 de abril a 21 de maio de 2",
+    "shape": "comparison",
+    "metric": "taxa_cancelamento",
+    "composition": "none",
+    "total": 967,
+    "checks": {
+      "shape_ok": false,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": false,
+    "status": "fail"
+  },
+  {
+    "id": 90,
+    "cat": "I_ratio",
+    "q": "Taxa de falta para hipertensao essencial (I10)",
+    "elapsed_s": 14.6,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", referente ao período de 21 de abril a 21 de maio de 2026, foram registrados um total de 1.366",
+    "shape": "scalar",
+    "metric": "taxa_falta",
+    "composition": "ratio",
+    "total": 1366,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 91,
+    "cat": "I_ratio",
+    "q": "Compare taxa de falta de pacientes avisados vs nao avisados",
+    "elapsed_s": 13.2,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos os dados dos últimos 30 dias, onde foram registrados um total de 9.210 documentos.",
+    "shape": "comparison",
+    "metric": "efeito_aviso",
+    "composition": "none",
+    "total": 9210,
+    "checks": {
+      "metric_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 92,
+    "cat": "I_ratio",
+    "q": "Taxa de conversao em emergencias (P0) nos ultimos 30 dias",
+    "elapsed_s": 19.1,
+    "narrativa_preview": "No índice \"marcacao-ambulatorial-df-brasilia\", analisamos a taxa de conversão em emergências nos últimos 30 dias, com uma janela temporal de",
+    "shape": "scalar",
+    "metric": "taxa_conversao",
+    "composition": "ratio",
+    "total": 19313,
+    "checks": {
+      "shape_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 93,
+    "cat": "J_projection",
+    "q": "Previsao de atendimento para catarata senil (H25) no HRT",
+    "elapsed_s": 21.1,
+    "narrativa_preview": "O índice consultado foi o \"multi\", com uma janela temporal marcada como \"snapshot (agora)\", e não foram encontrados documentos no universo f",
+    "shape": "scalar",
+    "metric": "previsao_atendimento",
+    "composition": "projection",
+    "total": 0,
+    "checks": {
+      "metric_ok": true,
+      "composition_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 94,
+    "cat": "J_projection",
+    "q": "Estimativa de espera para hipertensao essencial (I10) globalmente",
+    "elapsed_s": 23.3,
+    "narrativa_preview": "O índice analisado é o \"multi\", com uma janela temporal marcada como \"snapshot (agora)\" e um total de 11.510 documentos filtrados. A estimat",
+    "shape": "scalar",
+    "metric": "previsao_atendimento",
+    "composition": "projection",
+    "total": 11510,
+    "checks": {
+      "metric_ok": true,
+      "composition_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 95,
+    "cat": "J_projection",
+    "q": "Qual a previsao para neoplasia maligna mama (C50) no HBDF?",
+    "elapsed_s": 17.4,
+    "narrativa_preview": "O índice consultado foi \"multi\", com uma janela temporal marcada como \"snapshot (agora)\" e um total de 0 documentos no universo filtrado. Is",
+    "shape": "scalar",
+    "metric": "previsao_atendimento",
+    "composition": "projection",
+    "total": 0,
+    "checks": {
+      "metric_ok": true,
+      "composition_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 96,
+    "cat": "J_projection",
+    "q": "Estimativa de atendimento para casos eletivos (P3) na fila",
+    "elapsed_s": 33.3,
+    "narrativa_preview": "O índice analisado é \"multi\", com uma janela temporal marcada como \"snapshot (agora)\" e um total de 28.856 documentos no universo filtrado. ",
+    "shape": "scalar",
+    "metric": "previsao_atendimento",
+    "composition": "projection",
+    "total": 28856,
+    "checks": {
+      "composition_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 97,
+    "cat": "J_projection",
+    "q": "Previsao de espera para emergencias (P0) hoje",
+    "elapsed_s": 20.3,
+    "narrativa_preview": "O índice consultado foi \"multi\", com uma janela temporal marcada como \"snapshot (agora)\" e um total de 36.416 documentos filtrados. A previs",
+    "shape": "scalar",
+    "metric": "previsao_atendimento",
+    "composition": "projection",
+    "total": 36416,
+    "checks": {
+      "composition_ok": true,
+      "P2_window": true,
+      "P2_total": true,
+      "chart": true
+    },
+    "pass": true,
+    "status": "ok"
+  },
+  {
+    "id": 98,
+    "cat": "K_edge",
+    "q": "Como diminuir a fila eletiva?",
+    "elapsed_s": 26.1,
+    "narrativa_preview": "No índice \"solicitacao-ambulatorial-df-brasilia\", com uma janela temporal de \"snapshot (agora)\", foram registrados um total de 396.714 docum",
+    "status": "responded",
+    "pass": true
+  },
+  {
+    "id": 99,
+    "cat": "K_edge",
+    "q": "Qual o cardapio do restaurante?",
+    "elapsed_s": 2.8,
+    "narrativa_preview": "Pergunta sem relacao com a fila de regulacao SISREG-DF.",
+    "status": "refusal",
+    "pass": true
+  },
+  {
+    "id": 100,
+    "cat": "K_edge",
+    "q": "Qual a melhor conduta clinica para hipertensao?",
+    "elapsed_s": 2.5,
+    "narrativa_preview": "Pergunta sem relacao com a fila de regulacao SISREG-DF.",
+    "status": "refusal",
+    "pass": true
+  }
+]

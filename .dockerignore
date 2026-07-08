@@ -50,5 +50,9 @@ pyproject.toml
 logs/
 tmp/
 
+# Cache local de vagas (regeneravel; nunca bakear na imagem)
+data/
+*.sqlite
+
 # Plataforma-especifico
 **/Thumbs.db

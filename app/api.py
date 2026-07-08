@@ -20,10 +20,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from pydantic import BaseModel, Field
 
-from app import __version__, audit
+from app import __version__, audit, query_log
 from app.config import settings
 from app.engine import EngineError, ask
-from app.es.client import SisregESClient
+from app.vagas.orchestrator import get_df
 
 # --- Basic Auth opcional (env-gated, util pra deploy publico) ---
 _AUTH_ENABLED = os.environ.get("API_AUTH_ENABLED", "false").lower() == "true"
@@ -66,8 +66,15 @@ app.add_middleware(
 )
 
 
+class HistoryTurn(BaseModel):
+    pergunta: str = ""
+    metric: str | None = None
+    filters: dict[str, Any] | None = None
+
+
 class ChatRequest(BaseModel):
     pergunta: str = Field(..., min_length=1, max_length=500)
+    history: list[HistoryTurn] = Field(default_factory=list, description="Turnos anteriores (memoria de conversa)")
     pii_exposure: bool = Field(default=False)
     justificativa: str = Field(default="")
 
@@ -76,6 +83,8 @@ class ChatResponse(BaseModel):
     narrativa: str
     dados: Any | None
     proveniencia: dict[str, Any]
+    chart: dict[str, Any] | None = None
+    sugestoes: list[dict[str, Any]] = []
 
 
 @app.get("/")
@@ -85,26 +94,33 @@ def root() -> dict[str, Any]:
         "version": __version__,
         "app_mode": settings.app_mode,
         "poc_expires_at": str(settings.poc_expires_at),
-        "endpoints": ["GET /", "GET /health", "POST /chat", "GET /audit"],
+        "endpoints": ["GET /", "GET /health", "POST /chat", "GET /audit", "GET /insights"],
     }
+
+
+@app.get("/insights", dependencies=[Depends(require_auth)])
+def insights(days: int = 7) -> dict[str, Any]:
+    """Agrega o log diario de perguntas: temas mais pedidos, lacunas, volume."""
+    return query_log.summarize(days=days)
 
 
 @app.get("/health")
 def health() -> dict[str, Any]:
     checks: dict[str, Any] = {
         "config_loaded": True,
-        "es_reachable": False,
+        "fonte_reachable": False,
         "openai_reachable": False,
         "app_mode": settings.app_mode,
         "poc_expires_at": str(settings.poc_expires_at),
     }
-    # ES check
+    # Fonte de vagas: cache carregado (com competencias)
     try:
-        with SisregESClient() as es:
-            es._client.get("/", timeout=3)
-        checks["es_reachable"] = True
+        df = get_df()
+        checks["fonte_reachable"] = not df.empty
+        checks["competencias_em_cache"] = int(df["competencia"].nunique()) if not df.empty else 0
+        checks["registros_em_cache"] = int(len(df))
     except Exception as exc:
-        checks["es_error"] = str(exc)
+        checks["fonte_error"] = str(exc)
     # OpenAI check
     try:
         with httpx.Client(timeout=3) as c:
@@ -118,7 +134,7 @@ def health() -> dict[str, Any]:
     except Exception as exc:
         checks["openai_error"] = str(exc)
 
-    ok = checks["config_loaded"] and checks["es_reachable"] and checks["openai_reachable"]
+    ok = checks["config_loaded"] and checks["fonte_reachable"] and checks["openai_reachable"]
     return {"ok": ok, **checks}
 
 
@@ -127,6 +143,7 @@ def chat(req: ChatRequest) -> ChatResponse:
     try:
         result = ask(
             req.pergunta,
+            history=[h.model_dump() for h in req.history],
             pii_exposure=req.pii_exposure,
             justificativa=req.justificativa,
         )

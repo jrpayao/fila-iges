@@ -42,7 +42,15 @@ build/
 logs/
 tmp/
 
+# Cache local da API de vagas (regeneravel)
+data/vagas_cache.sqlite
+data/*.sqlite
+
 # Backups locais e arquivos pessoais
 fila-eletiva.zip
 *.code-workspace
 .claude/
+
+# Artefatos temporarios do caprover deploy
+temporary-captain-to-deploy.tar
+capout.json
