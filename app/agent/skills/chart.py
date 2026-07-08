@@ -38,7 +38,12 @@ def to_plotly_dict(envelope: Envelope) -> dict[str, Any] | None:
     shape = envelope.shape
     if shape == Shape.SCALAR:
         return None
+    # Sem pontos de dado -> sem grafico (evita chart vazio/quebrado, ex.: 0 bloqueadas).
+    if not envelope.data:
+        return None
     if shape == Shape.BREAKDOWN:
+        if not any(float(b.get("value", b.get("count", 0)) or 0) for b in envelope.data):
+            return None  # todos os buckets zerados -> nada a plotar
         return _breakdown_bar(envelope)
     if shape == Shape.TIMESERIES:
         return _timeseries_line(envelope)
