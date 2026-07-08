@@ -8,13 +8,14 @@ Reusa Envelope (P4), ClarificationRequest (P10) e audit (P15) do motor v2.
 
 from __future__ import annotations
 
+import time
 import uuid
 from dataclasses import dataclass, field
 from typing import Any, Optional
 
 import pandas as pd
 
-from app import audit
+from app import audit, query_log
 from app.agent.envelope import Envelope, Shape
 from app.agent.plan import ClarificationRequest
 from app.agent.resolver import AmbiguityError, UnresolvedError
@@ -191,7 +192,45 @@ def history_entry(resp: "VagasResponse") -> dict:
     }
 
 
+def _status_of(resp: VagasResponse) -> str:
+    if resp.error:
+        return "error"
+    if resp.refusal_reason:
+        return "refusal"
+    if resp.clarifications:
+        return "clarification"
+    return "ok"
+
+
+def _log_turn(resp: VagasResponse, elapsed_ms: int) -> None:
+    """Registra o turno no log diario de perguntas (nunca quebra a resposta)."""
+    plan = resp.plan
+    env = resp.envelope
+    query_log.append({
+        "request_id": resp.request_id,
+        "pergunta": resp.pergunta,
+        "status": _status_of(resp),
+        "in_scope": plan.is_in_scope if plan else None,
+        "metric": (env.metric if env else (plan.metric if plan else None)),
+        "primitivas": [s.primitive for s in plan.steps] if plan else [],
+        "filters": env.filters if env else None,
+        "demanda_caveat": plan.demanda_caveat if plan else None,
+        "clarifications": [c.field for c in resp.clarifications],
+        "refusal": resp.refusal_reason,
+        "error": resp.error,
+        "elapsed_ms": elapsed_ms,
+    })
+
+
 def ask(pergunta: str, *, history: list[dict] | None = None, request_id: str | None = None) -> VagasResponse:
+    """Wrapper: executa o pipeline e registra o turno no log diario."""
+    t0 = time.perf_counter()
+    resp = _run(pergunta, history=history, request_id=request_id)
+    _log_turn(resp, int((time.perf_counter() - t0) * 1000))
+    return resp
+
+
+def _run(pergunta: str, *, history: list[dict] | None = None, request_id: str | None = None) -> VagasResponse:
     rid = request_id or str(uuid.uuid4())
     resp = VagasResponse(request_id=rid, pergunta=pergunta)
     audit.event("vagas.request.received", request_id=rid, pergunta=pergunta, turnos_contexto=len(history or []))

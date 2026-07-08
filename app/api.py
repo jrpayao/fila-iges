@@ -20,7 +20,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from pydantic import BaseModel, Field
 
-from app import __version__, audit
+from app import __version__, audit, query_log
 from app.config import settings
 from app.engine import EngineError, ask
 from app.vagas.orchestrator import get_df
@@ -93,8 +93,14 @@ def root() -> dict[str, Any]:
         "version": __version__,
         "app_mode": settings.app_mode,
         "poc_expires_at": str(settings.poc_expires_at),
-        "endpoints": ["GET /", "GET /health", "POST /chat", "GET /audit"],
+        "endpoints": ["GET /", "GET /health", "POST /chat", "GET /audit", "GET /insights"],
     }
+
+
+@app.get("/insights", dependencies=[Depends(require_auth)])
+def insights(days: int = 7) -> dict[str, Any]:
+    """Agrega o log diario de perguntas: temas mais pedidos, lacunas, volume."""
+    return query_log.summarize(days=days)
 
 
 @app.get("/health")

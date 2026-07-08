@@ -338,6 +338,30 @@ with st.sidebar:
             st.session_state["pending_question"] = question
             st.rerun()
 
+    st.markdown("### O que estão perguntando")
+    try:
+        ins = httpx.get(f"{API_BASE_URL}/insights?days=7", timeout=5, auth=_AUTH).json()
+        total = ins.get("total_perguntas", 0)
+        if total:
+            st.caption(f"{total} perguntas nos últimos 7 dias")
+            tops = ins.get("top_metricas", [])[:3]
+            if tops:
+                st.markdown("**Mais pedidos:** " + ", ".join(f"{k} ({v})" for k, v in tops))
+            procs = ins.get("top_procedimentos", [])[:2]
+            if procs:
+                st.caption("Procedimentos: " + ", ".join(f"{str(k)[:22]} ({v})" for k, v in procs))
+            lac = ins.get("lacunas", {})
+            dem = lac.get("perguntas_de_demanda_fila", 0)
+            if dem:
+                st.markdown(f"⚠️ **{dem}** perguntas sobre fila/espera — a fonte só cobre a oferta.")
+            campos = lac.get("campos_nao_resolvidos", [])
+            if campos:
+                st.caption("Não resolvidos: " + ", ".join(f"{k}×{v}" for k, v in campos[:3]))
+        else:
+            st.caption("Ainda sem perguntas registradas.")
+    except Exception:
+        st.caption("Insights indisponíveis.")
+
     st.markdown(
         f'<div class="fe-footer">'
         f"<strong>IGES-DF</strong> &middot; ZELLO<br>"

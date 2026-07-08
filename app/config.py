@@ -44,6 +44,7 @@ class Settings(BaseSettings):
     poc_pii_banner: str = "CONTÉM PII — uso interno IGES, distribuição proibida"
 
     audit_jsonl_path: str = "./audit.jsonl"
+    query_log_dir: str = "./logs"  # log diario de perguntas (1 arquivo/dia)
     log_level: str = "INFO"
 
     max_planner_attempts: int = 2
