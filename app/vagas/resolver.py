@@ -162,8 +162,21 @@ class ResolvedHospital:
     cnes: str | None = None
 
 
+# Siglas informais dos hospitais publicos do IGES presentes no dado de vagas.
+# alias normalizado -> CNES (a resolucao confere se o CNES existe no DataFrame).
+HOSPITAL_ALIASES: dict[str, str] = {
+    "hub": "0010510", "universitario": "0010510",
+    "hbdf": "0010456", "hb": "0010456", "base": "0010456", "hospital de base": "0010456",
+    "hmib": "0010537", "materno infantil": "0010537", "materno": "0010537",
+    "hcb": "6876617", "hospital da crianca": "6876617", "crianca": "6876617",
+    "hab": "2649527", "hospital de apoio": "2649527", "apoio": "2649527",
+    "ictdf": "3276678", "instituto de cardiologia": "3276678", "cardiologia": "3276678",
+    "crdf": "3044432", "complexo regulador": "3044432", "regulador": "3044432",
+}
+
+
 def resolve_hospital(raw: str, df: pd.DataFrame) -> ResolvedHospital:
-    """CNES OU nome/alias livre -> hospital canonico."""
+    """CNES OU nome/sigla/alias livre -> hospital canonico."""
     pairs = df[["hospital_cnes", "hospital"]].drop_duplicates()
 
     stripped = raw.strip()
@@ -173,6 +186,14 @@ def resolve_hospital(raw: str, df: pd.DataFrame) -> ResolvedHospital:
         return ResolvedHospital(nome=row["hospital"], cnes=str(row["hospital_cnes"]))
 
     n = _norm(raw)
+
+    # Sigla/alias conhecido -> CNES (se presente no dado)
+    if n in HOSPITAL_ALIASES:
+        cnes = HOSPITAL_ALIASES[n]
+        hit = pairs[pairs["hospital_cnes"].astype(str) == cnes]
+        if len(hit) >= 1:
+            row = hit.iloc[0]
+            return ResolvedHospital(nome=row["hospital"], cnes=str(row["hospital_cnes"]))
     names = pairs["hospital"].dropna().unique().tolist()
     subs = [h for h in names if n and n in _norm(h)]
     if len(subs) == 1:

@@ -17,10 +17,10 @@ from __future__ import annotations
 from typing import Any
 
 from app.agent.envelope import Envelope
-from app.agent.orchestrator import AgentResponse
-from app.agent.orchestrator import ask as _agent_ask
 from app.agent.plan import ClarificationRequest
 from app.agent.skills.chart import to_plotly_dict
+from app.vagas.orchestrator import VagasResponse as AgentResponse
+from app.vagas.orchestrator import ask as _agent_ask
 
 
 class EngineError(RuntimeError):
@@ -79,7 +79,7 @@ def _build_proveniencia(resp: AgentResponse) -> dict[str, Any]:
     prov: dict[str, Any] = {
         "request_id": resp.request_id,
         "pergunta": resp.pergunta,
-        "engine_version": "v2-agent",
+        "engine_version": "v3-vagas",
     }
     if resp.plan is not None:
         prov["plan"] = resp.plan.model_dump(mode="json", exclude_none=True)
