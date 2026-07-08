@@ -13,6 +13,8 @@ from __future__ import annotations
 import re
 from typing import TYPE_CHECKING
 
+from pydantic import BaseModel, ConfigDict, Field
+
 if TYPE_CHECKING:
     from app.vagas.orchestrator import VagasResponse
 
@@ -38,8 +40,8 @@ def _escopo(hosp: str | None, proc_short: str | None) -> str:
     return ""
 
 
-def build(resp: "VagasResponse") -> list[dict]:
-    """Ate 4 sugestoes contextuais. Vazio se nao houve resposta com dado."""
+def _rules(resp: "VagasResponse") -> list[dict]:
+    """Fallback deterministico: ate 4 sugestoes contextuais (sem LLM)."""
     env = resp.envelope
     if env is None:
         return []
@@ -90,3 +92,95 @@ def build(resp: "VagasResponse") -> list[dict]:
         if len(out) >= _MAX:
             break
     return out
+
+
+# ===== Geracao por LLM (com fallback para as regras) =====
+
+
+class _Suggestion(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    label: str = Field(..., description="Chip curto e amigavel, com 1 emoji no inicio (<= ~28 chars).")
+    question: str = Field(..., description="Pergunta completa e autossuficiente em pt-BR, no escopo de vagas.")
+
+
+class _SuggestionList(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    sugestoes: list[_Suggestion]
+
+
+_SUGGEST_SYSTEM = """\
+Voce propoe de 3 a 4 PERGUNTAS DE ACOMPANHAMENTO para um chat sobre a OFERTA DE VAGAS
+SISREG (capacidade) da rede IGES-DF. O objetivo e guiar o gestor ao proximo passo natural.
+
+O que o chat SABE responder (so isso):
+- oferta/total de vagas; vagas ativas; vagas bloqueadas; taxa de bloqueio.
+- mix por tipo de vaga (1a vez / retorno / reserva).
+- evolucao mensal (serie temporal); ranking por procedimento ou por hospital.
+- comparacao entre hospitais; procedimentos com poucos ofertantes (monofornecedores).
+- oportunidade de desbloqueio (onde ha mais vagas travadas); panorama executivo da rede.
+
+REGRAS:
+- NUNCA proponha tempo de espera, tamanho de fila, demanda, faltas ou conduta clinica — a fonte NAO tem.
+- Cada sugestao: um `label` curto com 1 emoji + uma `question` completa e autossuficiente em pt-BR.
+- Mantenha o ESCOPO do que foi perguntado (hospital / procedimento / competencia) quando fizer sentido.
+- NAO repita o que a resposta ja mostrou; proponha aprofundar, cruzar dimensao, ou comparar no tempo.
+- Perguntas curtas, acionaveis e realmente respondiveis pelo chat.
+"""
+
+
+def _llm(resp: "VagasResponse") -> list[dict]:
+    """Gera sugestoes com o LLM (narrator). Retorna [] em qualquer falha (cai no fallback)."""
+    env = resp.envelope
+    if env is None:
+        return []
+    import json
+
+    from openai import OpenAI
+
+    from app.config import settings
+
+    payload = {
+        "pergunta": resp.pergunta,
+        "metric": env.metric,
+        "shape": env.shape.value,
+        "filtros": env.filters,
+        "narrativa": (resp.narrativa or "")[:600],
+    }
+    client = OpenAI(api_key=settings.openai_api_key)
+    r = client.beta.chat.completions.parse(
+        model=settings.openai_narrator_model,
+        messages=[
+            {"role": "system", "content": _SUGGEST_SYSTEM},
+            {"role": "user", "content": json.dumps(payload, ensure_ascii=False, default=str)},
+        ],
+        response_format=_SuggestionList,
+        temperature=0.4,
+    )
+    parsed = r.choices[0].message.parsed
+    if not parsed or not parsed.sugestoes:
+        return []
+    seen: set[str] = set()
+    out: list[dict] = []
+    for s in parsed.sugestoes:
+        q = (s.question or "").strip()
+        lbl = (s.label or "").strip()
+        if not q or q in seen:
+            continue
+        seen.add(q)
+        out.append({"label": lbl or q[:28], "question": q})
+        if len(out) >= _MAX:
+            break
+    return out
+
+
+def build(resp: "VagasResponse") -> list[dict]:
+    """Sugestoes de acompanhamento: LLM primeiro, regras deterministicas como fallback."""
+    if resp.envelope is None:
+        return []
+    try:
+        via_llm = _llm(resp)
+        if via_llm:
+            return via_llm
+    except Exception:
+        pass  # LLM indisponivel/erro -> fallback silencioso
+    return _rules(resp)
