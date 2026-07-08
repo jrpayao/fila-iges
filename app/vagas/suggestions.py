@@ -125,6 +125,14 @@ REGRAS:
 - Mantenha o ESCOPO do que foi perguntado (hospital / procedimento / competencia) quando fizer sentido.
 - NAO repita o que a resposta ja mostrou; proponha aprofundar, cruzar dimensao, ou comparar no tempo.
 - Perguntas curtas, acionaveis e realmente respondiveis pelo chat.
+
+SEJA ESPECIFICO (isto e o mais importante — evita sugestoes genericas e repetitivas):
+- Use NOMES e NUMEROS que aparecem na resposta. Se ha `principais_itens`, sugira mergulhar
+  num deles pelo nome (ex.: "Ver o DIAGNOSTICO CLINICA DE IMAGENS em detalhe").
+- Se a narrativa cita uma variacao (ex.: caiu 36%), proponha investigar a causa
+  ("Qual hospital puxou a queda de 36%?").
+- VARIE os angulos entre as respostas — nao devolva sempre as mesmas 4 sugestoes.
+- No maximo 1 sugestao generica (tipo panorama); as outras devem ser ancoradas no conteudo.
 """
 
 
@@ -139,11 +147,22 @@ def _llm(resp: "VagasResponse") -> list[dict]:
 
     from app.config import settings
 
+    # Entidades concretas da resposta -> ajudam o LLM a sugerir mergulhos especificos.
+    itens: list = []
+    data = env.data or []
+    if env.shape.value == "breakdown":
+        itens = [b.get("key") for b in data[:5] if b.get("key")]
+    elif env.shape.value == "comparison" and data:
+        foc = data[0].get("focus", {}) or {}
+        itens = [foc.get("key")] + [b.get("key") for b in (data[0].get("benchmark") or [])[:3]]
+        itens = [x for x in itens if x]
+
     payload = {
         "pergunta": resp.pergunta,
         "metric": env.metric,
         "shape": env.shape.value,
         "filtros": env.filters,
+        "principais_itens": itens,
         "narrativa": (resp.narrativa or "")[:600],
     }
     client = OpenAI(api_key=settings.openai_api_key)
@@ -154,7 +173,7 @@ def _llm(resp: "VagasResponse") -> list[dict]:
             {"role": "user", "content": json.dumps(payload, ensure_ascii=False, default=str)},
         ],
         response_format=_SuggestionList,
-        temperature=0.4,
+        temperature=0.8,
     )
     parsed = r.choices[0].message.parsed
     if not parsed or not parsed.sugestoes:
